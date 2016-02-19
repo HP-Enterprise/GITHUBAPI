@@ -1,0 +1,11 @@
+package com.incar.repository;
+
+import org.springframework.stereotype.Repository;
+
+/**
+ * Created by Administrator on 2016/2/19 0019.
+ */
+@Repository
+public interface GitResultRepository {
+
+}

@@ -1,0 +1,24 @@
+# Tomcat
+server.port: 8080
+# Logging level (TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF)
+logging:
+    level:
+        org.hibernate: WARN
+        org.springframework: WARN
+    file: githubApi.log
+# Spring settings
+spring:
+    profiles.active: dev
+    datasource:
+        url: jdbc:mysql://localhost:3306/gitApi?characterEncoding=utf8
+        username: root
+        password: 123456
+    jpa:
+        show-sql: true
+        hibernate:
+            # Hibernate DDL  auto: create, create-drop, update, validate
+            ddl-auto: validate
+            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+            properties:
+                hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+    resources.cache-period: 7200

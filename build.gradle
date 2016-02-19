@@ -1,0 +1,45 @@
+group 'githubApi'
+version '1.0'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.+")
+        classpath("org.flywaydb:flyway-gradle-plugin:3.+")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'org.flywaydb.flyway'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web:1.2+")
+    compile("org.springframework.data:spring-data-jpa:1.+")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:1.2.+")
+    compile("ch.ethz.ganymed:ganymed-ssh2:build210")
+//    testCompile("org.mockito:mockito-core:1.+")
+    testCompile("org.springframework.boot:spring-boot-starter-test:1.+")
+    testCompile ('junit:junit:4.12')
+    runtime("mysql:mysql-connector-java:5.+")
+}
+//task transform(type: Exec){
+//    workingDir = sourceSets.main.resources.srcDirs[0]
+//
+//}
+//processResources {
+//    dependsOn transform
+//}
+
+
+defaultTasks "build"
