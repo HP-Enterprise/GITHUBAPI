@@ -28,18 +28,12 @@ dependencies {
     compile("org.springframework.data:spring-data-jpa:1.+")
     compile("org.springframework.boot:spring-boot-starter-data-jpa:1.2.+")
     compile("ch.ethz.ganymed:ganymed-ssh2:build210")
+    compile("com.fasterxml.jackson.core:jackson-core:2.6.5")
+    compile ("com.google.code.gson:gson:2.2.+")
+    compile("org.json:json:20140107");
 //    testCompile("org.mockito:mockito-core:1.+")
     testCompile("org.springframework.boot:spring-boot-starter-test:1.+")
     testCompile ('junit:junit:4.12')
     runtime("mysql:mysql-connector-java:5.+")
 }
-//task transform(type: Exec){
-//    workingDir = sourceSets.main.resources.srcDirs[0]
-//
-//}
-//processResources {
-//    dependsOn transform
-//}
-
-
 defaultTasks "build"

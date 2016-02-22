@@ -1,4 +1,4 @@
-package com.incar.entity;
+package com.incar.gitApi.entity;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -21,7 +21,7 @@ public class GitResult {
     private String title;
 
     @Column
-    private Integer state;
+    private String state;
 
     @Column
     private String assignee;
@@ -30,10 +30,10 @@ public class GitResult {
     private Integer milestone;
 
     @Column
-    private Date createAt;
+    private Date createdAt;
 
     @Column
-    private Date updateAt;
+    private Date updatedAt;
 
     @Column
     private Date closedAt;
@@ -62,11 +62,11 @@ public class GitResult {
         this.title = title;
     }
 
-    public Integer getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    public void setState(String state) {
         this.state = state;
     }
 
@@ -86,20 +86,20 @@ public class GitResult {
         this.milestone = milestone;
     }
 
-    public Date getCreateAt() {
-        return createAt;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Date getUpdateAt() {
-        return updateAt;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdateAt(Date updateAt) {
-        this.updateAt = updateAt;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Date getClosedAt() {
@@ -113,14 +113,14 @@ public class GitResult {
     public GitResult() {
     }
 
-    public GitResult(Integer issueId, String title, Integer state, String assignee, Integer milestone, Date createAt, Date updateAt, Date closedAt) {
+    public GitResult(Integer issueId, String title, String state, String assignee, Integer milestone, Date createdAt, Date updatedAt, Date closedAt) {
         this.issueId = issueId;
         this.title = title;
         this.state = state;
         this.assignee = assignee;
         this.milestone = milestone;
-        this.createAt = createAt;
-        this.updateAt = updateAt;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.closedAt = closedAt;
     }
 }

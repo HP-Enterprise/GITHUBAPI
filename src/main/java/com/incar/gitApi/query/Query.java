@@ -1,4 +1,4 @@
-package com.incar.query;
+package com.incar.gitApi.query;
 
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.Session;

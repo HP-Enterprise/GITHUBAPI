@@ -1,4 +1,4 @@
-package com.incar.entity;
+package com.incar.gitApi.entity;
 
 import javax.persistence.*;
 

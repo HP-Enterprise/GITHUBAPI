@@ -1,5 +1,5 @@
-import com.incar.entity.GitCmd;
-import com.incar.repository.GitCmdRepository;
+import com.incar.gitApi.entity.GitCmd;
+import com.incar.gitApi.repository.GitCmdRepository;
 import org.junit.*;
 import org.mockito.Mockito;
 

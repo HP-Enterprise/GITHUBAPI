@@ -1,6 +1,6 @@
-package com.incar.repository;
+package com.incar.gitApi.repository;
 
-import com.incar.entity.GitCmd;
+import com.incar.gitApi.entity.GitCmd;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,8 +12,4 @@ import java.util.List;
 @Repository
 public interface GitCmdRepository extends CrudRepository<GitCmd,Integer> {
     List<GitCmd> findAll();
-
-    GitCmd save(GitCmd gitCmd);
-
-    void delete(GitCmd gitCmd);
 }
