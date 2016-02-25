@@ -6,17 +6,21 @@ import com.incar.gitApi.repository.GitCmdRepository;
 import com.incar.gitApi.jsonObj.Issue;
 import com.incar.gitApi.query.IssueQuery;
 import com.incar.gitApi.repository.GitResultRepository;
+import com.incar.gitApi.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
- * Created by Administrator on 2016/2/19 0019.
+ * Created by ct on 2016/2/19 0019.
  */
 @Service
 public class GitResultService {
@@ -44,19 +48,15 @@ public class GitResultService {
         return gitResult;
     }
 
-
-    public List<GitResult> issuesToGitResults(List<Issue> issues){
-        List<GitResult> gitResults = new ArrayList<>();
+    public Set<GitResult> issuesToGitResults(List<Issue> issues){
+        Set<GitResult> gitResults = new HashSet<>();
         for(Issue issue : issues)
             gitResults.add(issueToGitRet(issue));
         return gitResults;
     }
 
-
-
-
     @Transactional
-    public void saveGitResult(List<GitResult> gitResults){
+    public void saveGitResult(Set<GitResult> gitResults){
         gitResultRepository.save(gitResults);
     }
 
@@ -64,9 +64,35 @@ public class GitResultService {
         return gitResultRepository.findAll();
     }
 
-    public List<GitResult> queryGitApi(){
+    public List<Issue> queryGitApi(){
         List<GitCmd> gitCmds = gitCmdRepository.findAll();
         List<Issue> issues =  issueQuery.executeMultiCmds(gitCmds);
-        return issuesToGitResults(issues);
+        return issues;
+    }
+
+    public Page<GitResult> findPage(Integer issueId,String assignee,String state,Integer mileStone,String title,String begin,String end,String begin1,String end1,Integer currentPage,Integer pageSize,Integer fuzzy,String orderByProperty,Integer ascOrDesc){
+        currentPage = currentPage == null?1:currentPage;
+        currentPage = currentPage <= 0?1:currentPage;
+        pageSize = pageSize == null?10:(pageSize <= 0?10:pageSize);
+        boolean isFuzzy = fuzzy == null?false:(fuzzy==1?true:false);
+        assignee = assignee==""?null:assignee;
+        issueId = issueId ==null ?null:issueId;
+        String format = "yyyy-MM-dd";
+        Date createdBegin = (begin == null)?null:DateUtil.parseDate(begin,format);
+        Date createdEnd = ( end== null)?null:DateUtil.parseDate(begin, format);
+        Date closeedBegin = (begin == null)?null:DateUtil.parseDate(begin, format);
+        Date closeedEnd = ( end== null)?null:DateUtil.parseDate(begin, format);
+        orderByProperty = orderByProperty ==null?"assignee":orderByProperty;
+        ascOrDesc = (ascOrDesc==null?0:(ascOrDesc!=1?0:ascOrDesc));//1表示升序，其他表示降序
+        Sort.Direction direction = ascOrDesc==1? Sort.Direction.ASC:Sort.Direction.DESC;
+        Pageable pageRequest = new PageRequest(currentPage-1,pageSize,new Sort(orderByProperty));
+
+        Page<GitResult> gitResultPage ;
+        if(isFuzzy){
+            gitResultPage = gitResultRepository.fuzzyFindByKeys(issueId, assignee, state, mileStone, title, createdBegin, createdEnd, closeedBegin, closeedEnd, pageRequest);
+        }else {
+            gitResultPage = gitResultRepository.findByKeys(issueId, assignee, state, mileStone, title, createdBegin, createdEnd, closeedBegin, closeedEnd, pageRequest);
+        }
+        return new PageImpl<GitResult>(gitResultPage.getContent(),pageRequest,gitResultPage.getTotalElements());
     }
 }

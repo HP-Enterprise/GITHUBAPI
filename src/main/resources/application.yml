@@ -1,3 +1,10 @@
+#server
+com.incar:
+    server:
+         hostname: 121.40.157.200
+         username: deploy
+         password: deploy
+
 # Tomcat
 server.port: 8080
 # Logging level (TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF)
@@ -21,4 +28,3 @@ spring:
             naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
             properties:
                 hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
-    resources.cache-period: 7200

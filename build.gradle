@@ -31,7 +31,6 @@ dependencies {
     compile("com.fasterxml.jackson.core:jackson-core:2.6.5")
     compile ("com.google.code.gson:gson:2.2.+")
     compile("org.json:json:20140107");
-//    testCompile("org.mockito:mockito-core:1.+")
     testCompile("org.springframework.boot:spring-boot-starter-test:1.+")
     testCompile ('junit:junit:4.12')
     runtime("mysql:mysql-connector-java:5.+")

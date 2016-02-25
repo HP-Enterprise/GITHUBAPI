@@ -7,8 +7,6 @@ import com.incar.gitApi.query.IssueQuery;
 import com.incar.gitApi.repository.GitCmdRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -17,7 +15,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -51,7 +48,7 @@ public class IssueQueryTest {
 
     private  Connection connection;
 
-    private String cmd = "curl -u travis4hpe:travis4Java https://api.github.com/repos/HP-Enterprise/Rental653/issues?state=all";
+    private String cmd = "curl -u travis4hpe:travis4Java https://api.github.com/repos/HP-Enterprise/githubApi/issues?state=all";
 
     private String[] cmds =new String[] {
             "curl -u travis4hpe:travis4Java https://api.github.com/repos/HP-Enterprise/Rental653/issues?state=all",
@@ -75,14 +72,12 @@ public class IssueQueryTest {
         InputStreamReader inputStreamReader = issueQuery.executeCmd(cmd, session);
         BufferedReader br = new BufferedReader(inputStreamReader);
         String line ;
-        Logger logger = LoggerFactory.getLogger(IssueQueryTest.class);
         try {
             while (true){
                 line = br.readLine();
                 if(line==null) break;
                 else {
                     System.out.println(line);
-//                    logger.warn(line);
                 }
             }
         }catch (Exception e){
@@ -93,7 +88,6 @@ public class IssueQueryTest {
     @Test
     public void testQueryMultiPro() {
         List<GitCmd> gitCmdList = gitCmdRepository.findAll();
-        System.out.println("gitcmds size"+gitCmdList.size());
         List<Issue> issues = issueQuery.executeMultiCmds(gitCmdList);
         System.out.println( issues.size());
     }

@@ -154,15 +154,6 @@ public final class JsonUtils {
      */
     public static <T> T readValue(Reader reader,Class<T> valueType){
         try {
-
-            String line = null;
-            BufferedReader bufferedReader = new BufferedReader(reader);
-            while (true){
-                line = bufferedReader.readLine();
-                if (line == null) break;
-                System.out.println(line);
-            }
-            System.out.println("end");
             return mapper.readValue(reader,valueType);
         } catch (IOException e) {
             e.printStackTrace();

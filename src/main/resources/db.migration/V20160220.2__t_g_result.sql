@@ -10,5 +10,5 @@ create table g_result(
   created_at TIMESTAMP COMMENT '创建时间',
   updated_at TIMESTAMP COMMENT '更新时间',
   closed_at  TIMESTAMP COMMENT '完成时间',
-  PRIMARY KEY (id)
+  PRIMARY KEY (issueId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='issue结果表';

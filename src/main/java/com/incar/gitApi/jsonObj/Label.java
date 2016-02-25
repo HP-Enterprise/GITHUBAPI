@@ -1,7 +1,7 @@
 package com.incar.gitApi.jsonObj;
 
 /**
- * Created by Administrator on 2016/2/20 0020.
+ * Created by ct on 2016/2/20 0020.
  */
 public class Label {
     private String url;

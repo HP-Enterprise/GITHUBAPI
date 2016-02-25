@@ -1,7 +1,7 @@
 package com.incar.gitApi.jsonObj;
 
 /**
- * Created by Administrator on 2016/2/21 0021.
+ * Created by ct on 2016/2/21 0021.
  */
 public class PullRequest {
     private String url;

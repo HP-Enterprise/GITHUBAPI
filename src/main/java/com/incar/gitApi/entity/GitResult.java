@@ -9,12 +9,13 @@ import java.util.Date;
 @Entity
 @Table(name="g_result")
 public class GitResult {
-    @Id
-    @Column(nullable = false)
+
+    @Column(nullable = false,updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Id
+    @Column(nullable = false,updatable = false)
     private Integer issueId;
 
     @Column
@@ -123,4 +124,6 @@ public class GitResult {
         this.updatedAt = updatedAt;
         this.closedAt = closedAt;
     }
+
+
 }

@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/2/20 0020.
+ * Created by ct on 2016/2/20 0020.
  */
 public class Issue {
     private String url;

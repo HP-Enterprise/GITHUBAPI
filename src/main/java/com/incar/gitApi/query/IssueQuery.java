@@ -10,20 +10,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /**
- * Created by Administrator on 2016/2/19 0019.
+ * Created by ct on 2016/2/19 0019.
  */
 @Component
-public class IssueQuery implements Query{
+public class IssueQuery {
 
     private String hostname;
 
@@ -40,9 +34,8 @@ public class IssueQuery implements Query{
     @Value("${com.incar.server.password}")
     public void setPassword(String password){this.password = password;}
 
-    private static final int MAX_SESSION_NUM = 5; //设置单个连接所能创建的最大会话数
+    private static final int MAX_SESSION_PER_CONN = 5; //设置单个连接所能创建的最大会话数
 
-    @Override
     public Connection conn(String hostname, String username, String password) {
         Connection conn = new Connection(hostname);
         try {
@@ -58,7 +51,6 @@ public class IssueQuery implements Query{
         return null;
     }
 
-    @Override
     public InputStreamReader executeCmd(String command, Session session) {
         InputStreamReader isr = null;
         InputStream stdout ;
@@ -72,9 +64,8 @@ public class IssueQuery implements Query{
         return isr;
     }
 
-    @Override
     public Session getSession(Connection connection) {
-        Session session = null;
+        Session session;
         try {
             session = connection.openSession();
         }catch (IOException ex){
@@ -87,7 +78,6 @@ public class IssueQuery implements Query{
 
     public List<Issue> executeMultiCmds(List<GitCmd> cmds)  {
         Assert.notEmpty(cmds);
-//        List<InputStreamReader> inputStreamReaders = new ArrayList<>();
         Connection connection = conn(hostname, username, password);
         Session[] sessions = new Session[cmds.size()];
         List<Issue> issues = new ArrayList<>();
@@ -95,10 +85,9 @@ public class IssueQuery implements Query{
             for (int i=0;i<cmds.size();i++){
                 sessions[i] =  connection.openSession();
                 InputStreamReader inputStreamReader = executeCmd(cmds.get(i).getCmd(), sessions[i]);
-//                inputStreamReaders.add(inputStreamReader);
-//                printReader(inputStreamReader);
-                issues.addAll(getIssueInfo(inputStreamReader));
-                if(i>0 && i%5==0){//当会话数超过5个关掉当前连接重新建立
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                issues.addAll(getIssueInfo(bufferedReader));
+                if(i > 0 && i % MAX_SESSION_PER_CONN==0){//当会话数超过5个关掉当前连接重新建立
                     connection.close();
                     connection = conn(hostname, username, password);
                 }
@@ -114,17 +103,10 @@ public class IssueQuery implements Query{
     }
 
 
-    public List<Issue> getIssueInfo(InputStreamReader inputStreamReader){
-       List<Issue> issues = (List<Issue>)JsonUtils.readValue(inputStreamReader,Issue.class );
-        return issues;
+    public List<Issue> getIssueInfo(Reader reader) throws IOException {
+        List<Map> issueMaps = (List<Map>)JsonUtils.readValue(reader,Object.class );
+        return mapToIssue(issueMaps);
     }
-
-//    public List<Issue> getIssueList(List<InputStreamReader> inputStreamReaders){
-//        List<Issue> issues = new ArrayList<>();
-//        for (InputStreamReader inputStreamReader : inputStreamReaders)
-//           issues.addAll(getIssueInfo(inputStreamReader));
-//        return issues;
-//    }
 
     public void printReader(InputStreamReader reader) throws IOException {
         BufferedReader br = new BufferedReader(reader);
@@ -136,5 +118,15 @@ public class IssueQuery implements Query{
                 System.out.println(line);
             }
         }
+    }
+
+    public static List<Issue> mapToIssue(List<Map> list){
+         List<Issue> issues = new ArrayList<>();
+         for(Map map : list){
+             String jsonStr = JsonUtils.toJson(map);
+             Issue issue = JsonUtils.toObject(jsonStr,Issue.class);
+             issues.add(issue);
+         }
+         return issues;
     }
 }

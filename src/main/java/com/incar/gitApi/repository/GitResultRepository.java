@@ -1,16 +1,48 @@
 package com.incar.gitApi.repository;
 
 import com.incar.gitApi.entity.GitResult;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
- * Created by Administrator on 2016/2/19 0019.
+ * Created by ct on 2016/2/19 0019.
  */
 @Repository
 public interface GitResultRepository extends CrudRepository<GitResult,Integer> {
 
     List<GitResult> findAll();
+
+    GitResult save(GitResult gitResult);
+
+    @Query(value = "select g from GitResult g where " +
+            "(?1 is null or g.issueId = ?1) " +
+            " and (?2 is null or g.assignee = ?2) " +
+            " and (?3 is null or g.state = ?3) " +
+            " and (?4 is null or g.milestone = ?4) " +
+            " and (?5 is null or g.title = ?5)  " +
+            " and (?6 is null or g.createdAt > ?6) " +
+            " and (?7 is null or g.createdAt < ?7) " +
+            " and (?8 is null or g.closedAt > ?8)  " +
+            " and (?9 is null or g.closedAt < ?9)")
+    Page<GitResult> findByKeys(Integer issueId,String assignee,String state,Integer mileStone,String title,Date createdBegin,Date createdEnd,Date closedBegin,Date closedEnd,Pageable pageable);
+
+    @Query(value = "select g from GitResult g where " +
+            "(?1 is null or g.issueId = ?1) " +
+            " and (?2 is null or g.assignee like concat('%',concat(?2,'%') ) ) " +
+            " and (?3 is null or g.state like concat('%',concat(?3,'%') ) ) " +
+            " and (?4 is null or g.milestone = ?4) " +
+            " and (?5 is null or g.title like concat('%',concat(?5,'%') ) )  " +
+            " and (?6 is null or g.createdAt > ?6) " +
+            " and (?7 is null or g.createdAt < ?7) " +
+            " and (?8 is null or g.closedAt > ?8)  " +
+            " and (?9 is null or g.closedAt < ?9)")
+    Page<GitResult> fuzzyFindByKeys(Integer issueId,String assignee,String state,Integer mileStone,String title,Date createdBegin,Date createdEnd,Date closedBegin,Date closedEnd,Pageable pageable);
+
 }
