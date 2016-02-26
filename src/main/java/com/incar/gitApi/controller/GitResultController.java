@@ -24,6 +24,26 @@ public class GitResultController {
     @Autowired
     private GitResultService gitResultService;
 
+    /**
+     *
+     * @param issueId issueid
+     * @param assignee
+     * @param state
+     * @param mileStone
+     * @param title
+     * @param begin
+     * @param end
+     * @param begin1
+     * @param end1
+     * @param currentPage
+     * @param pageSize
+     * @param fuzzy
+     * @param orderByProperty
+     * @param ascOrDesc
+     * @param response
+     * @return
+     * @throws HTTPException
+     */
     @RequestMapping(value = "/git/issue",method = RequestMethod.GET)
     public ObjectResult page(@RequestParam(value = "issueId",required = false)Integer issueId,
                                     @RequestParam(value = "assignee",required = false)String assignee,

@@ -81,27 +81,46 @@ public class IssueQuery {
         Connection connection = conn(hostname, username, password);
         Session[] sessions = new Session[cmds.size()];
         List<Issue> issues = new ArrayList<>();
+        InputStreamReader inputStreamReader ;
+        int count = 1;
         try {
             for (int i=0;i<cmds.size();i++){
                 sessions[i] =  connection.openSession();
-                InputStreamReader inputStreamReader = executeCmd(cmds.get(i).getCmd(), sessions[i]);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                issues.addAll(getIssueInfo(bufferedReader));
+                inputStreamReader = executeCmd(cmds.get(i).getCmd(), sessions[i]);
+                readAndCloseReader(issues,inputStreamReader);
                 if(i > 0 && i % MAX_SESSION_PER_CONN==0){//当会话数超过5个关掉当前连接重新建立
                     connection.close();
                     connection = conn(hostname, username, password);
                 }
+                System.out.println("count:"+count++);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
             for(Session session : sessions)
-            session.close();
+            if(session!=null) session.close();
             connection.close();
         }
         return issues;
     }
 
+    public List<Issue> readAndCloseReader(List<Issue> issues ,InputStreamReader reader){
+        BufferedReader bufferedReader = new BufferedReader(reader);
+        try {
+            List<Issue> issueList = getIssueInfo(bufferedReader);
+            issues.addAll(issueList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                reader.close();
+                bufferedReader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return issues;
+    }
 
     public List<Issue> getIssueInfo(Reader reader) throws IOException {
         List<Map> issueMaps = (List<Map>)JsonUtils.readValue(reader,Object.class );
