@@ -1,7 +1,7 @@
 
 create table g_result(
   id int(11) NOT NULL AUTO_INCREMENT COMMENT 'issue结果id',
-  issueId int not null COMMENT 'issueId',
+  issue_id int not null COMMENT 'issueId',
   title varchar(500)  COMMENT '标题',
   assignee varchar(100)  COMMENT '执行人',
   labels int  COMMENT '任务标识' ,
@@ -10,5 +10,5 @@ create table g_result(
   created_at TIMESTAMP COMMENT '创建时间',
   updated_at TIMESTAMP COMMENT '更新时间',
   closed_at  TIMESTAMP COMMENT '完成时间',
-  PRIMARY KEY (issueId)
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='issue结果表';
