@@ -34,6 +34,7 @@ public class IssueQuery {
     @Value("${com.incar.server.password}")
     public void setPassword(String password){this.password = password;}
 
+
     private static final int MAX_SESSION_PER_CONN = 5; //设置单个连接所能创建的最大会话数
 
     public Connection conn(String hostname, String username, String password) {
@@ -44,11 +45,10 @@ public class IssueQuery {
             if(isAuthenticated==false) {
                 throw new IOException("Authorication failed");
             }
-            return conn;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return conn;
     }
 
     public InputStreamReader executeCmd(String command, Session session) {
@@ -65,12 +65,11 @@ public class IssueQuery {
     }
 
     public Session getSession(Connection connection) {
-        Session session;
+        Session session = null;
         try {
             session = connection.openSession();
         }catch (IOException ex){
             ex.printStackTrace();
-            return null;
         }
         return session;
     }
@@ -85,21 +84,26 @@ public class IssueQuery {
         int count = 1;
         try {
             for (int i=0;i<cmds.size();i++){
-                sessions[i] =  connection.openSession();
-                inputStreamReader = executeCmd(cmds.get(i).getCmd(), sessions[i]);
-                readAndCloseReader(issues,inputStreamReader);
+                sessions[i] =  getSession(connection);
+                if(sessions[i] != null) {
+                    inputStreamReader = executeCmd(cmds.get(i).getCmd(), sessions[i]);
+                    readAndCloseReader(issues, inputStreamReader);
+                }
                 if(i > 0 && i % MAX_SESSION_PER_CONN==0){//当会话数超过5个关掉当前连接重新建立
                     connection.close();
                     connection = conn(hostname, username, password);
                 }
                 System.out.println("count:"+count++);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }finally {
-            for(Session session : sessions)
-            if(session!=null) session.close();
-            connection.close();
+            for(Session session : sessions) {
+                if (session != null)
+                    session.close();
+            }
+            if(connection != null)
+               connection.close();
         }
         return issues;
     }
