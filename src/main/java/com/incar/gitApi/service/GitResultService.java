@@ -2,6 +2,7 @@ package com.incar.gitApi.service;
 
 import com.incar.gitApi.entity.GitCmd;
 import com.incar.gitApi.entity.GitResult;
+import com.incar.gitApi.jsonObj.Label;
 import com.incar.gitApi.repository.GitCmdRepository;
 import com.incar.gitApi.jsonObj.Issue;
 import com.incar.gitApi.query.IssueQuery;
@@ -18,6 +19,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by ct on 2016/2/19 0019.
@@ -45,6 +48,27 @@ public class GitResultService {
         gitResult.setMilestone(issue.getMilestone() == null ? null : issue.getMilestone().getId());
         gitResult.setState(issue.getState());
         gitResult.setTitle(issue.getTitle());
+        List<Label> labels = issue.getLabels();
+        if(!labels.isEmpty()){
+            String labelRet = "";
+            for(int i = 0 ; i<labels.size(); i++) {
+                labelRet += labels.get(i).getName() + ",";
+                if (i == labels.size()-1) {
+                    labelRet += labels.get(i).getName();
+                }
+            }
+            gitResult.setLabels(labelRet);
+        }
+
+        String repUrl = issue.getRepository_url();
+        if(repUrl != null) {
+            Pattern pattern = Pattern.compile("repos/.+?/(.+)");
+            Matcher matcher = pattern.matcher(repUrl);
+            if(matcher.find()) {
+                String project = matcher.group(1);
+                gitResult.setProject(project);
+            }
+        }
         return gitResult;
     }
 

@@ -25,22 +25,22 @@ public class GitResultController {
     private GitResultService gitResultService;
 
     /**
-     *
+     * issue结果分页查询
      * @param issueId issueid
-     * @param assignee
-     * @param state
-     * @param mileStone
-     * @param title
-     * @param begin
-     * @param end
-     * @param begin1
-     * @param end1
-     * @param currentPage
-     * @param pageSize
-     * @param fuzzy
-     * @param orderByProperty
-     * @param ascOrDesc
-     * @param response
+     * @param assignee 指派人
+     * @param state 状态
+     * @param mileStone 里程碑
+     * @param title 标题
+     * @param begin 开始时间
+     * @param end 结束时间
+     * @param begin1 开始时间1
+     * @param end1 结束时间1
+     * @param currentPage 当前页
+     * @param pageSize 页数
+     * @param fuzzy 是否模糊查询
+     * @param orderByProperty 排序属性
+     * @param ascOrDesc 升序或降序
+     * @param response http响应
      * @return
      * @throws HTTPException
      */

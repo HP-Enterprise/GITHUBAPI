@@ -39,6 +39,12 @@ public class GitResult {
     @Column
     private Date closedAt;
 
+    @Column
+    private String labels;
+
+    @Column
+    private String project;
+
     public Integer getId() {
         return id;
     }
@@ -111,10 +117,26 @@ public class GitResult {
         this.closedAt = closedAt;
     }
 
+    public String getLabels() {
+        return labels;
+    }
+
+    public void setLabels(String labels) {
+        this.labels = labels;
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
+    }
+
     public GitResult() {
     }
 
-    public GitResult(Integer issueId, String title, String state, String assignee, Integer milestone, Date createdAt, Date updatedAt, Date closedAt) {
+    public GitResult(Integer issueId, String title, String state, String assignee, Integer milestone, Date createdAt, Date updatedAt, Date closedAt, String labels, String project) {
         this.issueId = issueId;
         this.title = title;
         this.state = state;
@@ -123,7 +145,7 @@ public class GitResult {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.closedAt = closedAt;
+        this.labels = labels;
+        this.project = project;
     }
-
-
 }
