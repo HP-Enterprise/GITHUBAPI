@@ -27,7 +27,7 @@ public class ScheduledTask {
         List<Issue> issues = gitResultService.getAllIssues();
         System.out.println("issue.size():" + issues.size());
         List<GitResult> gitResults = gitResultService.getGitResult(issues);
-        System.out.println("gitresult.size():"+gitResults);
+        System.out.println("gitresult.size():"+gitResults.size());
         gitResultService.saveGitResult(gitResults);
     }
 }

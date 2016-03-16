@@ -57,7 +57,7 @@ public class GitRetUtil {
         return gitResult;
     }
 
-    public static List<GitResult> IssuesToGitresults(List<Issue> issues){
+    public static List<GitResult> issuesToGitresults(List<Issue> issues){
         List<GitResult> gitResults = new ArrayList<>();
         for (Issue issue : issues){
             GitResult gitResult =  issueToGitRet(issue);

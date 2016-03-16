@@ -83,7 +83,7 @@ public class GitResultService {
 
 
     public List<GitResult> getGitResult(List<Issue> issues){
-        return GitRetUtil.IssuesToGitresults(issues);
+        return GitRetUtil.issuesToGitresults(issues);
     }
 
 
