@@ -1,26 +1,20 @@
 package com.incar.gitApi.service;
 
-import com.incar.gitApi.entity.GitCmd;
 import com.incar.gitApi.entity.GitResult;
-import com.incar.gitApi.jsonObj.Label;
-import com.incar.gitApi.repository.GitCmdRepository;
-import com.incar.gitApi.jsonObj.Issue;
-import com.incar.gitApi.query.IssueQuery;
 import com.incar.gitApi.repository.GitResultRepository;
 import com.incar.gitApi.util.DateUtil;
+import com.incar.gitApi.util.GitRetUtil;
+import org.eclipse.egit.github.core.Issue;
+import org.eclipse.egit.github.core.client.GitHubClient;
+import org.eclipse.egit.github.core.service.IssueService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
-import java.io.InputStreamReader;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by ct on 2016/2/19 0019.
@@ -29,58 +23,25 @@ import java.util.regex.Pattern;
 public class GitResultService {
 
     @Autowired
-    private IssueQuery issueQuery;
-
-    @Autowired
     private GitResultRepository gitResultRepository;
 
-    @Autowired
-    private GitCmdRepository gitCmdRepository;
+    private String username;
 
-    public GitResult issueToGitRet(Issue issue){
-        Assert.notNull(issue);
-        GitResult gitResult = new GitResult();
-        gitResult.setIssueId(issue.getId());
-        gitResult.setAssignee(issue.getAssignee() == null ? null : issue.getAssignee().getLogin());
-        gitResult.setClosedAt(issue.getClosed_at());
-        gitResult.setCreatedAt(issue.getCreated_at());
-        gitResult.setUpdatedAt(issue.getUpdated_at());
-        gitResult.setMilestone(issue.getMilestone() == null ? null : issue.getMilestone().getId());
-        gitResult.setState(issue.getState());
-        gitResult.setTitle(issue.getTitle());
-        List<Label> labels = issue.getLabels();
-        if(!labels.isEmpty()){
-            String labelRet = "";
-            for(int i = 0 ; i<labels.size(); i++) {
-                labelRet += labels.get(i).getName() + ",";
-                if (i == labels.size()-1) {
-                    labelRet += labels.get(i).getName();
-                }
-            }
-            gitResult.setLabels(labelRet);
-        }
+    private String password;
 
-        String repUrl = issue.getRepository_url();
-        if(repUrl != null) {
-            Pattern pattern = Pattern.compile("repos/.+?/(.+)");
-            Matcher matcher = pattern.matcher(repUrl);
-            if(matcher.find()) {
-                String project = matcher.group(1);
-                gitResult.setProject(project);
-            }
-        }
-        return gitResult;
-    }
+    private String repository;
 
-    public Set<GitResult> issuesToGitResults(List<Issue> issues){
-        Set<GitResult> gitResults = new HashSet<>();
-        for(Issue issue : issues)
-            gitResults.add(issueToGitRet(issue));
-        return gitResults;
-    }
+    @Value("${com.incar.github.username}")
+    public void setUsername(String username){this.username = username;}
+
+    @Value("${com.incar.github.password}")
+    public void setPassword(String password){this.password = password;}
+
+    @Value("${com.incar.github.repository}")
+    public void setRepository(String repository){this.repository = repository;}
 
     @Transactional
-    public void saveGitResult(Set<GitResult> gitResults){
+    public void saveGitResult(List<GitResult> gitResults){
         gitResultRepository.save(gitResults);
     }
 
@@ -88,11 +49,44 @@ public class GitResultService {
         return gitResultRepository.findAll();
     }
 
-    public List<Issue> queryGitApi(){
-        List<GitCmd> gitCmds = gitCmdRepository.findAll();
-        List<Issue> issues =  issueQuery.executeMultiCmds(gitCmds);
+
+    public List<Issue> getIssues(String user,String repository){
+        GitHubClient gitHubClient = new GitHubClient("api.github.com");
+        this.authenticate(gitHubClient);
+        Map<String,String> params = new HashMap<String,String>();
+        params.put("state","all");
+        IssueService issueService = new IssueService(gitHubClient);
+        List<Issue> issueList = new ArrayList<>();
+        try {
+            issueList = issueService.getIssues(user, repository, params);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return issueList;
+    }
+
+    public void authenticate(GitHubClient gitHubClient){
+        gitHubClient.setCredentials(this.username,this.password);
+    }
+
+
+    public List<Issue> getAllIssues(){
+        List<Issue> issues = new ArrayList<>();
+        String[] values = repository.split(",");
+        for (int i=0; i<values.length; i++){
+            String[] keyValue = values[i].split("/");
+            issues.addAll(this.getIssues(keyValue[0], keyValue[1]));
+        }
         return issues;
     }
+
+
+
+    public List<GitResult> getGitResult(List<Issue> issues){
+        return GitRetUtil.IssuesToGitresults(issues);
+    }
+
+
 
     public Page<GitResult> findPage(Integer issueId,String assignee,String state,Integer mileStone,String title,String begin,String end,String begin1,String end1,Integer currentPage,Integer pageSize,Integer fuzzy,String orderByProperty,Integer ascOrDesc){
         currentPage = currentPage == null?1:currentPage;
