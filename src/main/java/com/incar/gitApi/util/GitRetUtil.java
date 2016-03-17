@@ -46,9 +46,10 @@ public class GitRetUtil {
         if(!labels.isEmpty()){
             String labelRet = "";
             for(int i = 0 ; i<labels.size(); i++) {
-                labelRet += labels.get(i).getName() + ",";
                 if (i == labels.size()-1) {
                     labelRet += labels.get(i).getName();
+                }else {
+                    labelRet += labels.get(i).getName() + ",";
                 }
             }
             gitResult.setLabels(labelRet);
