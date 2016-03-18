@@ -27,8 +27,7 @@ public interface GitResultRepository extends CrudRepository<GitResult,Integer> {
 
     GitResult save(GitResult gitResult);
 
-    @Query( "select g.assignee from GitResult g group by g.assignee")
-    List<String> findAllAssignee();
+
 
     @Query(value = "select g from GitResult g where " +
             "(?1 is null or g.issueId = ?1) " +
@@ -54,5 +53,12 @@ public interface GitResultRepository extends CrudRepository<GitResult,Integer> {
             " and (?9 is null or g.closedAt < ?9)")
     Page<GitResult> fuzzyFindByKeys(Integer issueId,String assignee,String state,Integer mileStone,String title,Date createdBegin,Date createdEnd,Date closedBegin,Date closedEnd,Pageable pageable);
 
+    @Query( "select distinct g.assignee from GitResult g")
+    List<String> findAllAssignee();
 
+    @Query( " select g from GitResult g where g.assignee=?1 and g.state = ?2 and (?3 is null or g.closedAt >?3) and (?4 is null or g.closedAt < ?4)")
+    List<GitResult> findClosedIssue(String assignee,String state ,Date closedAtStart,Date closedAtEnd);
+
+    @Query( "select g from GitResult g where g.assignee=?1 and g.state = ?2")
+    List<GitResult> findOpenIssue(String assignee,String state);
 }

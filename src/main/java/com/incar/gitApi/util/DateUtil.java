@@ -32,6 +32,7 @@ public class DateUtil {
             }
             date = (Date) dateFormat.parse(dt);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
         return date;

@@ -4,6 +4,7 @@ import com.incar.gitApi.entity.GitResult;
 import com.incar.gitApi.repository.GitResultRepository;
 import com.incar.gitApi.util.DateUtil;
 import com.incar.gitApi.util.GitRetUtil;
+import com.incar.gitApi.util.GithubClientConfig;
 import org.eclipse.egit.github.core.Issue;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.IssueService;
@@ -22,26 +23,25 @@ import java.util.*;
 @Service
 public class GitResultService {
 
-    @Autowired
-    private GitResultRepository gitResultRepository;
 
-    private String username;
-
-    private String password;
 
     private String repository;
 
-    @Value("${com.incar.github.username}")
-    public void setUsername(String username){this.username = username;}
+    private GithubClientConfig githubClientConfig;
 
-    @Value("${com.incar.github.password}")
-    public void setPassword(String password){
-        System.out.println("password:"+password);
-        this.password = password;
+
+    @Value("${github.repository}")
+    public void setRepository(String repository){this.repository = repository;}
+
+
+    @Autowired
+    public void setGithubClientConfig(GithubClientConfig githubClientConfig){
+        this.githubClientConfig = githubClientConfig;
     }
 
-    @Value("${com.incar.github.repository}")
-    public void setRepository(String repository){this.repository = repository;}
+    @Autowired
+    private GitResultRepository gitResultRepository;
+
 
     @Transactional
     public void saveGitResult(List<GitResult> gitResults){
@@ -54,11 +54,9 @@ public class GitResultService {
 
 
     public List<Issue> getIssues(String user,String repository){
-        GitHubClient gitHubClient = new GitHubClient("api.github.com");
-        this.authenticate(gitHubClient);
         Map<String,String> params = new HashMap<String,String>();
         params.put("state","all");
-        IssueService issueService = new IssueService(gitHubClient);
+        IssueService issueService = new IssueService(githubClientConfig.getGitHubClient());
         List<Issue> issueList = new ArrayList<>();
         try {
             issueList = issueService.getIssues(user, repository, params);
@@ -68,9 +66,6 @@ public class GitResultService {
         return issueList;
     }
 
-    public void authenticate(GitHubClient gitHubClient){
-        gitHubClient.setCredentials(this.username,this.password);
-    }
 
 
     public List<Issue> getAllIssues(){
@@ -116,4 +111,7 @@ public class GitResultService {
         }
         return new PageImpl<GitResult>(gitResultPage.getContent(),pageRequest,gitResultPage.getTotalElements());
     }
+
+
+
 }

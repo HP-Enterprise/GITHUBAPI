@@ -148,4 +148,21 @@ public class GitResult {
         this.labels = labels;
         this.project = project;
     }
+
+    @Override
+    public String toString() {
+        return "\nGitResult{" +"\n"+
+                "id=" + id +"\n"+
+                ", issueId=" + issueId +"\n"+
+                ", title='" + title + '\'' +"\n"+
+                ", state='" + state + '\'' +"\n"+
+                ", assignee='" + assignee + '\'' +"\n"+
+                ", milestone=" + milestone +"\n"+
+                ", createdAt=" + createdAt +"\n"+
+                ", updatedAt=" + updatedAt +"\n"+
+                ", closedAt=" + closedAt +"\n"+
+                ", labels='" + labels + '\'' +"\n"+
+                ", project='" + project + '\'' +"\n"+
+                '}';
+    }
 }
