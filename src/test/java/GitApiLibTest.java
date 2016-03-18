@@ -44,7 +44,7 @@ public class GitApiLibTest {
             for (Issue issue : issueList){
                 System.out.println("issue string pullrequest:"+issue.getPullRequest()+", assignee:"+issue.getAssignee());
             }
-            List<GitResult> gitResults = GitRetUtil.IssuesToGitresults(issueList);
+            List<GitResult> gitResults = GitRetUtil.issuesToGitresults(issueList);
             System.out.println("gitResults.size"+gitResults.size());
             gitResultRepository.save(gitResults);
         } catch (IOException e) {

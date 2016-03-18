@@ -35,7 +35,10 @@ public class GitResultService {
     public void setUsername(String username){this.username = username;}
 
     @Value("${com.incar.github.password}")
-    public void setPassword(String password){this.password = password;}
+    public void setPassword(String password){
+        System.out.println("password:"+password);
+        this.password = password;
+    }
 
     @Value("${com.incar.github.repository}")
     public void setRepository(String repository){this.repository = repository;}
@@ -45,7 +48,7 @@ public class GitResultService {
         gitResultRepository.save(gitResults);
     }
 
-    public List<GitResult> findAll(){
+    public Set<GitResult> findAll(){
         return gitResultRepository.findAll();
     }
 

@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -17,9 +19,16 @@ import java.util.Set;
 @Repository
 public interface GitResultRepository extends CrudRepository<GitResult,Integer> {
 
-    List<GitResult> findAll();
+
+    Set<GitResult> findAll();
+
+//    @Query("select g from GitResult g where g.closedAt > ?1 and g.state=?2")
+//    Set<GitResult> findByClosedAt(Date closedAtStart,Date closedAtEnd);
 
     GitResult save(GitResult gitResult);
+
+    @Query( "select g.assignee from GitResult g group by g.assignee")
+    List<String> findAllAssignee();
 
     @Query(value = "select g from GitResult g where " +
             "(?1 is null or g.issueId = ?1) " +
@@ -44,5 +53,6 @@ public interface GitResultRepository extends CrudRepository<GitResult,Integer> {
             " and (?8 is null or g.closedAt > ?8)  " +
             " and (?9 is null or g.closedAt < ?9)")
     Page<GitResult> fuzzyFindByKeys(Integer issueId,String assignee,String state,Integer mileStone,String title,Date createdBegin,Date createdEnd,Date closedBegin,Date closedEnd,Pageable pageable);
+
 
 }
