@@ -45,6 +45,9 @@ public class GitResult {
     @Column
     private String project;
 
+    @Column
+    private String user;
+
     public Integer getId() {
         return id;
     }
@@ -133,10 +136,18 @@ public class GitResult {
         this.project = project;
     }
 
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
     public GitResult() {
     }
 
-    public GitResult(Integer issueId, String title, String state, String assignee, Integer milestone, Date createdAt, Date updatedAt, Date closedAt, String labels, String project) {
+    public GitResult(Integer issueId, String title, String state, String assignee, Integer milestone, Date createdAt, Date updatedAt, Date closedAt, String labels, String project, String user) {
         this.issueId = issueId;
         this.title = title;
         this.state = state;
@@ -147,6 +158,7 @@ public class GitResult {
         this.closedAt = closedAt;
         this.labels = labels;
         this.project = project;
+        this.user = user;
     }
 
     @Override
@@ -163,6 +175,7 @@ public class GitResult {
                 ", closedAt=" + closedAt +"\n"+
                 ", labels='" + labels + '\'' +"\n"+
                 ", project='" + project + '\'' +"\n"+
+                ", user='" + user + '\'' +"\n"+
                 '}';
     }
 }

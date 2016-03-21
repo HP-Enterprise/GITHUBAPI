@@ -27,7 +27,7 @@ public interface GitResultRepository extends CrudRepository<GitResult,Integer> {
 
     GitResult save(GitResult gitResult);
 
-
+    GitResult findByIssueId(int issueId);
 
     @Query(value = "select g from GitResult g where " +
             "(?1 is null or g.issueId = ?1) " +

@@ -25,11 +25,11 @@ public class GitRetUtil {
         }
         String repUrl = issue.getUrl();
         if (repUrl != null) {
-            Pattern pattern = Pattern.compile("repos/.+?/(.+?)/");
+            Pattern pattern = Pattern.compile("repos/(.+?)/(.+?)/");
             Matcher matcher = pattern.matcher(repUrl);
             if (matcher.find()) {
-                String project = matcher.group(1);
-                gitResult.setProject(project);
+                gitResult.setUser(matcher.group(1));
+                gitResult.setProject( matcher.group(2));
             }
         }
 

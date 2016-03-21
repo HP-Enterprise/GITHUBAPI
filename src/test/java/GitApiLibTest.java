@@ -3,9 +3,11 @@ import com.incar.gitApi.entity.GitResult;
 import com.incar.gitApi.repository.GitResultRepository;
 import com.incar.gitApi.util.GitRetUtil;
 import org.eclipse.egit.github.core.Issue;
+import org.eclipse.egit.github.core.Milestone;
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.IssueService;
+import org.eclipse.egit.github.core.service.MilestoneService;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,5 +63,17 @@ public class GitApiLibTest {
         List<Repository> repositories = repositoryService.getRepositories();
         for (Repository repository : repositories)
             System.out.println("giturl :"+repository.getGitUrl());
+    }
+
+    @Test
+    public void testMileStone() throws IOException {
+        GitHubClient gitHubClient = new GitHubClient("api.github.com");
+        gitHubClient.setCredentials("travis4hpe", "travis4Java");
+        String user = "HP-Enterprise";
+        String rep = "Rental653";
+        String number = "11";
+        MilestoneService milestoneService = new MilestoneService(gitHubClient);
+        Milestone milestone = milestoneService.getMilestone(user,rep,number);
+        System.out.println(milestone.getDescription());
     }
 }

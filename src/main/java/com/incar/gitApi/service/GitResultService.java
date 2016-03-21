@@ -24,15 +24,9 @@ import java.util.*;
 public class GitResultService {
 
 
-
-    private String repository;
-
     private GithubClientConfig githubClientConfig;
 
-
-    @Value("${github.repository}")
-    public void setRepository(String repository){this.repository = repository;}
-
+    private GitResultRepository gitResultRepository;
 
     @Autowired
     public void setGithubClientConfig(GithubClientConfig githubClientConfig){
@@ -40,8 +34,9 @@ public class GitResultService {
     }
 
     @Autowired
-    private GitResultRepository gitResultRepository;
-
+    public void setGitResultRepository(GitResultRepository gitResultRepository){
+        this.gitResultRepository = gitResultRepository;
+    }
 
     @Transactional
     public void saveGitResult(List<GitResult> gitResults){
@@ -66,24 +61,20 @@ public class GitResultService {
         return issueList;
     }
 
-
-
     public List<Issue> getAllIssues(){
         List<Issue> issues = new ArrayList<>();
-        String[] values = repository.split(",");
-        for (int i=0; i<values.length; i++){
-            String[] keyValue = values[i].split("/");
+        List<String> repos = githubClientConfig.getRepos();
+        for (String str : repos){
+            String[] keyValue = str.split("/");
             issues.addAll(this.getIssues(keyValue[0], keyValue[1]));
         }
         return issues;
     }
 
 
-
     public List<GitResult> getGitResult(List<Issue> issues){
         return GitRetUtil.issuesToGitresults(issues);
     }
-
 
 
     public Page<GitResult> findPage(Integer issueId,String assignee,String state,Integer mileStone,String title,String begin,String end,String begin1,String end1,Integer currentPage,Integer pageSize,Integer fuzzy,String orderByProperty,Integer ascOrDesc){

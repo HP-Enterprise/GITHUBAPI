@@ -3,7 +3,7 @@ com.incar:
     github:
          username: travis4hpe
          password: travis4Java
-         repository: HP-Enterprise/Rental653,HP-Enterprise/BriAir,HP-Enterprise/Triclops,HP-Enterprise/SMS,HP-Enterprise/Training,HP-Enterprise/DataCenter,HP-Enterprise/MessageProcessor,HP-Enterprise/IncarSelf,,HP-Enterprise/TcpServer,HP-Enterprise/Android-BlueTooth,HP-Enterprise/IOS-BlueTooth,HP-Enterprise/JPA-Generator,InCar/Android-BlueTooth,InCar/IOS-BlueTooth,InCar/demo,InCar/Alikula,InCar/IncarSelf,InCar/ali-mns,InCar/cnpmjs.org,InCar/Track
+#         repository: HP-Enterprise/Rental653,HP-Enterprise/BriAir,HP-Enterprise/Triclops,HP-Enterprise/SMS,HP-Enterprise/Training,HP-Enterprise/DataCenter,HP-Enterprise/MessageProcessor,HP-Enterprise/IncarSelf,,HP-Enterprise/TcpServer,HP-Enterprise/Android-BlueTooth,HP-Enterprise/IOS-BlueTooth,HP-Enterprise/JPA-Generator,InCar/Android-BlueTooth,InCar/IOS-BlueTooth,InCar/demo,InCar/Alikula,InCar/IncarSelf,InCar/ali-mns,InCar/cnpmjs.org,InCar/Track
 # Tomcat
 server.port: 8080
 # Logging level (TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF)
