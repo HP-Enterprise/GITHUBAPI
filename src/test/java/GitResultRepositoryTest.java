@@ -39,8 +39,8 @@ public class GitResultRepositoryTest {
     @Test
     public void testFindClosedIssue() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        List<GitResult> gitResults = gitResultRepository.findClosedIssue("Septemberwh","closed",sdf.parse( "2016-03-14"),sdf.parse("2016-03-18"));
-        List<GitResult> gitResults1 = gitResultRepository.findClosedIssue("wangh2015","closed",sdf.parse( "2016-03-14"),sdf.parse("2016-03-18"));
+        List<GitResult> gitResults = gitResultRepository.findClosedGitRet("Septemberwh", "closed", sdf.parse("2016-03-20"), sdf.parse("2016-03-26"));
+        List<GitResult> gitResults1 = gitResultRepository.findClosedGitRet("wangh2015", "closed", sdf.parse("2016-03-20"), sdf.parse("2016-03-26"));
 
         System.out.println("gitResults.size"+gitResults.size());
         System.out.println(gitResults.toString());
@@ -52,8 +52,10 @@ public class GitResultRepositoryTest {
 
     @Test
     public void testFindOpenIssue(){
-        List<GitResult> gitResults = gitResultRepository.findOpenIssue("wangh2015","open");
+        List<GitResult> gitResults = gitResultRepository.findOpenGitRet("Septemberwh", "open");
+        List<GitResult> gitResults1 = gitResultRepository.findOpenGitRet("wangh2015", "open");
+
         System.out.println("gitRet size"+gitResults.size());
-        System.out.println(gitResults.toString());
+        System.out.println(gitResults1.toString());
     }
 }

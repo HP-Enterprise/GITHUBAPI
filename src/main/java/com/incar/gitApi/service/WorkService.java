@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,8 +30,6 @@ public class WorkService {
     private GitResultRepository gitResultRepository;
 
     private GithubClientConfig githubClientConfig;
-
-//    private MilestoneService milestoneService = new MilestoneService(githubClientConfig.getGitHubClient());
 
     @Autowired
     public void setGitResultRepository(GitResultRepository gitResultRepository){this.gitResultRepository = gitResultRepository;}
@@ -97,26 +96,40 @@ public class WorkService {
     }
 
 
-    public List<GitResult> getClosedIssue(String assignee,Date date1 ,Date date2){
-        return gitResultRepository.findClosedIssue(assignee, "closed", date1, date2);
+    public List<GitResult> getClosedGitRet(String assignee,Date date1 ,Date date2){
+        return gitResultRepository.findClosedGitRet(assignee, "closed", date1, date2);
+    }
+
+    public List<GitResult> getOpenGitRet(String assignee){
+        return gitResultRepository.findOpenGitRet(assignee, "open");
     }
 
 
     public int getTotalFinishedWork(String assignee,Date date1 ,Date date2){
-        return this.totalFinishedWork(getClosedIssue(assignee, date1, date2));
+        return this.totalFinishedWork(getClosedGitRet(assignee, date1, date2));
     }
 
 
     public int getUnfinishedWorkOfAssignee(String assignee){
-        List<GitResult> gitResults = gitResultRepository.findOpenIssue(assignee, "open");
-        return getTotalUnfinishedWork(gitResults);
+        return getTotalUnfinishedWork(getOpenGitRet(assignee));
+    }
+
+
+    //获得规定应在本周之前完成的GitRet（即milestone为本周之前的GitRet）
+    public List<GitResult> selectGitRetDueOnThisWeek(List<GitResult> gitResults){
+        List<GitResult> gitRets = new ArrayList<>();
+        for (GitResult gitResult : gitResults){
+            if(isBeforeThisWeek(gitResult.getDueOn())){
+                gitRets.add(gitResult);
+            }
+        }
+        return gitRets;
     }
 
 
     public int getUnfinishedWorkOfOneIssue(GitResult gitResult){
-        Milestone milestone = this.getMileStone(gitResult);
         int num = 0;
-        if(isInThisWeek(milestone.getDueOn())) {
+        if(isBeforeThisWeek(gitResult.getDueOn())) {
             return num = oneIssueWork(gitResult);
         }
         return num;
@@ -131,21 +144,19 @@ public class WorkService {
         return totalHours;
     }
 
-
-    public boolean isInThisWeek(Date dueon){
+    //判断某个时间是否在本周之前
+    public boolean isBeforeThisWeek(Date date){
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
-        Date date1 = calendar.getTime();
         calendar.set(Calendar.DAY_OF_WEEK,Calendar.SATURDAY);
-        calendar.set(Calendar.HOUR,11);
+        calendar.set(Calendar.HOUR_OF_DAY,23);
         Date date2 = calendar.getTime();
-        if(dueon.compareTo(date1)>0 && dueon.compareTo(date2)<=0){
+        if(date != null && date.compareTo(date2)<=0){
             return true;
         }
         return false;
     }
 
-
+    //获取某个GitRet的milestone
     public Milestone getMileStone(GitResult gitResult){
         Milestone milestone = null;
         try {
@@ -159,74 +170,207 @@ public class WorkService {
     }
 
 
-    public List<Period> generatePeriods(){
-        List<Period> periods = new ArrayList<>();
-        for(int i=1;i<6;i++){
-            for(int j=0 ; j<8 ; j++){
-                Period period = new Period();
-                period.setDayOfWeek(i);
-                period.setNumber(j);
-                period.setIsInWork(false);
-                switch (j){
-                    case 0:
-                        period.setHourOfDay(9);
-                        break;
-                    case 1:
-                        period.setHourOfDay(10);
-                        break;
-                    case 2:
-                        period.setHourOfDay(11);
-                        break;
-                    case 3:
-                        period.setHourOfDay(13);
-                        break;
-                    case 4:
-                        period.setHourOfDay(14);
-                        break;
-                    case 5:
-                        period.setHourOfDay(15);
-                        break;
-                    case 6:
-                        period.setHourOfDay(16);
-                        break;
-                    case 7:
-                        period.setHourOfDay(17);
-                        break;
-                    default:
-                        throw new IllegalArgumentException("arg is invalid");
-                }
-                periods.add(period);
-            }
+
+
+
+//    public List<Period> getWorkPeriodOfOneIssue(GitResult gitResult,List<Period> periods){
+//        //这里的gitResult只针对于本周里程碑下的issue
+//        Date createdAt = gitResult.getCreatedAt();
+//        Date closedAt = gitResult.getClosedAt();
+//        if(closedAt != null){//没有关闭的issue
+//
+//        }
+//        for(Period period:periods){
+//            if(period.getIsInWork()){
+//                continue;
+//
+//            }
+//            while(){
+//                period.setIsInWork(true);
+//            }
+//        }
+//        return periods;
+//    }
+//
+//    public List<Period> getWorkPeriodOfOpenIssue(Date createdAt,List<Period> periods,Calendar calendar){
+//        calendar.setTime(createdAt);
+//        for (Period period : periods){
+//            if(isInPeriod(createdAt, period)){
+//               calendar.add();
+//            }
+//        }
+//        return null;
+//    }
+
+
+    //判断某个时间点是否在某个片段内
+    public boolean isInPeriod(Date date , Period period){
+        Calendar calendar = Calendar.getInstance();
+//        System.out.println("第几周：" + calendar.get(Calendar.WEEK_OF_YEAR));
+        calendar.setWeekDate(period.getYear(), period.getWeekOfYear(), period.getDayOfWeek());
+        calendar.set(Calendar.HOUR_OF_DAY, period.getHourOfDay());
+        calendar.set(Calendar.MINUTE,period.getMinute());
+        calendar.set(Calendar.SECOND,period.getSeconds());
+        Date date1 = calendar.getTime();
+        calendar.set(Calendar.HOUR_OF_DAY, period.getHourOfDay() + 1);
+        Date date2 = calendar.getTime();
+        if(date.compareTo(date1)>=0 && date.compareTo(date2)<0){
+            return true;
         }
-        return periods;
+        return false;
     }
 
 
-    public List<Period> getWorkPeriodOfOneIssue(GitResult gitResult,List<Period> periods){
-        Date createdAt = gitResult.getCreatedAt();
-        Date closedAt = gitResult.getClosedAt();
+    //获取period对应的date
+    public Date getTimeOfPeriod(Period period){
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(createdAt);
-        int hourOfDayCreated = calendar.get(Calendar.HOUR_OF_DAY);
-        int dayOfWeekCreated = calendar.get(Calendar.DAY_OF_WEEK);
-        calendar.setTime(closedAt);
-        int hourOfDayClosed = calendar.get(Calendar.HOUR_OF_DAY);
-        int dayOfWeekClosed = calendar.get(Calendar.DAY_OF_WEEK);
+        calendar.setWeekDate(period.getYear(), period.getWeekOfYear(), period.getDayOfWeek());
+        calendar.set(Calendar.HOUR_OF_DAY, period.getHourOfDay());
+        calendar.set(Calendar.MINUTE, period.getMinute());
+        calendar.set(Calendar.SECOND,period.getSeconds());
+        return calendar.getTime();
+    }
 
-        for(int i = 0; i<periods.size();i++){
-            int number = periods.get(i).getNumber();
-            int periodDayOfWeek = periods.get(i).getDayOfWeek();
-            int periodHourOfDay = periods.get(i).getHourOfDay();
-            if(periodDayOfWeek == dayOfWeekCreated && periodHourOfDay == hourOfDayCreated){
-                periods.get(i).setIsInWork(true);
-                while (periods.get(++i).getDayOfWeek() <= dayOfWeekClosed){
-                    if(periods.get(i).getHourOfDay() <= hourOfDayClosed){
-                        periods.get(i).setIsInWork(true);
-                    }
-                }
-                break;
+
+    //计算createdAt所在的period
+    public Period getPeriodOfCreated(Date createdAt,List<Period> periods){
+
+        if(isBeforeFirstPeriod(createdAt,periods.get(0))){
+            return periods.get(0);
+        }
+        if(isNotInPeriod(createdAt)){
+            return getFirstPeriodAfterCreated(createdAt,periods);
+        }
+        for(Period period : periods){
+            if(isInPeriod(createdAt,period)){
+                return period;
             }
         }
-        return periods;
+        return null;
+    }
+
+
+    //计算closedAt所在的period
+    public Period getPreiodOfClosed(Date closedAt ,List<Period> periods){
+        //如果closedAt为空 将period设置为最后一个
+        if(closedAt == null){
+            return periods.get(periods.size()-1);
+        }
+        //如果closedAt在period空隙
+        if(isNotInPeriod(closedAt)){
+            return getLastPeriodBeforeClosed(closedAt, periods);
+        }
+
+        for(Period period : periods){
+            if(isInPeriod(closedAt,period)){
+                return period;
+            }
+        }
+
+        return null;
+    }
+
+
+    //找到创建时间（不在period内）之后的第一个period
+    public Period getFirstPeriodAfterCreated(Date created,List<Period> periods){
+        for(Period period : periods){
+            if(getTimeOfPeriod(period).compareTo(created)>0){
+                return period;
+            }
+        }
+        return null;
+    }
+
+
+    //判断createdAt是否在第一个period之前
+    public boolean isBeforeFirstPeriod(Date createdAt,Period period){
+        if(getTimeOfPeriod(period).compareTo(createdAt)>0){
+            return true;
+        }
+        return false;
+    }
+
+
+    //判断某个时间点是否在period的空隙里面
+    public boolean isNotInPeriod(Date createdAt){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(createdAt);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        if(hour <9 || (hour >= 12 && hour <13) || hour >17 ){
+            return true;
+        }
+        return false;
+    }
+
+
+    //找到关闭时间（不在period内）前的最后一个period
+    public Period getLastPeriodBeforeClosed(Date closedAt,List<Period> periods){
+        for(int i=periods.size()-1;i>0;i--){
+            if(getTimeOfPeriod(periods.get(i)).compareTo(closedAt) < 0){
+                System.out.println("periods.get(i)"+periods.get(i));
+                return periods.get(i);
+            }
+        }
+        return null;
+    }
+
+
+
+    //获取本周里程碑
+    public Milestone getMilestoneOfThisWeek(){
+        //获取所有的里程碑
+
+        return null;
+    }
+
+    //获取assignee本周里程碑下的gitRets
+    public List<GitResult> getIssueRetOfThisMilestone(Milestone milestone,String assignee){
+
+        return null;
+    }
+
+    //获取某个assigne的gitRets  1 close状态 并且 close时间在周一到周五的 2 状态为open并且属于本周或者以前里程碑的
+    public List<GitResult> getAllGitRetThisWeek(String assignee){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        Date dateStart = calendar.getTime();
+        calendar.set(Calendar.DAY_OF_WEEK,Calendar.FRIDAY);
+        calendar.set(Calendar.HOUR_OF_DAY,23);
+        calendar.set(Calendar.MINUTE,59);
+        calendar.set(Calendar.SECOND,59);
+        Date dateEnd = calendar.getTime();
+        List<GitResult> gitResults = new ArrayList<>();
+        gitResults.addAll(this.getClosedGitRet(assignee, dateStart,dateEnd));
+        gitResults.addAll(this.selectGitRetDueOnThisWeek(this.getOpenGitRet(assignee)));
+        return gitResults;
+    }
+
+    //统计某个assignee本周所有的GitRet
+    public int getHoursInWork(List<GitResult> gitResults,List<Period> periods){
+        int n = 0;
+        for (GitResult gitResult : gitResults){
+            Period startPeriod = getPeriodOfCreated(gitResult.getCreatedAt(),periods);
+            Period endPeriod = getPreiodOfClosed(gitResult.getClosedAt(),periods);
+            if(startPeriod.getNumber()>endPeriod.getNumber()){
+                throw new RuntimeException("invalid parameter");
+            }
+            if(startPeriod.getNumber() == endPeriod.getNumber()){
+                if(!startPeriod.getIsInWork()){
+                    startPeriod.setIsInWork(true);
+                    n++;
+                }
+                continue;
+            }
+            for(int i= startPeriod.getNumber();i<=endPeriod.getNumber();i++){
+                if( !periods.get(i).getIsInWork()) {
+                    periods.get(i).setIsInWork(true);
+                    n++;
+                }
+            }
+        }
+        return n;
     }
 }

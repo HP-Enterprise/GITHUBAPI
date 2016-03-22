@@ -39,8 +39,10 @@ public class GitRetUtil {
         gitResult.setCreatedAt(issue.getCreatedAt());
         gitResult.setUpdatedAt(issue.getUpdatedAt());
         gitResult.setMilestone(issue.getMilestone() == null ? null : issue.getMilestone().getNumber());
+        gitResult.setDueOn(issue.getMilestone() == null ? null : issue.getMilestone().getDueOn());
         gitResult.setState(issue.getState());
         gitResult.setTitle(issue.getTitle());
+
         List<Label> labels = issue.getLabels();
 
         if(!labels.isEmpty()){

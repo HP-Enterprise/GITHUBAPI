@@ -48,6 +48,9 @@ public class GitResult {
     @Column
     private String user;
 
+    @Column
+    private Date dueOn;
+
     public Integer getId() {
         return id;
     }
@@ -144,10 +147,18 @@ public class GitResult {
         this.user = user;
     }
 
+    public Date getDueOn() {
+        return dueOn;
+    }
+
+    public void setDueOn(Date dueOn) {
+        this.dueOn = dueOn;
+    }
+
     public GitResult() {
     }
 
-    public GitResult(Integer issueId, String title, String state, String assignee, Integer milestone, Date createdAt, Date updatedAt, Date closedAt, String labels, String project, String user) {
+    public GitResult(Integer issueId, String title, String state, String assignee, Integer milestone, Date createdAt, Date updatedAt, Date closedAt, String labels, String project, String user,Date dueOn) {
         this.issueId = issueId;
         this.title = title;
         this.state = state;
@@ -159,6 +170,7 @@ public class GitResult {
         this.labels = labels;
         this.project = project;
         this.user = user;
+        this.dueOn = dueOn;
     }
 
     @Override

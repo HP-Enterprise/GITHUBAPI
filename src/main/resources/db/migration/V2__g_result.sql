@@ -12,5 +12,6 @@ create table g_result(
   closed_at  TIMESTAMP COMMENT '完成时间',
   project VARCHAR(100) COMMENT '所属项目',
   user VARCHAR(50) COMMENT 'github用户',
+  due_on TIMESTAMP COMMENT '截止时间',
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='issue结果表';
