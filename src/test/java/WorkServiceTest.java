@@ -4,6 +4,7 @@ import com.incar.gitApi.repository.GitResultRepository;
 import com.incar.gitApi.service.WorkService;
 import com.incar.gitApi.util.GithubClientConfig;
 import com.incar.gitApi.util.Period;
+import com.incar.gitApi.util.PeriodFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,35 +40,36 @@ public class WorkServiceTest {
 
     private List<Period> periods;
 
+    private SimpleDateFormat sdf;
+
+
     @Before
     public void setup(){
-        this.periods = Period.generatePeriodList();
+        periods = PeriodFactory.generatePeriodList(13);
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
     }
 
     @Test
     public void testGetFinishedWorkAmount() throws ParseException {
-        System.out.println(githubClientConfig.getPassword());
-        System.out.println(githubClientConfig.getRepos().toString());
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date1 = sdf.parse("2016-03-14 00:00:00");
-        Date date2 = sdf.parse("2016-03-20 24:00:00");
 
-        int result = workService.getTotalFinishedWork("db5433", date1, date2);
+        Calendar calendar = Calendar.getInstance();
+        Date date1 = sdf.parse("2016-03-17 00-00-00");
+        Date date2 = sdf.parse("2016-03-26 24-00-00");
+
+        int result = workService.getTotalFinishedWork("Gupeng133", date1, date2);
         System.out.println("result:"+result);
     }
 
     @Test
     public void testIsInThisWeek() throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         Date date = sdf.parse("2016-03-26 16-00-00");
         boolean isIn = workService.isBeforeThisWeek(date);
         System.out.println("isIn ?"+isIn);
     }
 
     @Test
-    public void testGetUnfinishedWorkOfAssignee(){
-        int hours = workService.getUnfinishedWorkOfAssignee("Septemberwh");
+    public void testGetUnfinishedWorkOfAssignee() throws ParseException {
+        int hours = workService.getUnfinishedWorkOfAssignee("Septemberwh",sdf.parse("2016-03-26 00-00-00"));
         System.out.println("work unfinished:" + hours);
     }
 
@@ -82,7 +84,6 @@ public class WorkServiceTest {
 
     @Test
     public void testPeriodOfCreatedAt() throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         long time1 = System.currentTimeMillis();
         Period period = workService.getPeriodOfCreated(sdf.parse("2016-03-19 13-22-00"), periods);
         Period period1 = workService.getPeriodOfCreated(sdf.parse("2016-03-22 07-22-00"), periods);
@@ -99,7 +100,6 @@ public class WorkServiceTest {
 
     @Test
     public void testPeriodOfClosedAt() throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         long time1 = System.currentTimeMillis();
         Period period = workService.getPreiodOfClosed(null, periods);//没有关闭的issue
         Period period1 = workService.getPreiodOfClosed(sdf.parse("2016-03-22 07-22-00"), periods);//下班时间关闭的issue
@@ -115,15 +115,61 @@ public class WorkServiceTest {
     }
 
 
-
     @Test
-    public void testGetWorkHoursOfAssignee(){
-        String assgnee = "wangh2015";
-        List<GitResult> gitResults = workService.getAllGitRetThisWeek(assgnee);
-        System.out.println("gitResults"+gitResults);
-        int n = workService.getHoursInWork(gitResults,periods);
-        System.out.println("hour in work of  "+assgnee+" : "+n);
+    public void testGetWorkHoursOfAssignee() throws ParseException {
+//        String assgnee = "wangh2015";
+//        List<GitResult> gitResults = workService.getAllGitRetOfWeek(assgnee, 13);
+//        System.out.println("gitResults"+gitResults);
+//        int n = workService.getHoursInWork(gitResults,periods);
+//        System.out.println("hour in work of  "+assgnee+" : "+n);
+
+//        String assgnee1 = "Septemberwh";
+//        List<GitResult> gitResults1 = workService.getAllGitRetOfWeek(assgnee1, 13);
+//        System.out.println("gitResults"+gitResults1);
+//        int n1 = workService.getHoursInWork(gitResults1,periods);
+//        System.out.println("hour in work of  "+assgnee1+" : "+n1);
+
+        String assgnee2 = "Gupeng133";
+        List<GitResult> gitResults2 = workService.getAllGitRetOfWeek(assgnee2, 13);
+        System.out.println("gitResults"+gitResults2);
+        int n2 = workService.getHoursInWork(gitResults2,periods);
+        System.out.println("hour in work of  "+assgnee2+" : "+n2);
     }
 
 
+    @Test
+    public void testFindOpenGitRet() throws ParseException {
+        String assgnee = "Septemberwh";
+        List<GitResult> gitResults = workService.getOpenGitRet(assgnee,sdf.parse("2016-03-27 00-00-00"));
+        System.out.println("testFindOpenGitRet()"+gitResults);
+    }
+
+    @Test
+    public void testFindClosedGitRet() throws ParseException {
+        String assgnee = "Gupeng133";
+        List<GitResult> gitResults = workService.getClosedGitRet(assgnee, sdf.parse("2016-03-20 00-00-00"), sdf.parse("2016-03-26 23-59-59"));
+        System.out.println(gitResults);
+    }
+
+
+    @Test
+    public void testSaveWorkInfo(){
+        workService.saveWorkInfo();
+    }
+
+    @Test
+    public void testGetWorkInfo(){
+        workService.getWorkInfo("yearning6364");
+    }
+
+
+    @Test
+    public void testGetPeriodOfGitRet(){
+        GitResult gitResult = gitResultRepository.findByIssueId(142304643);
+       Period[] periodsArr =  workService.getPeriodOfGitRet(gitResult, periods);
+        System.out.println(periodsArr.toString());
+        GitResult gitResult1 = gitResultRepository.findByIssueId(140625278);
+        Period[] periodsArr1 =  workService.getPeriodOfGitRet(gitResult1, periods);
+        System.out.println(periodsArr1.toString());
+    }
 }

@@ -56,10 +56,10 @@ public interface GitResultRepository extends CrudRepository<GitResult,Integer> {
     @Query( "select distinct g.assignee from GitResult g")
     List<String> findAllAssignee();
 
-    @Query( " select g from GitResult g where g.assignee=?1 and g.state = ?2 and (?3 is null or g.closedAt >?3) and (?4 is null or g.closedAt < ?4)")
+    @Query( " select g from GitResult g where g.assignee=?1 and g.state = ?2 and  g.closedAt >?3 and  g.closedAt < ?4")
     List<GitResult> findClosedGitRet(String assignee,String state ,Date closedAtStart,Date closedAtEnd);
 
-    @Query( "select g from GitResult g where g.assignee=?1 and g.state = ?2")
-    List<GitResult> findOpenGitRet(String assignee,String state);
+    @Query( "select g from GitResult g where g.assignee = ?1 and g.state = ?2 and  g.dueOn <= ?3 ")
+    List<GitResult> findOpenGitRet(String assignee,String state,Date dueOn);
 
 }

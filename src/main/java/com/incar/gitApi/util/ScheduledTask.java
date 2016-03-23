@@ -2,6 +2,7 @@ package com.incar.gitApi.util;
 
 import com.incar.gitApi.entity.GitResult;
 import com.incar.gitApi.service.GitResultService;
+import com.incar.gitApi.service.WorkService;
 import org.eclipse.egit.github.core.Issue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -22,6 +23,9 @@ public class ScheduledTask {
     @Autowired
     private GitResultService gitResultService;
 
+    @Autowired
+    private WorkService workService;
+
     @Scheduled(cron = "0 */1 * * * ? ")
     public void scheduledQuery(){
         List<Issue> issues = gitResultService.getAllIssues();
@@ -29,5 +33,10 @@ public class ScheduledTask {
         List<GitResult> gitResults = gitResultService.getGitResult(issues);
         System.out.println("gitresult.size():"+gitResults.size());
         gitResultService.saveGitResult(gitResults);
+    }
+
+    @Scheduled(cron = "0 43 17 ? * WED")   //    @Scheduled(cron = "0 */2 * * * ?")
+    public void gitRetAlalyse(){
+        workService.saveWorkInfo();
     }
 }

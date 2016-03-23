@@ -9,6 +9,7 @@ import java.util.concurrent.Callable;
  * Created by Administrator on 2016/3/21 0021.
  */
 public class Period {
+
     private int number;
     private int year;
     private int weekOfYear;
@@ -23,9 +24,9 @@ public class Period {
 
     }
 
-    public Period(Calendar calendar) {
-        this.year = calendar.get(Calendar.YEAR);
-        this.weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+    public Period(int year,int weekOfYear) {
+        this.year = year;
+        this.weekOfYear = weekOfYear;
         this.minute = 0;
         this.seconds = 0;
     }
@@ -107,49 +108,5 @@ public class Period {
                 '}';
     }
 
-
-    //生成本周的所有period
-    public static List<Period> generatePeriodList(){
-        List<Period> periods = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
-        int k = 0;
-        for(int i=2;i<7;i++){//周一到周五
-            for(int j=0 ; j<8 ; j++){
-                Period period = new Period(calendar);
-                period.setDayOfWeek(i);
-                period.setNumber(k++);
-                switch (j){
-                    case 0:
-                        period.setHourOfDay(9);
-                        break;
-                    case 1:
-                        period.setHourOfDay(10);
-                        break;
-                    case 2:
-                        period.setHourOfDay(11);
-                        break;
-                    case 3:
-                        period.setHourOfDay(13);
-                        break;
-                    case 4:
-                        period.setHourOfDay(14);
-                        break;
-                    case 5:
-                        period.setHourOfDay(15);
-                        break;
-                    case 6:
-                        period.setHourOfDay(16);
-                        break;
-                    case 7:
-                        period.setHourOfDay(17);
-                        break;
-                    default:
-                        throw new IllegalArgumentException("arg is invalid");
-                }
-                periods.add(period);
-            }
-        }
-        return periods;
-    }
 
 }

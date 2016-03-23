@@ -78,8 +78,7 @@ public class GitResultService {
 
 
     public Page<GitResult> findPage(Integer issueId,String assignee,String state,Integer mileStone,String title,String begin,String end,String begin1,String end1,Integer currentPage,Integer pageSize,Integer fuzzy,String orderByProperty,Integer ascOrDesc){
-        currentPage = currentPage == null?1:currentPage;
-        currentPage = currentPage <= 0?1:currentPage;
+        currentPage = currentPage == null?1:(currentPage <= 0?1:currentPage);
         pageSize = pageSize == null?10:(pageSize <= 0?10:pageSize);
         boolean isFuzzy = fuzzy == null?false:(fuzzy==1?true:false);
         assignee = assignee==""?null:assignee;

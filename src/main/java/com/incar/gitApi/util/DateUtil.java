@@ -1,5 +1,7 @@
 package com.incar.gitApi.util;
 
+import org.springframework.util.Assert;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -38,6 +40,23 @@ public class DateUtil {
         return date;
     }
 
+    public static Date setWeekStart(int weekYear,int weekOfYear){
+        calendar = Calendar.getInstance();
+        calendar.setWeekDate(weekYear, weekOfYear, Calendar.SUNDAY);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        return calendar.getTime();
+    }
+
+    public static Date setWeekEnd(int weekYear,int weekOfYear){
+        calendar = Calendar.getInstance();
+        calendar.setWeekDate(weekYear, weekOfYear, Calendar.SATURDAY);
+        calendar.set(Calendar.HOUR_OF_DAY,23);
+        calendar.set(Calendar.MINUTE,59);
+        calendar.set(Calendar.SECOND,59);
+        return calendar.getTime();
+    }
 
 
 }
