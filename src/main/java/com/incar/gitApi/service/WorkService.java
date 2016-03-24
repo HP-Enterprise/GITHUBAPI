@@ -76,6 +76,21 @@ public class WorkService {
 
 
     /**
+     * 保存某周工作信息
+     * @param weekInYear
+     */
+    public void saveWorkInfo(int weekInYear){
+        for (String assignee : this.getAllAssignee() ){
+            if(assignee!=null){
+                Work work = getWorkInfo(assignee,weekInYear);
+                workRepository.save(work);
+            }
+        }
+    }
+
+
+
+    /**
      * 获取某周工作信息
      * @param assignee
      * @param weekOfYear
@@ -85,6 +100,8 @@ public class WorkService {
         Calendar calendar = Calendar.getInstance();
         return this.getWorkInfo(assignee,calendar.get(Calendar.YEAR),weekOfYear);
     }
+
+
 
     /**
      * 获取本周工作信息
@@ -113,8 +130,8 @@ public class WorkService {
         List<GitResult> closedGitRets = this.getClosedGitRet(assignee, start, end);
 
         List<GitResult> gitResults = new ArrayList<>();
-        gitResults.addAll(openGitRets);
-        gitResults.addAll(closedGitRets);
+        gitResults.addAll(this.getGitRetHasLabelHOrD(openGitRets));
+        gitResults.addAll(this.getGitRetHasLabelHOrD(closedGitRets));
 
         List<Period> periods = PeriodFactory.generatePeriodList(weekYear, weekOfYear);
 
@@ -127,6 +144,16 @@ public class WorkService {
         return work;
     }
 
+
+    public List<GitResult> getGitRetHasLabelHOrD(List<GitResult> gitResults){
+        List<GitResult> gitResults1 = new ArrayList<>();
+        for (GitResult gitResult : gitResults){
+            if(hasLableHOrD(gitResult)){
+                gitResults1.add(gitResult);
+            }
+        }
+        return gitResults1;
+    }
 
     /**
      * 查询已经关闭的issue结果
@@ -213,6 +240,23 @@ public class WorkService {
         return sum;
     }
 
+
+    /**
+     * 判断是否包含h或d标签
+     * @param gitResult
+     * @return
+     */
+    public boolean hasLableHOrD(GitResult gitResult){
+        String labels = gitResult.getLabels();
+        Pattern pattern = Pattern.compile("([DH]\\d)");
+        if(labels != null) {
+            Matcher matcher = pattern.matcher(labels);
+            if (matcher.find()) {
+               return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * 获取所有完成的工作量

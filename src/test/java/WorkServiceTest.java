@@ -155,6 +155,12 @@ public class WorkServiceTest {
     @Test
     public void testSaveWorkInfo(){
         workService.saveWorkInfo();
+        workService.saveWorkInfo(12);
+        workService.saveWorkInfo(10);
+        workService.saveWorkInfo(11);
+        workService.saveWorkInfo(9);
+        workService.saveWorkInfo(8);
+        workService.saveWorkInfo(7);
     }
 
     @Test
@@ -203,4 +209,5 @@ public class WorkServiceTest {
         List<GitResult> gitResults13 = workService.getAllGitRetOfWeek("mqwangincar", 2016, 10);
         int n12 = workService.getHoursInWork(gitResults13, PeriodFactory.generatePeriodList(10));
     }
+
 }
