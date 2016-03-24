@@ -40,7 +40,7 @@ public class DateUtil {
         return date;
     }
 
-    public static Date setWeekStart(int weekYear,int weekOfYear){
+    public static Date getWeekStart(int weekYear,int weekOfYear){
         calendar = Calendar.getInstance();
         calendar.setWeekDate(weekYear, weekOfYear, Calendar.SUNDAY);
         calendar.set(Calendar.HOUR_OF_DAY,0);
@@ -49,7 +49,7 @@ public class DateUtil {
         return calendar.getTime();
     }
 
-    public static Date setWeekEnd(int weekYear,int weekOfYear){
+    public static Date getWeekEnd(int weekYear,int weekOfYear){
         calendar = Calendar.getInstance();
         calendar.setWeekDate(weekYear, weekOfYear, Calendar.SATURDAY);
         calendar.set(Calendar.HOUR_OF_DAY,23);
@@ -57,6 +57,5 @@ public class DateUtil {
         calendar.set(Calendar.SECOND,59);
         return calendar.getTime();
     }
-
 
 }

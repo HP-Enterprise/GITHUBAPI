@@ -172,4 +172,35 @@ public class WorkServiceTest {
         Period[] periodsArr1 =  workService.getPeriodOfGitRet(gitResult1, periods);
         System.out.println(periodsArr1.toString());
     }
+
+
+    @Test
+    public void testGetWorkInfoOfWeeks(){
+        List<GitResult> gitResults1 = workService.getAllGitRetOfWeek("ThomasChant",2016,10);
+        int n = workService.getHoursInWork(gitResults1, PeriodFactory.generatePeriodList(10));
+        List<GitResult> gitResults2 = workService.getAllGitRetOfWeek("jefferyxq", 2016, 10);
+        int n1 = workService.getHoursInWork(gitResults2, PeriodFactory.generatePeriodList(10));
+        List<GitResult> gitResults3 = workService.getAllGitRetOfWeek("db5433", 2016, 10);
+        int n2 = workService.getHoursInWork(gitResults3, PeriodFactory.generatePeriodList(10));
+        List<GitResult> gitResults4 = workService.getAllGitRetOfWeek("hanqiuwan", 2016, 10);//err id=372 ok
+        int n3 = workService.getHoursInWork(gitResults4, PeriodFactory.generatePeriodList(10));
+        List<GitResult> gitResults5 = workService.getAllGitRetOfWeek("jiangli0509", 2016, 10);
+        int n4 = workService.getHoursInWork(gitResults5, PeriodFactory.generatePeriodList(10));
+        List<GitResult> gitResults6 = workService.getAllGitRetOfWeek("TeemolSparrow", 2016, 10);//err id=378 ok
+        int n5 = workService.getHoursInWork(gitResults6, PeriodFactory.generatePeriodList(10));
+        List<GitResult> gitResults7 = workService.getAllGitRetOfWeek("tiandashen", 2016, 10); //id=30
+        int n6 = workService.getHoursInWork(gitResults7, PeriodFactory.generatePeriodList(10));
+        List<GitResult> gitResults8 = workService.getAllGitRetOfWeek("bettermouse", 2016, 10);
+        int n7 = workService.getHoursInWork(gitResults8, PeriodFactory.generatePeriodList(10));
+        List<GitResult> gitResults9 = workService.getAllGitRetOfWeek("wyang181300", 2016, 10);//err id=84 id=85 id=135 id=134 id=136 id=138
+        int n8 = workService.getHoursInWork(gitResults9, PeriodFactory.generatePeriodList(10));
+        List<GitResult> gitResults10 = workService.getAllGitRetOfWeek("WarringCe", 2016, 10);
+        int n9 = workService.getHoursInWork(gitResults10, PeriodFactory.generatePeriodList(10));
+        List<GitResult> gitResults11 = workService.getAllGitRetOfWeek("xinxinli", 2016, 10);
+        int n10 = workService.getHoursInWork(gitResults11, PeriodFactory.generatePeriodList(10));
+        List<GitResult> gitResults12 = workService.getAllGitRetOfWeek("dc0921", 2016, 10);
+        int n11 = workService.getHoursInWork(gitResults12, PeriodFactory.generatePeriodList(10));
+        List<GitResult> gitResults13 = workService.getAllGitRetOfWeek("mqwangincar", 2016, 10);
+        int n12 = workService.getHoursInWork(gitResults13, PeriodFactory.generatePeriodList(10));
+    }
 }

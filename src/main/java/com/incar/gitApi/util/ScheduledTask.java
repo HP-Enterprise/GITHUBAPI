@@ -35,7 +35,7 @@ public class ScheduledTask {
         gitResultService.saveGitResult(gitResults);
     }
 
-    @Scheduled(cron = "0 43 17 ? * WED")   //    @Scheduled(cron = "0 */2 * * * ?")
+    @Scheduled(cron = "0 0 0 ? * SAT")   //    @Scheduled(cron = "0 */2 * * * ?")
     public void gitRetAlalyse(){
         workService.saveWorkInfo();
     }
