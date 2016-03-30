@@ -15,7 +15,7 @@ public class DateUtil {
 
     public static DateFormat dateFormat = null;
 
-    public static Calendar calendar = null;
+    public static Calendar calendar = Calendar.getInstance();
 
     /**
      * 功能描述：格式化日期
@@ -41,7 +41,6 @@ public class DateUtil {
     }
 
     public static Date getWeekStart(int weekYear,int weekOfYear){
-        calendar = Calendar.getInstance();
         calendar.setWeekDate(weekYear, weekOfYear, Calendar.SUNDAY);
         calendar.set(Calendar.HOUR_OF_DAY,0);
         calendar.set(Calendar.MINUTE,0);
@@ -50,12 +49,48 @@ public class DateUtil {
     }
 
     public static Date getWeekEnd(int weekYear,int weekOfYear){
-        calendar = Calendar.getInstance();
         calendar.setWeekDate(weekYear, weekOfYear, Calendar.SATURDAY);
+        calendar.set(Calendar.HOUR_OF_DAY,23);
+        calendar.set(Calendar.MINUTE,59);
+        calendar.set(Calendar.SECOND, 59);
+        return calendar.getTime();
+    }
+
+    public static int getWeekInYear(){
+        calendar.setTime(new Date());
+        return calendar.get(Calendar.WEEK_OF_YEAR);
+    }
+
+    public static int getYear(){
+        calendar.setTime(new Date());
+       return calendar.get(Calendar.YEAR);
+    }
+
+    public static Calendar getCalendar(){
+        return calendar;
+    }
+
+    public static Date getWeekEnd(){
+        calendar.set(Calendar.DAY_OF_WEEK,Calendar.SATURDAY);
         calendar.set(Calendar.HOUR_OF_DAY,23);
         calendar.set(Calendar.MINUTE,59);
         calendar.set(Calendar.SECOND,59);
         return calendar.getTime();
     }
 
+    public static Date getPeriodStart(Period period){
+        calendar.setWeekDate(period.getYear(), period.getWeekOfYear(), period.getDayOfWeek());
+        calendar.set(Calendar.HOUR_OF_DAY, period.getHourOfDay());
+        calendar.set(Calendar.MINUTE, period.getMinute());
+        calendar.set(Calendar.SECOND,period.getSeconds());
+        return calendar.getTime();
+    }
+
+    public static Date getPeriodEnd(Period period){
+        calendar.setWeekDate(period.getYear(), period.getWeekOfYear(), period.getDayOfWeek());
+        calendar.set(Calendar.HOUR_OF_DAY, period.getHourOfDay());
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND,59);
+        return calendar.getTime();
+    }
 }

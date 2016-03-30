@@ -66,12 +66,14 @@ public class WorkService {
      * 保存工作信息
      */
     public void saveWorkInfo(){
+        List<Work> works = new ArrayList<>();
         for (String assignee : this.getAllAssignee() ){
             if(assignee!=null){
                 Work work = getWorkInfo(assignee);
-                workRepository.save(work);
+                works.add(work);
             }
         }
+        workRepository.save(works);
     }
 
 
@@ -80,14 +82,30 @@ public class WorkService {
      * @param weekInYear
      */
     public void saveWorkInfo(int weekInYear){
+        List<Work> works = new ArrayList<>();
         for (String assignee : this.getAllAssignee() ){
             if(assignee!=null){
                 Work work = getWorkInfo(assignee,weekInYear);
-                workRepository.save(work);
+                works.add(work);
             }
         }
+        workRepository.save(works);
     }
 
+
+    /**
+     * 删除工作信息
+     * @param weekInYear
+     */
+    public void deleteWorkInfo(int weekInYear){
+        workRepository.deleteByWeek(weekInYear);
+    }
+
+
+    public void deleteWorkInfo(){
+        int weekInYear = DateUtil.getWeekInYear();
+        workRepository.deleteByWeek(weekInYear);
+    }
 
 
     /**
@@ -97,10 +115,8 @@ public class WorkService {
      * @return
      */
     public Work getWorkInfo(String assignee,int weekOfYear){
-        Calendar calendar = Calendar.getInstance();
-        return this.getWorkInfo(assignee,calendar.get(Calendar.YEAR),weekOfYear);
+        return this.getWorkInfo(assignee,DateUtil.getYear(),weekOfYear);
     }
-
 
 
     /**
@@ -109,10 +125,8 @@ public class WorkService {
      * @return
      */
     public Work getWorkInfo(String assignee){
-        Calendar calendar = Calendar.getInstance();
-        return this.getWorkInfo(assignee, calendar.get(Calendar.WEEK_OF_YEAR));
+        return this.getWorkInfo(assignee, DateUtil.getWeekInYear());
     }
-
 
 
     /**
@@ -201,8 +215,7 @@ public class WorkService {
      * @return
      */
     public List<GitResult> getAllGitRetOfWeek(String assignee,int weekOfYear){
-        Calendar calendar = Calendar.getInstance();
-        return getAllGitRetOfWeek(assignee, calendar.get(Calendar.YEAR), weekOfYear);
+        return getAllGitRetOfWeek(assignee, DateUtil.getYear(), weekOfYear);
     }
 
 
@@ -325,16 +338,12 @@ public class WorkService {
      * @return
      */
     public boolean isBeforeThisWeek(Date date){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_WEEK,Calendar.SATURDAY);
-        calendar.set(Calendar.HOUR_OF_DAY,23);
-        Date date2 = calendar.getTime();
-        if(date != null && date.compareTo(date2)<=0){
+        Date date1 = DateUtil.getWeekEnd();
+        if(date != null && date.compareTo(date1)<=0){
             return true;
         }
         return false;
     }
-
 
 
     /**
@@ -353,19 +362,13 @@ public class WorkService {
     }
 
 
-
     /**
      * 获取period开始时所对应的date
      * @param period
      * @return
      */
     public Date getTimeOfPeriod(Period period){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setWeekDate(period.getYear(), period.getWeekOfYear(), period.getDayOfWeek());
-        calendar.set(Calendar.HOUR_OF_DAY, period.getHourOfDay());
-        calendar.set(Calendar.MINUTE, period.getMinute());
-        calendar.set(Calendar.SECOND,period.getSeconds());
-        return calendar.getTime();
+        return DateUtil.getPeriodStart(period);
     }
 
 
@@ -375,12 +378,7 @@ public class WorkService {
      * @return
      */
     public Date getEndTimeOfPeriod(Period period){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setWeekDate(period.getYear(), period.getWeekOfYear(), period.getDayOfWeek());
-        calendar.set(Calendar.HOUR_OF_DAY, period.getHourOfDay());
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND,59);
-        return calendar.getTime();
+        return DateUtil.getPeriodEnd(period);
     }
 
 
@@ -514,7 +512,7 @@ public class WorkService {
      * @return
      */
     public boolean isNotInPeriod(Date createdAt){
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = DateUtil.calendar;
         calendar.setTime(createdAt);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         if(hour <9 || (hour >= 12 && hour <13) || hour >17 ){
