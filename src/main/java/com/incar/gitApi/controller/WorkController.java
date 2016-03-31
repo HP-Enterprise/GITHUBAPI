@@ -22,6 +22,19 @@ public class WorkController {
     @Autowired
     private WorkService workService;
 
+
+    /**
+     * 分页查询工作信息
+     * @param name 名字
+     * @param weekInYear 周数
+     * @param currentPage 当前页
+     * @param pageSize 每页数量
+     * @param fuzzy 是否模糊查询  1 表示模糊查询 其他不是
+     * @param orderByProperty 排序属性 默认为姓名
+     * @param ascOrDesc 升序或降序 默认降序 1表示升序
+     * @param response http响应
+     * @return json结果
+     */
     @RequestMapping(value="/work")
     public ObjectResult page(@RequestParam(value = "name",required = false)String name,
                              @RequestParam(value = "weekNum" ,required = false )Integer weekInYear,
