@@ -1,0 +1,13 @@
+{
+  "name": "GITHUBAPI",
+  "private": true,
+  "dependencies": {
+    "jquery": "^2.2.2",
+    "angular-resource": "^1.5.2",
+    "angular": "^1.5.2",
+    "bootstrap": "^3.3.6",
+    "requirejs": "^2.2.0",
+    "angular-route": "^1.5.3",
+    "angular-sanitize": "^1.5.3"
+  }
+}

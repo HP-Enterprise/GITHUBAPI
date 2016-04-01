@@ -10,7 +10,7 @@
 out/
 
 node_modules/
-src/main/resources/static/script/lib/
+/src/*/resources/static/lib/
 build/
 /*.properties
 /src/*/resources/application-*.properties
