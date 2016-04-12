@@ -26,7 +26,7 @@ public class ScheduledTask {
     @Autowired
     private WorkService workService;
 
-    @Scheduled(cron = "0 0 */1 * * ? ")
+    @Scheduled(cron = "0 */1 * * * ? ")
     public void scheduledQuery(){
         List<Issue> issues = gitResultService.getAllIssues();
         System.out.println("issue.size():" + issues.size());
@@ -35,7 +35,8 @@ public class ScheduledTask {
         gitResultService.saveGitResult(gitResults);
     }
 
-    @Scheduled(cron = "0 0 0 ? * SAT")   // @Scheduled(cron = "0 */1 * * * ?")
+    //@Scheduled(cron = "0 0 0 ? * SAT")   //
+    @Scheduled(cron = "0 */2 * * * ?")
     public void gitRetAlalyse(){
         workService.deleteWorkInfo();
         workService.saveWorkInfo();

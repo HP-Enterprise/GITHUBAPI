@@ -165,7 +165,7 @@ public class WorkServiceTest {
 
     @Test
     public void testGetWorkInfo(){
-        workService.getWorkInfo("yearning6364");
+        workService.getWorkInfo("Septemberwh");
     }
 
 
@@ -179,6 +179,21 @@ public class WorkServiceTest {
         System.out.println(periodsArr1.toString());
     }
 
+    @Test
+    public void testGetPeriodsByNow(){
+        List<Period> periods = PeriodFactory.generatePeriodList();
+        List<Period> periods1 = workService.getPeriodsByEnd(new Date(), periods);
+        System.out.println(periods1.size());
+    }
+
+    @Test
+    public void testGetWorkHoursByNow(){
+        List<GitResult> gitResults1 = workService.getAllGitRetOfWeek("Septemberwh",2016,15);
+        List<Period> periods = PeriodFactory.generatePeriodList();
+        List<Period> periods1 = workService.getPeriodsByEnd(new Date(), periods);
+        int hours = workService.getHoursInWork(gitResults1,periods1);
+        Assert.assertTrue(hours>0);
+    }
 
     @Test
     public void testGetWorkInfoOfWeeks(){

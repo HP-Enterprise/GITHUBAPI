@@ -115,7 +115,7 @@ public class WorkService {
      * @return
      */
     public Work getWorkInfo(String assignee,int weekOfYear){
-        return this.getWorkInfo(assignee,DateUtil.getYear(),weekOfYear);
+        return this.getWorkInfo(assignee, DateUtil.getYear(), weekOfYear);
     }
 
 
@@ -137,10 +137,15 @@ public class WorkService {
      * @return
      */
     public Work getWorkInfo(String assignee,int weekYear,int weekOfYear){
-        Date start = DateUtil.getWeekStart(weekYear,weekOfYear);
-        Date end = DateUtil.getWeekEnd(weekYear, weekOfYear);
-
-        List<GitResult> openGitRets = this.getOpenGitRet(assignee,end);
+        Date start = DateUtil.getWeekStart(weekYear, weekOfYear);
+        Date end = null;
+        int thisWeekOfYear = DateUtil.getWeekInYear();
+        if(thisWeekOfYear > weekOfYear){//查询是以前周的工作信息
+            end = DateUtil.getWeekEnd(weekYear, weekOfYear);
+        }else {
+            end = new Date();
+        }
+        List<GitResult> openGitRets = this.getOpenGitRet(assignee, DateUtil.getWeekEnd(weekYear, weekOfYear));
         List<GitResult> closedGitRets = this.getClosedGitRet(assignee, start, end);
 
         List<GitResult> gitResults = new ArrayList<>();
@@ -149,15 +154,33 @@ public class WorkService {
 
         List<Period> periods = PeriodFactory.generatePeriodList(weekYear, weekOfYear);
 
+        //获取到目前为止的所有period
+        List<Period> periods1 = this.getPeriodsByEnd(end, periods);
+
         Work work = new Work();
         work.setFinishedWork(this.getTotalFinishedWork(closedGitRets));
         work.setUnfinishedWork(this.getTotalUnfinishedWork(openGitRets));
-        work.setWorkHours(this.getHoursInWork(gitResults,periods));
+        work.setWorkHours(this.getHoursInWork(gitResults,periods1));
         work.setWeekInYear(weekOfYear);
         work.setName(assignee);
         return work;
     }
 
+    //获取一个时间之前的所有period
+    public List<Period> getPeriodsByEnd(Date end,List<Period> periods){
+        List<Period> periods1 = new ArrayList<>();
+        Period period1 = this.getPreiodOfClosed(end,periods);
+        if(period1 == null)
+            return  periods1;
+        for(Period period : periods){
+            periods1.add(period);
+            if(period1.getNumber()==period.getNumber()){
+                break;
+            }
+        }
+
+        return periods1;
+    }
 
     public List<GitResult> getGitRetHasLabelHOrD(List<GitResult> gitResults){
         List<GitResult> gitResults1 = new ArrayList<>();
@@ -407,23 +430,23 @@ public class WorkService {
 
 
     /**
-     * 计算closedAt所在的period
-     * @param closedAt
+     * 计算end所在的period
+     * @param end
      * @param periods
      * @return
      */
-    public Period getPreiodOfClosed(Date closedAt ,List<Period> periods){
-        //如果closedAt为空 将period设置为最后一个
-        if(closedAt == null){
+    public Period getPreiodOfClosed(Date end ,List<Period> periods){
+        //如果end为空 将period设置为最后一个
+        if(end == null){
             return periods.get(periods.size()-1);
         }
-        //如果closedAt在period空隙
-        if(isNotInPeriod(closedAt)){
-            return getLastPeriodBeforeClosed(closedAt, periods);
+        //如果end在period空隙
+        if(isNotInPeriod(end)){
+            return getLastPeriodBeforeClosed(end, periods);
         }
 
         for(Period period : periods){
-            if(isInPeriod(closedAt,period)){
+            if(isInPeriod(end,period)){
                 return period;
             }
         }
@@ -442,8 +465,13 @@ public class WorkService {
         Period[] periodsArr = new Period[2];
         Date createdAt = gitResult.getCreatedAt();
         Date closedAt = gitResult.getClosedAt();
-
-        Period periodStart = getFirstPeriodAfterCreated(createdAt, periods);
+        Period periodStart = null;
+        try {
+            periodStart = getFirstPeriodAfterCreated(createdAt, periods);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("gitret when ex:"+gitResult);
+        }
         Period periodEnd = getLastPeriodBeforeClosed(closedAt, periods);
 
 //        try {
@@ -476,6 +504,7 @@ public class WorkService {
      * @return
      */
     public Period getFirstPeriodAfterCreated(Date created,List<Period> periods){
+        Assert.isTrue(!periods.isEmpty());
         Period lastPeriod = periods.get(periods.size()-1);
         if(created.compareTo(getEndTimeOfPeriod(lastPeriod)) > 0){
             return null;
@@ -554,7 +583,7 @@ public class WorkService {
             if(periodRet[0] == null || periodRet[1] == null)
                 continue;
             if(periodRet[0].getNumber()> periodRet[1].getNumber()){
-                System.out.println("periods ex:"+gitResults);
+                System.out.println("periods ex:"+gitResult);
                 throw new RuntimeException("invalid parameter");
             }
             if(periodRet[0].getNumber() ==  periodRet[1].getNumber()){
