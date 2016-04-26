@@ -4,12 +4,10 @@ import com.incar.gitApi.entity.GitResult;
 import com.incar.gitApi.repository.GitResultRepository;
 import com.incar.gitApi.util.DateUtil;
 import com.incar.gitApi.util.GitRetUtil;
-import com.incar.gitApi.util.GithubClientConfig;
+import com.incar.gitApi.GithubClientConfig;
 import org.eclipse.egit.github.core.Issue;
-import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.IssueService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 

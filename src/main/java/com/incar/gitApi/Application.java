@@ -1,6 +1,5 @@
 package com.incar.gitApi;
 
-import com.incar.gitApi.util.GithubClientConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

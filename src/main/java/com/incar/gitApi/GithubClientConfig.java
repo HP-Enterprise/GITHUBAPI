@@ -1,4 +1,4 @@
-package com.incar.gitApi.util;
+package com.incar.gitApi;
 
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.springframework.beans.factory.annotation.Autowired;

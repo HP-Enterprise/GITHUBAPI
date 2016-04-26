@@ -1,9 +1,10 @@
-package com.incar.gitApi.util;
+package com.incar.gitApi.schedule;
 
 import com.incar.gitApi.entity.GitResult;
 import com.incar.gitApi.service.GitResultService;
 import com.incar.gitApi.service.WorkService;
 import org.eclipse.egit.github.core.Issue;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -26,12 +27,13 @@ public class ScheduledTask {
     @Autowired
     private WorkService workService;
 
+    private Logger logger = org.slf4j.LoggerFactory.getLogger(ScheduledTask.class);
+
     @Scheduled(cron = "0 */1 * * * ? ")
     public void scheduledQuery(){
         List<Issue> issues = gitResultService.getAllIssues();
-        System.out.println("issue.size():" + issues.size());
         List<GitResult> gitResults = gitResultService.getGitResult(issues);
-        System.out.println("gitresult.size():"+gitResults.size());
+        logger.info("<-----------------saving gitResult--------------------->");
         gitResultService.saveGitResult(gitResults);
     }
 
@@ -39,6 +41,7 @@ public class ScheduledTask {
     @Scheduled(cron = "0 */2 * * * ?")
     public void gitRetAlalyse(){
         workService.deleteWorkInfo();
+        logger.info("<-----------------saving workInfo-------------------->");
         workService.saveWorkInfo();
     }
 }

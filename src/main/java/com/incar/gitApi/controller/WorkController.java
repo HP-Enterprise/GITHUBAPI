@@ -2,7 +2,7 @@ package com.incar.gitApi.controller;
 
 import com.incar.gitApi.entity.Work;
 import com.incar.gitApi.service.WorkService;
-import com.incar.gitApi.util.ObjectResult;
+import com.incar.gitApi.service.ObjectResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -2,9 +2,9 @@ import com.incar.gitApi.Application;
 import com.incar.gitApi.entity.GitResult;
 import com.incar.gitApi.repository.GitResultRepository;
 import com.incar.gitApi.service.WorkService;
-import com.incar.gitApi.util.GithubClientConfig;
-import com.incar.gitApi.util.Period;
-import com.incar.gitApi.util.PeriodFactory;
+import com.incar.gitApi.GithubClientConfig;
+import com.incar.gitApi.period.Period;
+import com.incar.gitApi.period.PeriodFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -152,20 +152,20 @@ public class WorkServiceTest {
     }
 
 
-    @Test
-    public void testSaveWorkInfo(){
-        workService.saveWorkInfo();
-        workService.saveWorkInfo(12);
-        workService.saveWorkInfo(10);
-        workService.saveWorkInfo(11);
-        workService.saveWorkInfo(9);
-        workService.saveWorkInfo(8);
-        workService.saveWorkInfo(7);
-    }
+//    @Test
+//    public void testSaveWorkInfo(){
+//        workService.saveWorkInfo();
+//        workService.saveWorkInfo(12);
+//        workService.saveWorkInfo(10);
+//        workService.saveWorkInfo(11);
+//        workService.saveWorkInfo(9);
+//        workService.saveWorkInfo(8);
+//        workService.saveWorkInfo(7);
+//    }
 
     @Test
     public void testGetWorkInfo(){
-        workService.getWorkInfo("Septemberwh");
+        workService.getWorkInfo("ThomasChant");
     }
 
 
@@ -188,7 +188,7 @@ public class WorkServiceTest {
 
     @Test
     public void testGetWorkHoursByNow(){
-        List<GitResult> gitResults1 = workService.getAllGitRetOfWeek("Septemberwh",2016,15);
+        List<GitResult> gitResults1 = workService.getAllGitRetOfWeek("Septemberwh",2016,16);
         List<Period> periods = PeriodFactory.generatePeriodList();
         List<Period> periods1 = workService.getPeriodsByEnd(new Date(), periods);
         int hours = workService.getHoursInWork(gitResults1,periods1);
