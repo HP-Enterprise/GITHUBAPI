@@ -1,7 +1,7 @@
 #server
 github:
-     username: travis4hpe
-     password: travis4Java
+     username:
+     password:
      repos:
         - HP-Enterprise/Rental653
         - HP-Enterprise/BriAir

@@ -150,8 +150,7 @@ public class WorkService {
         List<Period> periods = PeriodFactory.generatePeriodList(weekYear, weekOfYear);
 
         //获取到目前为止的所有period
-        List<Period> periods1 = this.getPeriodsByEnd(end, periods);
-
+        List<Period> periods1 =this.getPeriodsByEnd(end, periods);
         Work work = new Work();
         work.setFinishedWork(this.getTotalFinishedWork(closedGitRets));
         work.setUnfinishedWork(this.getTotalUnfinishedWork(openGitRets));
@@ -173,7 +172,6 @@ public class WorkService {
                 break;
             }
         }
-
         return periods1;
     }
 
@@ -614,7 +612,7 @@ public class WorkService {
         pageSize = pageSize == null?100:(pageSize <= 0?100:pageSize);
         boolean isFuzzy = fuzzy == null?false:(fuzzy==1?true:false);
         assignee = assignee==""?null:assignee;
-        orderByProperty = orderByProperty ==null?"name":orderByProperty;
+        orderByProperty = orderByProperty ==null?"weekInYear":orderByProperty;
         ascOrDesc = ascOrDesc==null?0:(ascOrDesc !=1 ?0:1);
         Sort.Direction direction = ascOrDesc==1? Sort.Direction.ASC:Sort.Direction.DESC;
         Pageable pageRequest = new PageRequest(currentPage-1,pageSize,new Sort(orderByProperty));
