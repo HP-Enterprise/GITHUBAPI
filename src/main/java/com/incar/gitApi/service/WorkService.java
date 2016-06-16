@@ -590,7 +590,7 @@ public class WorkService {
         pageSize = pageSize == null?100:(pageSize <= 0?100:pageSize);
         boolean isFuzzy = fuzzy == null?false:(fuzzy==1?true:false);
         assignee = assignee==""?null:assignee;
-        orderByProperty = orderByProperty ==null?"name":orderByProperty;
+        orderByProperty = orderByProperty ==null?"weekInYear":orderByProperty;
         ascOrDesc = ascOrDesc==null?0:(ascOrDesc !=1 ?0:1);
         Sort.Direction direction = ascOrDesc==1? Sort.Direction.ASC:Sort.Direction.DESC;
         Pageable pageRequest = new PageRequest(currentPage-1,pageSize,new Sort(orderByProperty));

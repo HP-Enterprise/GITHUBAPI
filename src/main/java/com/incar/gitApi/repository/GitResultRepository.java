@@ -25,8 +25,6 @@ public interface GitResultRepository extends CrudRepository<GitResult,Integer> {
 //    @Query("select g from GitResult g where g.closedAt > ?1 and g.state=?2")
 //    Set<GitResult> findByClosedAt(Date closedAtStart,Date closedAtEnd);
 
-    GitResult save(GitResult gitResult);
-
     GitResult findByIssueId(int issueId);
 
     @Query(value = "select g from GitResult g where " +
