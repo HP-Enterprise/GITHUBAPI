@@ -46,7 +46,6 @@ public class WorkServiceTest {
 
     @Before
     public void setup(){
-        periods = PeriodFactory.generatePeriodList(13);
         sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
     }
 
@@ -198,23 +197,28 @@ public class WorkServiceTest {
 
     @Test
     public void testGetWorkInfoOfWeeks(){
-        Work work1 = workService.getWorkInfo("ThomasChant", 18);
-        Work work2 = workService.getWorkInfo("db5433", 18);
+         Work work1 = workService.getWorkInfo("ThomasChant", 10);
+        Work work2 = workService.getWorkInfo("db5433", 14);
         Work work3 = workService.getWorkInfo("tiandashen");
-        Work work4 = workService.getWorkInfo("TeemolSparrow", 18);
-        Work work5 = workService.getWorkInfo("wyang181300", 18);
-        Work work6 = workService.getWorkInfo("mqwangincar", 18);
-        Work work7 = workService.getWorkInfo("bettermouse", 18);
-        assert work3!=null;
+        Work work4 = workService.getWorkInfo("TeemolSparrow",17);
+        Work work5 = workService.getWorkInfo("TeemolSparrow",18);
+        Work work6 = workService.getWorkInfo("TeemolSparrow",19);
+        Work work7 = workService.getWorkInfo("TeemolSparrow",20);
+        Work work8 = workService.getWorkInfo("TeemolSparrow",21);
+        Work work9 = workService.getWorkInfo("TeemolSparrow",22);
+        Work work10 = workService.getWorkInfo("wyang181300", 11);
+        Work work11 = workService.getWorkInfo("mqwangincar", 14);
+        Work work12  = workService.getWorkInfo("bettermouse", 14);
+//        assert work3!=null;
     }
 
-    @Test
-    public void testPeriod(){
-        List<Period> periods = PeriodFactory.generatePeriodList(2016,15);
-        List<Period> periods1 = periods;
-        System.out.println("periods"+periods);
-        System.out.println("periods1"+periods1);
-
-    }
+//    @Test
+//    public void testPeriod(){
+//        List<Period> periods = PeriodFactory.generatePeriodList(2016,15);
+//        List<Period> periods1 = periods;
+//        System.out.println("periods"+periods);
+//        System.out.println("periods1"+periods1);
+//
+//    }
 
 }

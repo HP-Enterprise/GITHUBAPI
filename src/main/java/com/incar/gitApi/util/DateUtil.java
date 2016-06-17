@@ -17,6 +17,7 @@ public class DateUtil {
 
     public static Calendar calendar = Calendar.getInstance();
 
+    private DateUtil(){}
     /**
      * 功能描述：格式化日期
      *
@@ -38,6 +39,11 @@ public class DateUtil {
             return null;
         }
         return date;
+    }
+
+    public static String formatDate(Date date){
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(date);
     }
 
     public static Date getWeekStart(int weekYear,int weekOfYear){
@@ -91,6 +97,14 @@ public class DateUtil {
         calendar.set(Calendar.HOUR_OF_DAY, period.getHourOfDay());
         calendar.set(Calendar.MINUTE, 59);
         calendar.set(Calendar.SECOND,59);
+        return calendar.getTime();
+    }
+
+    public static Date setPeriodTime(int year,int weekOfYear,int dayOfWeek,int hourOfDay,int minute,int second){
+        calendar.setWeekDate(year, weekOfYear, dayOfWeek);
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND,second);
         return calendar.getTime();
     }
 }

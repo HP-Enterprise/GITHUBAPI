@@ -37,7 +37,7 @@ public class ScheduledTask {
         gitResultService.saveGitResult(gitResults);
     }
 
-    @Scheduled(cron = "0 1 */1 * * ?")
+//    @Scheduled(cron = "0 */1 * * * ?")
     public void gitRetAlalyse(){
         workService.deleteWorkInfo();
         logger.info(">>>>>>>>>>> saving workInfo >>>>>>>>>>>>");
