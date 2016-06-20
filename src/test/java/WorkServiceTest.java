@@ -12,9 +12,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -152,16 +154,17 @@ public class WorkServiceTest {
 //    }
 
 
-//    @Test
-//    public void testSaveWorkInfo(){
-//        workService.saveWorkInfo();
+    @Test
+    @Transactional
+    public void testSaveWorkInfo(){
+        workService.saveWorkInfo(25);
 //        workService.saveWorkInfo(12);
 //        workService.saveWorkInfo(10);
 //        workService.saveWorkInfo(11);
 //        workService.saveWorkInfo(9);
 //        workService.saveWorkInfo(8);
 //        workService.saveWorkInfo(7);
-//    }
+    }
 
 //    @Test
 //    public void testGetWorkInfo(){
@@ -195,22 +198,22 @@ public class WorkServiceTest {
 //        Assert.assertTrue(hours>0);
 //    }
 
-    @Test
-    public void testGetWorkInfoOfWeeks(){
-         Work work1 = workService.getWorkInfo("ThomasChant", 10);
-        Work work2 = workService.getWorkInfo("db5433", 14);
-        Work work3 = workService.getWorkInfo("tiandashen");
-        Work work4 = workService.getWorkInfo("TeemolSparrow",17);
-        Work work5 = workService.getWorkInfo("TeemolSparrow",18);
-        Work work6 = workService.getWorkInfo("TeemolSparrow",19);
-        Work work7 = workService.getWorkInfo("TeemolSparrow",20);
-        Work work8 = workService.getWorkInfo("TeemolSparrow",21);
-        Work work9 = workService.getWorkInfo("TeemolSparrow",22);
-        Work work10 = workService.getWorkInfo("wyang181300", 11);
-        Work work11 = workService.getWorkInfo("mqwangincar", 14);
-        Work work12  = workService.getWorkInfo("bettermouse", 14);
+//    @Test
+//    public void testGetWorkInfoOfWeeks(){
+//         Work work1 = workService.getWorkInfo("ThomasChant", 10);
+//        Work work2 = workService.getWorkInfo("db5433", 14);
+//        Work work3 = workService.getWorkInfo("tiandashen");
+//        Work work4 = workService.getWorkInfo("TeemolSparrow",17);
+//        Work work5 = workService.getWorkInfo("TeemolSparrow",18);
+//        Work work6 = workService.getWorkInfo("TeemolSparrow",19);
+//        Work work7 = workService.getWorkInfo("TeemolSparrow",20);
+//        Work work8 = workService.getWorkInfo("TeemolSparrow",21);
+//        Work work9 = workService.getWorkInfo("TeemolSparrow",22);
+//        Work work10 = workService.getWorkInfo("wyang181300", 11);
+//        Work work11 = workService.getWorkInfo("mqwangincar", 14);
+//        Work work12  = workService.getWorkInfo("bettermouse", 14);
 //        assert work3!=null;
-    }
+//    }
 
 //    @Test
 //    public void testPeriod(){

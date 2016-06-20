@@ -30,14 +30,15 @@ public class ScheduledTask {
 
     private Logger logger = LoggerFactory.getLogger(ScheduledTask.class);
 
-    @Scheduled(cron = "0 0 */1 * * ?")
+    @Scheduled(cron = "0 */2 * * * ?")
     public void scheduledQuery(){
         List<Issue> issues = gitResultService.getAllIssues();
         List<GitResult> gitResults = gitResultService.getGitResult(issues);
+        logger.info(">>>>>>>>>>> saving gitResult ,size:"+gitResults.size());
         gitResultService.saveGitResult(gitResults);
     }
 
-//    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 */1 * * * ?")
     public void gitRetAlalyse(){
         workService.deleteWorkInfo();
         logger.info(">>>>>>>>>>> saving workInfo >>>>>>>>>>>>");

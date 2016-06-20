@@ -83,15 +83,15 @@ app.controller("indexCtrl", function($scope,$http, $location, $resource){
     //分页
 
     $scope.getAllGitHubWork = function(flag){
-        if($scope.worKeSelect.name==''){
-            $scope.worKeSelect.name = null;
+        if($scope.worKeSelect.realname==''){
+            $scope.worKeSelect.realname = null;
         }
         if($scope.worKeSelect.weekNum==''){
             $scope.worKeSelect.weekNum = null;
         }
         $scope.workSearch={
             params:{
-                name:$scope.worKeSelect.name,
+                realname:$scope.worKeSelect.realname,
                 weekNum:$scope.worKeSelect.weekNum,
                 currentPage:$scope.workPageObject.currentPage,
                 pageSize:$scope.workPageObject.pageSize

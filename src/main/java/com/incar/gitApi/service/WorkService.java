@@ -15,6 +15,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,9 +72,14 @@ public class WorkService {
      */
     public void saveWorkInfo(){
         List<Work> works = new ArrayList<>();
+        Properties properties = getRealnameProperties();
         for (String assignee : this.getAllAssignee() ){
             if(assignee!=null){
                 Work work = getWorkInfo(assignee);
+                Object obj = properties.get(assignee);
+                if(obj!=null){
+                    work.setRealname((String)obj);
+                }
                 works.add(work);
             }
         }
@@ -87,9 +93,14 @@ public class WorkService {
      */
     public void saveWorkInfo(int weekInYear){
         List<Work> works = new ArrayList<>();
+        Properties properties = getRealnameProperties();
         for (String assignee : this.getAllAssignee() ){
             if(assignee!=null){
                 Work work = getWorkInfo(assignee,weekInYear);
+                Object obj = properties.get(assignee);
+                if(obj!=null){
+                    work.setRealname((String)obj);
+                }
                 works.add(work);
             }
         }
@@ -135,12 +146,12 @@ public class WorkService {
 
     /**
      * 获取某周工作信息
-     * @param assignee
+     * @param username
      * @param weekYear
      * @param weekOfYear
      * @return
      */
-    public Work getWorkInfo(String assignee,int weekYear,int weekOfYear){
+    public Work getWorkInfo(String username,int weekYear,int weekOfYear){
         initPeriods(getPeriods(weekYear,weekOfYear));
         Date start = DateUtil.getWeekStart(weekYear, weekOfYear);
         Date end = null;
@@ -150,8 +161,8 @@ public class WorkService {
         }else {
             end = new Date();
         }
-        List<GitResult> openGitRets = this.getOpenGitRet(assignee, DateUtil.getWeekEnd(weekYear, weekOfYear));
-        List<GitResult> closedGitRets = this.getClosedGitRet(assignee, start, end);
+        List<GitResult> openGitRets = this.getOpenGitRet(username, DateUtil.getWeekEnd(weekYear, weekOfYear));
+        List<GitResult> closedGitRets = this.getClosedGitRet(username, start, end);
 
         List<GitResult> gitResults = new ArrayList<>();
         gitResults.addAll(this.getGitRetHasLabelHOrD(openGitRets));
@@ -166,9 +177,30 @@ public class WorkService {
         work.setUnfinishedWork(this.getTotalUnfinishedWork(openGitRets));
         work.setWorkHours(this.getHoursInWork(gitResults, periods));
         work.setWeekInYear(weekOfYear);
-        work.setName(assignee);
+        work.setUsername(username);
         return work;
     }
+
+    private Properties getRealnameProperties(){
+        Properties properties = new Properties();
+        try {
+            String filePath = "src"+ File.separator+"main"+File.separator+"resources"+File.separator+"realnames.properties";
+
+            InputStreamReader  br = new InputStreamReader(new FileInputStream(new File(filePath)), "GBK");
+//            FileInputStream fileInputStream = new FileInputStream()
+//            InputStreamReader in = new FileInputStream(new File(filePath),"gbk");
+//           InputStream in = getClass().getResourceAsStream("realnames.properties");
+            properties.load(br);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return properties;
+    }
+
 
     //获取一个时间之前的所有period
     public List<Period1> getPeriodsByEnd(Date end,List<Period1> periods){
@@ -440,6 +472,10 @@ public class WorkService {
         return n;
     }
 
+    /**
+     * 重新赋值
+     * @param period1s
+     */
     private static void initPeriods(List<Period1> period1s){
         for(Period1 period1 : period1s){
             period1.setIsInWork(false);
@@ -448,8 +484,8 @@ public class WorkService {
 
 
     /**
-     *
-     * @param assignee issue执行者
+     * @param realname 真实姓名
+     * @param username github用户名
      * @param weekInYear 周数
      * @param currentPage 当前页
      * @param pageSize 每页大小
@@ -458,21 +494,21 @@ public class WorkService {
      * @param ascOrDesc 升序或降序 1表示升序，其他表示降序
      * @return
      */
-    public Page<Work> findPageOfWork(String assignee,Integer weekInYear,Integer currentPage,Integer pageSize,Integer fuzzy,String orderByProperty,Integer ascOrDesc){
+    public Page<Work> findPageOfWork(String realname,String username,Integer weekInYear,Integer currentPage,Integer pageSize,Integer fuzzy,String orderByProperty,Integer ascOrDesc){
         currentPage = currentPage == null?1:(currentPage <= 0?1:currentPage);
-        pageSize = pageSize == null?100:(pageSize <= 0?100:pageSize);
+        pageSize = pageSize == null?10:(pageSize <= 0?10:pageSize);
         boolean isFuzzy = fuzzy == null?false:(fuzzy==1?true:false);
-        assignee = assignee==""?null:assignee;
+        username = username==""?null:username;
         orderByProperty = orderByProperty ==null?"weekInYear":orderByProperty;
         ascOrDesc = ascOrDesc==null?0:(ascOrDesc !=1 ?0:1);
         Sort.Direction direction = ascOrDesc==1? Sort.Direction.ASC:Sort.Direction.DESC;
         Pageable pageRequest = new PageRequest(currentPage-1,pageSize,new Sort(orderByProperty));
         Page<Work> workPage ;
-        if(isFuzzy && assignee != null){
-            assignee = "%"+assignee+"%";
-            workPage = workRepository.fuzzyFindPage(assignee,weekInYear,pageRequest);
+        if(isFuzzy && username != null){
+            username = "%"+username+"%";
+            workPage = workRepository.fuzzyFindPage(realname,username,weekInYear,pageRequest);
         }else {
-            workPage = workRepository.findPage(assignee,weekInYear,pageRequest);
+            workPage = workRepository.findPage(realname,username,weekInYear,pageRequest);
         }
         return new PageImpl<Work>(workPage.getContent(),pageRequest,workPage.getTotalElements());
     }

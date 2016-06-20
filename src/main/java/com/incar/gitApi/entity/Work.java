@@ -15,7 +15,7 @@ public class Work {
     private Integer id;
 
     @Column(nullable = false,updatable = false)
-    private String name;
+    private String username;
 
     @Column
     private Integer finishedWork;
@@ -29,15 +29,10 @@ public class Work {
     @Column
     private Integer weekInYear;
 
-    public Work(){}
+    @Column
+    private String realname;
 
-    public Work(String name, Integer finishedWork, Integer unfinishedWork, Integer workHours, Integer weekInYear) {
-        this.name = name;
-        this.finishedWork = finishedWork;
-        this.unfinishedWork = unfinishedWork;
-        this.workHours = workHours;
-        this.weekInYear = weekInYear;
-    }
+    public Work(){}
 
     public Integer getId() {
         return id;
@@ -47,12 +42,12 @@ public class Work {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Integer getFinishedWork() {
@@ -85,5 +80,13 @@ public class Work {
 
     public void setWeekInYear(Integer weekInYear) {
         this.weekInYear = weekInYear;
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
     }
 }

@@ -9,8 +9,6 @@ import java.util.*;
  */
 public class PeriodFactory1 {
 
-
-
     public static Period1[] generatePeriods(int year,int weekOfYear){
         Period1[] period1s = new Period1[168];
         int k = 0;
