@@ -217,12 +217,14 @@
 <body ng-controller="indexCtrl">
 <div class="inner">
     <div class="gitlogo">
-        <img src="images/logo.png" alt=""/>
+        <img src="image/logo.png" alt=""/>
     </div>
     <div class="buttons">
         <div class="fl">
             <span>姓名：</span>
             <input type="text" ng-model="worKeSelect.realname"/>
+            <span>用户名：</span>
+            <input type="text" ng-model="worKeSelect.username"/>
             <span>时间(周数)：</span>
             <div class="selectkuang">
                 <input type="text" ng-model="worKeSelect.weekNum"  placeholder="周数"/>

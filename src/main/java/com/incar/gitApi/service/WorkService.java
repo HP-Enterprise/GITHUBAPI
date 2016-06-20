@@ -495,17 +495,17 @@ public class WorkService {
      * @return
      */
     public Page<Work> findPageOfWork(String realname,String username,Integer weekInYear,Integer currentPage,Integer pageSize,Integer fuzzy,String orderByProperty,Integer ascOrDesc){
-        currentPage = currentPage == null?1:(currentPage <= 0?1:currentPage);
-        pageSize = pageSize == null?10:(pageSize <= 0?10:pageSize);
-        boolean isFuzzy = fuzzy == null?false:(fuzzy==1?true:false);
+        currentPage = (currentPage == null || currentPage <= 0)?1:currentPage;
+        pageSize = (pageSize == null || pageSize <= 0)?10:pageSize;
+        boolean isFuzzy = (fuzzy != null && fuzzy == 1)?true:false;
         username = username==""?null:username;
-        orderByProperty = orderByProperty ==null?"weekInYear":orderByProperty;
-        ascOrDesc = ascOrDesc==null?0:(ascOrDesc !=1 ?0:1);
-        Sort.Direction direction = ascOrDesc==1? Sort.Direction.ASC:Sort.Direction.DESC;
-        Pageable pageRequest = new PageRequest(currentPage-1,pageSize,new Sort(orderByProperty));
+        Pageable pageRequest = new PageRequest(currentPage-1,pageSize,new Sort(Sort.Direction.DESC,"weekInYear"));
         Page<Work> workPage ;
-        if(isFuzzy && username != null){
-            username = "%"+username+"%";
+        if(isFuzzy ){
+            if(realname!=null)
+                realname = "%"+realname+"%";
+            if(username!=null)
+                username = "%"+username+"%";
             workPage = workRepository.fuzzyFindPage(realname,username,weekInYear,pageRequest);
         }else {
             workPage = workRepository.findPage(realname,username,weekInYear,pageRequest);

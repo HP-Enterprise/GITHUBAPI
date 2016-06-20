@@ -86,15 +86,21 @@ app.controller("indexCtrl", function($scope,$http, $location, $resource){
         if($scope.worKeSelect.realname==''){
             $scope.worKeSelect.realname = null;
         }
+        if($scope.worKeSelect.username==''){
+            $scope.worKeSelect.username = null;
+        }
         if($scope.worKeSelect.weekNum==''){
             $scope.worKeSelect.weekNum = null;
         }
+
         $scope.workSearch={
             params:{
                 realname:$scope.worKeSelect.realname,
+                username:$scope.worKeSelect.username,
                 weekNum:$scope.worKeSelect.weekNum,
                 currentPage:$scope.workPageObject.currentPage,
-                pageSize:$scope.workPageObject.pageSize
+                pageSize:$scope.workPageObject.pageSize,
+                fuzzy:1
             }
         };
         $http.get("/api/work",$scope.workSearch).success(function(data,status,headers){
