@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -30,6 +31,7 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @SpringApplicationConfiguration(classes = Application.class)
+//@Transactional
 public class WorkServiceTest {
 
     @Autowired
@@ -156,14 +158,35 @@ public class WorkServiceTest {
 
     @Test
     @Transactional
+    @Rollback(true)
     public void testSaveWorkInfo(){
+//        workService.saveWorkInfo(20);
+        long start = System.currentTimeMillis();
+        workService.saveWorkInfo(1);
+        workService.saveWorkInfo(2);
+        workService.saveWorkInfo(3);
+        workService.saveWorkInfo(4);
+        workService.saveWorkInfo(5);
+        workService.saveWorkInfo(6);
+        workService.saveWorkInfo(7);
+        workService.saveWorkInfo(8);
+        workService.saveWorkInfo(9);
+        workService.saveWorkInfo(10);
+        workService.saveWorkInfo(12);
+        workService.saveWorkInfo(13);
+        workService.saveWorkInfo(14);
+        workService.saveWorkInfo(15);
+        workService.saveWorkInfo(16);
+        workService.saveWorkInfo(17);
+        workService.saveWorkInfo(19);
+        workService.saveWorkInfo(20);
+        workService.saveWorkInfo(21);
+        workService.saveWorkInfo(22);
+        workService.saveWorkInfo(23);
+        workService.saveWorkInfo(24);
         workService.saveWorkInfo(25);
-//        workService.saveWorkInfo(12);
-//        workService.saveWorkInfo(10);
-//        workService.saveWorkInfo(11);
-//        workService.saveWorkInfo(9);
-//        workService.saveWorkInfo(8);
-//        workService.saveWorkInfo(7);
+        long end = System.currentTimeMillis();
+        System.out.println("耗时:"+(end-start)+"毫秒");
     }
 
 //    @Test
