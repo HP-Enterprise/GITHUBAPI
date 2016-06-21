@@ -185,11 +185,7 @@ public class WorkService {
         Properties properties = new Properties();
         try {
             String filePath = "src"+ File.separator+"main"+File.separator+"resources"+File.separator+"realnames.properties";
-
             InputStreamReader  br = new InputStreamReader(new FileInputStream(new File(filePath)), "GBK");
-//            FileInputStream fileInputStream = new FileInputStream()
-//            InputStreamReader in = new FileInputStream(new File(filePath),"gbk");
-//           InputStream in = getClass().getResourceAsStream("realnames.properties");
             properties.load(br);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
