@@ -59,4 +59,6 @@ public class GitResultRepositoryTest {
         System.out.println("gitRet size"+gitResults1.size());
         System.out.println(gitResults1.toString());
     }
+
+
 }

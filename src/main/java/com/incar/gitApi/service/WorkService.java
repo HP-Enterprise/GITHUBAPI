@@ -2,21 +2,19 @@ package com.incar.gitApi.service;
 
 import com.incar.gitApi.entity.GitResult;
 import com.incar.gitApi.entity.Work;
-import com.incar.gitApi.period.Period1;
-import com.incar.gitApi.period.PeriodFactory1;
+import com.incar.gitApi.period.Period;
+import com.incar.gitApi.period.PeriodFactory;
 import com.incar.gitApi.repository.GitResultRepository;
 import com.incar.gitApi.repository.WorkRepository;
 import com.incar.gitApi.util.DateUtil;
 import com.incar.gitApi.GithubClientConfig;
-import com.incar.gitApi.period.Period;
-import com.incar.gitApi.period.PeriodFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.io.*;
 import java.util.*;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,9 +30,9 @@ public class WorkService {
 
     private WorkRepository workRepository;
 
-    private static List<Period1> periods = null;
+    private static List<Period> periods = null;
 
-    private static int flag = 0;
+    private static int previousVal = 0;
 
     @Autowired
     public void setGitResultRepository(GitResultRepository gitResultRepository){this.gitResultRepository = gitResultRepository;}
@@ -50,11 +48,11 @@ public class WorkService {
     }
 
 
-    public static  List<Period1> getPeriods(int year,int weekOfYear){
-        if(weekOfYear != flag || periods == null){
-            periods = Arrays.asList(PeriodFactory1.generatePeriods(year,weekOfYear));
+    public static  List<Period> getPeriods(int year,int weekOfYear){
+        if(weekOfYear != previousVal || periods == null){
+            periods = Arrays.asList(PeriodFactory.generatePeriods(year, weekOfYear));
         }
-        flag = weekOfYear;
+        previousVal = weekOfYear;
         return periods;
     }
 
@@ -152,7 +150,7 @@ public class WorkService {
      * @return
      */
     public Work getWorkInfo(String username,int weekYear,int weekOfYear){
-        initPeriods(getPeriods(weekYear,weekOfYear));
+        initPeriods(getPeriods(weekYear,weekOfYear));//初始化period
         Date start = DateUtil.getWeekStart(weekYear, weekOfYear);
         Date end = null;
         int thisWeekOfYear = DateUtil.getWeekInYear();
@@ -168,14 +166,12 @@ public class WorkService {
         gitResults.addAll(this.getGitRetHasLabelHOrD(openGitRets));
         gitResults.addAll(this.getGitRetHasLabelHOrD(closedGitRets));
 
-//        List<Period1> periods = Arrays.asList(PeriodFactory1.generatePeriods(weekYear, weekOfYear));
-
         //获取到目前为止的所有period
-        List<Period1> periods1 =this.getPeriodsByEnd(end, periods);
+        List<Period> periods1 =this.getPeriodsByEnd(end, periods);
         Work work = new Work();
         work.setFinishedWork(this.getTotalFinishedWork(closedGitRets));
         work.setUnfinishedWork(this.getTotalUnfinishedWork(openGitRets));
-        work.setWorkHours(this.getHoursInWork(gitResults, periods));
+        work.setWorkHours(this.getHoursInWork(gitResults, periods1));
         work.setWeekInYear(weekOfYear);
         work.setUsername(username);
         return work;
@@ -199,12 +195,12 @@ public class WorkService {
 
 
     //获取一个时间之前的所有period
-    public List<Period1> getPeriodsByEnd(Date end,List<Period1> periods){
-        List<Period1> periods1 = new ArrayList<>();
-        Period1 period1 = this.getPeriodClosedAt(end, periods);
+    public List<Period> getPeriodsByEnd(Date end,List<Period> periods){
+        List<Period> periods1 = new ArrayList<>();
+        Period period1 = this.getPeriodClosedAt(end, periods);
         if(period1 == null)
             return  periods1;
-        for(Period1 period : periods){
+        for(Period period : periods){
             periods1.add(period);
             if(period1.id()==period.id()){
                 break;
@@ -353,8 +349,20 @@ public class WorkService {
      * @param period
      * @return
      */
-    public boolean isInPeriod(Date date , Period1 period){
-        if(date.compareTo(period.start())>=0 && date.compareTo(period.end())<=0){
+    public boolean isInPeriod(Date date , Period period){
+//        if(period.id()==168){
+//            System.out.println(168);
+//        }
+//        long dateM = date.getTime();
+//        String dateStr = DateUtil.formatDate(date);
+//        long start = period.start().getTime();
+//        String startStr = DateUtil.formatDate(period.start());
+//        long end = period.end().getTime();
+//        String endStr = DateUtil.formatDate(period.end());
+//        int cp1 = date.compareTo(period.start());
+//        int cp2 = date.compareTo(period.end());
+
+        if(DateUtil.compareDate(date,period.start())>=0 && DateUtil.compareDate(date,period.end())<=0){
             return true;
         }
         return false;
@@ -367,13 +375,13 @@ public class WorkService {
      * @param periods
      * @return 开始和最后一个period
      */
-    public Period1[] getPeriodOfGitRet(GitResult gitResult,List<Period1> periods){
-        Period1[] periodsArr = new Period1[2];
+    public Period[] getPeriodOfGitRet(GitResult gitResult,List<Period> periods){
+        Period[] periodsArr = new Period[2];
         Date createdAt = gitResult.getCreatedAt();
         Date closedAt = gitResult.getClosedAt();
-        Period1 periodStart = getPeriodCreateAt(createdAt, periods);
+        Period periodStart = getPeriodCreateAt(createdAt, periods);
 
-        Period1 periodEnd = getPeriodClosedAt(closedAt, periods);
+        Period periodEnd = getPeriodClosedAt(closedAt, periods);
 
         periodsArr[0] = periodStart;
         periodsArr[1] = periodEnd;
@@ -388,14 +396,14 @@ public class WorkService {
      * @param periods
      * @return
      */
-    public Period1 getPeriodCreateAt(Date created,List<Period1> periods){
+    public Period getPeriodCreateAt(Date created,List<Period> periods){
         //上周创建的issue，返回第一个period
         if(isBeforeFirstPeriod(created,periods)){
             return periods.get(0);
         }
-        for(Period1 period1 : periods){
-            if (isInPeriod(created,period1)){
-                return period1;
+        for(Period period : periods){
+            if (isInPeriod(created, period)){
+                return period;
             }
         }
         return null;
@@ -408,7 +416,7 @@ public class WorkService {
      * @param periods period数组
      * @return
      */
-    public boolean isBeforeFirstPeriod(Date createdAt,List<Period1> periods){
+    public boolean isBeforeFirstPeriod(Date createdAt,List<Period> periods){
         if(periods.get(0).start().compareTo(createdAt)>0){
             return true;
         }
@@ -422,13 +430,13 @@ public class WorkService {
      * @param periods
      * @return
      */
-    public Period1 getPeriodClosedAt(Date closedAt,List<Period1> periods){
+    public Period getPeriodClosedAt(Date closedAt,List<Period> periods){
         if(closedAt==null){
             return periods.get(periods.size()-1);
         }
-        for(Period1 period1: periods){
-            if(isInPeriod(closedAt,period1)){
-                return period1;
+        for(Period period : periods){
+            if(isInPeriod(closedAt, period)){
+                return period;
             }
         }
         return null;
@@ -441,10 +449,10 @@ public class WorkService {
      * @param periods 周所对应所有period
      * @return 工作时长
      */
-    public int getHoursInWork(List<GitResult> gitResults,List<Period1> periods){
+    public int getHoursInWork(List<GitResult> gitResults,List<Period> periods){
         int n = 0;
         for (GitResult gitResult : gitResults){
-            Period1[] periodRet = getPeriodOfGitRet(gitResult, periods);
+            Period[] periodRet = getPeriodOfGitRet(gitResult, periods);
             if(periodRet[0] == null || periodRet[1] == null)
                 continue;
             if(periodRet[0].id()> periodRet[1].id()){
@@ -470,11 +478,11 @@ public class WorkService {
 
     /**
      * 重新赋值
-     * @param period1s
+     * @param periods
      */
-    private static void initPeriods(List<Period1> period1s){
-        for(Period1 period1 : period1s){
-            period1.setIsInWork(false);
+    private static void initPeriods(List<Period> periods){
+        for(Period period : periods){
+            period.setIsInWork(false);
         }
     }
 

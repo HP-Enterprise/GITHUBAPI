@@ -32,31 +32,31 @@ public class GitApiLibTest {
     @Autowired
     private GitResultRepository gitResultRepository;
 
+//    @Test
+//    public void testGetAllIssue() throws IOException {
+//
+//        GitHubClient gitHubClient = new GitHubClient("api.github.com");
+//        gitHubClient.setCredentials("travis4hpe", "travis4Java");
+//        Map<String,String> params = new HashMap<String,String>();
+//        params.put("state","all");
+//        IssueService issueService = new IssueService(gitHubClient);
+//        try {
+//            List<Issue> issueList = issueService.getIssues("HP-Enterprise", "RentalBA", params);
+//            System.out.println("issueList.size"+issueList.size());
+//            for (Issue issue : issueList){
+//                System.out.println("issue string pullrequest:"+issue.getPullRequest()+", assignee:"+issue.getAssignee());
+//            }
+//            List<GitResult> gitResults = GitRetUtil.issuesToGitresults(issueList);
+//            System.out.println("gitResults.size"+gitResults.size());
+//            gitResultRepository.save(gitResults);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+
     @Test
-    public void testGetAllIssue() throws IOException {
-
-        GitHubClient gitHubClient = new GitHubClient("api.github.com");
-        gitHubClient.setCredentials("travis4hpe", "travis4Java");
-        Map<String,String> params = new HashMap<String,String>();
-        params.put("state","all");
-        IssueService issueService = new IssueService(gitHubClient);
-        try {
-            List<Issue> issueList = issueService.getIssues("HP-Enterprise", "Rental653", params);
-            System.out.println("issueList.size"+issueList.size());
-            for (Issue issue : issueList){
-                System.out.println("issue string pullrequest:"+issue.getPullRequest()+", assignee:"+issue.getAssignee());
-            }
-            List<GitResult> gitResults = GitRetUtil.issuesToGitresults(issueList);
-            System.out.println("gitResults.size"+gitResults.size());
-            gitResultRepository.save(gitResults);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Test
-    public void testGetRepo() throws IOException {
+         public void testGetRepo() throws IOException {
         GitHubClient gitHubClient = new GitHubClient("api.github.com");
         gitHubClient.setCredentials("travis4hpe", "travis4Java");
         RepositoryService repositoryService = new RepositoryService(gitHubClient);

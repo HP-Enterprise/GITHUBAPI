@@ -1,59 +1,39 @@
 package com.incar.gitApi.period;
+import com.incar.gitApi.util.DateUtil;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.concurrent.Callable;
-
+import java.util.*;
 /**
- * Created by Administrator on 2016/3/21 0021.
+ * Created by Administrator on 2016/6/16 0016.
  */
 public class Period {
-
-    private int number;
-    private int year;
-    private int weekOfYear;
-    private int dayOfWeek;
-    private int hourOfDay;
-    private int minute;
-    private int seconds ;
+    private final int id;
+    private final Date start;
+    private final Date end;
+    private final boolean isWorkTime;
     private boolean isInWork;
 
-
-    public Period(){
-
+    public Period(int id, Date start, Date end, boolean isInWork, boolean isWorkTime) {
+        this.id = id;
+        this.start = start;
+        this.end = end;
+        this.isInWork = isInWork;
+        this.isWorkTime = isWorkTime;
     }
 
-    public Period(int year,int weekOfYear) {
-        this.year = year;
-        this.weekOfYear = weekOfYear;
-        this.minute = 0;
-        this.seconds = 0;
+    public Date start() {
+        return start;
     }
 
-    public int getDayOfWeek() {
-        return dayOfWeek;
+    public Date end() {
+        return end;
     }
 
-    public void setDayOfWeek(int dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
+    public int id() {
+        return id;
     }
 
-    public int getHourOfDay() {
-        return hourOfDay;
-    }
-
-    public void setHourOfDay(int hourOfDay) {
-        this.hourOfDay = hourOfDay;
-    }
-
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
+    public boolean isWorkTime() {
+        return isWorkTime;
     }
 
     public boolean getIsInWork() {
@@ -64,49 +44,15 @@ public class Period {
         this.isInWork = isInWork;
     }
 
-    public int getWeekOfYear() {
-        return weekOfYear;
-    }
-
-    public void setWeekOfYear(int weekOfYear) {
-        this.weekOfYear = weekOfYear;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public int getMinute() {
-        return minute;
-    }
-
-    public void setMinute(int minute) {
-        this.minute = minute;
-    }
-
-    public int getSeconds() {
-        return seconds;
-    }
-
-    public void setSeconds(int seconds) {
-        this.seconds = seconds;
-    }
-
     @Override
     public String toString() {
         return "Period{" +
-                "dayOfWeek=" + dayOfWeek +
-                ", hourOfDay=" + hourOfDay +
-                ", number=" + number +
-                ", weekOfYear=" + weekOfYear +
+                "id=" + id +
+                ", start=" + DateUtil.formatDate(start) +
+                ", end=" +  DateUtil.formatDate(end) +
                 ", isInWork=" + isInWork +
-                ", year=" + year +
-                '}';
+                ", isWorkTime=" + isWorkTime +
+                "}\n";
     }
-
 
 }
