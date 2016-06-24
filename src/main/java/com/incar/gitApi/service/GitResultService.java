@@ -29,6 +29,8 @@ public class GitResultService {
 
     private GitResultRepository gitResultRepository;
 
+    private Logger logger = LoggerFactory.getLogger(GitResultService.class);
+
     @Autowired
     public void setGithubClientConfig(GithubClientConfig githubClientConfig){
         this.githubClientConfig = githubClientConfig;
@@ -59,7 +61,7 @@ public class GitResultService {
         try {
             issueList = issueService.getIssues(user, repository, params);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("connecting failed",e);
         }
         return issueList;
     }
@@ -78,8 +80,5 @@ public class GitResultService {
     public List<GitResult> getGitResult(List<Issue> issues){
         return GitRetUtil.issuesToGitresults(issues);
     }
-
-
-
 
 }

@@ -87,11 +87,4 @@ public class DateUtil {
         return date1.compareTo(date2);
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        Date date1 = new Date();
-        Thread.sleep(10);
-        Date date2 = new Date();
-        System.out.println(compareDate(date1,date2));
-        System.out.println(date1.compareTo(date2));
-    }
 }

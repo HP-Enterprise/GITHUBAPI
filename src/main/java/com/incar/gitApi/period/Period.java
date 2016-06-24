@@ -9,8 +9,8 @@ public class Period {
     private final int id;
     private final Date start;
     private final Date end;
-    private final boolean isWorkTime;
-    private boolean isInWork;
+    private final boolean isWorkTime; //是否为工作时间
+    private boolean isInWork;         //是否处于工作状态
 
     public Period(int id, Date start, Date end, boolean isInWork, boolean isWorkTime) {
         this.id = id;

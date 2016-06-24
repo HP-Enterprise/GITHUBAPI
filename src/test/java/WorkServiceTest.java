@@ -67,7 +67,7 @@ public class WorkServiceTest {
 
     @Test
     @Transactional
-    @Rollback(false)
+    @Rollback(true)
     public void testSaveWorkInfo(){
 //        workService.saveWorkInfo(20);
         long start = System.currentTimeMillis();
@@ -98,12 +98,6 @@ public class WorkServiceTest {
         System.out.println("耗时:"+(end-start)+"毫秒");
     }
 
-    @Test
-    public void testGetWorkInfo(){
-        workService.getWorkInfo("TeemolSparrow",2016,3);
-//        workService.getWorkInfo("liuyakun",2016,20);
-    }
-
 
     @Test
     public void testGetPeriodsByNow(){
@@ -115,29 +109,26 @@ public class WorkServiceTest {
 
     @Test
     public void testGetWorkInfoOfWeeks(){
-//         Work work1 = workService.getWorkInfo("ThomasChant", 10);
-//        Work work2 = workService.getWorkInfo("db5433", 14);
-//        Work work3 = workService.getWorkInfo("tiandashen");
-//        Work work1 = workService.getWorkInfo("TeemolSparrow",1);
-//        Work work2 = workService.getWorkInfo("TeemolSparrow",2);
-//        Work work3 = workService.getWorkInfo("TeemolSparrow",3);
-//        Work work4 = workService.getWorkInfo("TeemolSparrow",4);
-//        Work work5 = workService.getWorkInfo("TeemolSparrow",5);
-//        Work work6 = workService.getWorkInfo("TeemolSparrow",6);
-//        Work work7 = workService.getWorkInfo("TeemolSparrow",7);
-//        Work work8 = workService.getWorkInfo("TeemolSparrow",7);
-//        Work work9 = workService.getWorkInfo("TeemolSparrow",9);
-//        Work work10 = workService.getWorkInfo("TeemolSparrow",10);
-//        Work work11= workService.getWorkInfo("TeemolSparrow",11);
-//        Work work12= workService.getWorkInfo("TeemolSparrow",12);
-//        Work work13= workService.getWorkInfo("TeemolSparrow",13);
-//        Work work14= workService.getWorkInfo("TeemolSparrow",14);
-//        Work work15 = workService.getWorkInfo("wyang181300", 15);
-//        Work work16 = workService.getWorkInfo("mqwangincar", 16);
-//        Work work17  = workService.getWorkInfo("bettermouse", 17);
+        Work work1 = workService.getWorkInfo("TeemolSparrow",1);
+        Work work2 = workService.getWorkInfo("TeemolSparrow",2);
+        Work work3 = workService.getWorkInfo("TeemolSparrow",3);
+        Work work4 = workService.getWorkInfo("TeemolSparrow",4);
+        Work work5 = workService.getWorkInfo("TeemolSparrow",5);
+        Work work6 = workService.getWorkInfo("TeemolSparrow",6);
+        Work work7 = workService.getWorkInfo("TeemolSparrow",7);
+        Work work8 = workService.getWorkInfo("TeemolSparrow",7);
+        Work work9 = workService.getWorkInfo("TeemolSparrow",9);
+        Work work10 = workService.getWorkInfo("TeemolSparrow",10);
+        Work work11= workService.getWorkInfo("TeemolSparrow",11);
+        Work work12= workService.getWorkInfo("TeemolSparrow",12);
+        Work work13= workService.getWorkInfo("TeemolSparrow",13);
+        Work work14= workService.getWorkInfo("TeemolSparrow",14);
+        Work work15 = workService.getWorkInfo("wyang181300", 15);
+        Work work16 = workService.getWorkInfo("mqwangincar", 16);
+        Work work17  = workService.getWorkInfo("bettermouse", 17);
         Work work18  = workService.getWorkInfo("TeemolSparrow", 20);
-//        assert work3!=null;
     }
+
 
 
 

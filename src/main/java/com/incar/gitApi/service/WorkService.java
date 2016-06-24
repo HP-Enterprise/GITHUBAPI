@@ -108,13 +108,7 @@ public class WorkService {
 
     /**
      * 删除工作信息
-     * @param weekInYear
      */
-    public void deleteWorkInfo(int weekInYear){
-        workRepository.deleteByWeek(weekInYear);
-    }
-
-
     public void deleteWorkInfo(){
         int weekInYear = DateUtil.getWeekInYear();
         workRepository.deleteByWeek(weekInYear);
@@ -123,8 +117,8 @@ public class WorkService {
 
     /**
      * 获取某周工作信息
-     * @param assignee
-     * @param weekOfYear
+     * @param assignee 用户
+     * @param weekOfYear 星期数
      * @return
      */
     public Work getWorkInfo(String assignee,int weekOfYear){
@@ -134,7 +128,7 @@ public class WorkService {
 
     /**
      * 获取本周工作信息
-     * @param assignee
+     * @param assignee 用户
      * @return
      */
     public Work getWorkInfo(String assignee){
@@ -161,11 +155,9 @@ public class WorkService {
         }
         List<GitResult> openGitRets = this.getOpenGitRet(username, DateUtil.getWeekEnd(weekYear, weekOfYear));
         List<GitResult> closedGitRets = this.getClosedGitRet(username, start, end);
-
         List<GitResult> gitResults = new ArrayList<>();
         gitResults.addAll(this.getGitRetHasLabelHOrD(openGitRets));
         gitResults.addAll(this.getGitRetHasLabelHOrD(closedGitRets));
-
         //获取到目前为止的所有period
         List<Period> periods1 =this.getPeriodsByEnd(end, periods);
         Work work = new Work();
@@ -174,9 +166,47 @@ public class WorkService {
         work.setWorkHours(this.getHoursInWork(gitResults, periods1));
         work.setWeekInYear(weekOfYear);
         work.setUsername(username);
+//        System.out.println("工作信息结果："+work);
         return work;
     }
 
+    /**
+     * 统计工作时间
+     * @param gitResults  周所对应所有gitret
+     * @param periods 周所对应所有period
+     * @return 工作时长
+     */
+    public int getHoursInWork(List<GitResult> gitResults,List<Period> periods){
+        int n = 0;
+        for (GitResult gitResult : gitResults){
+            Period[] periodRet = getPeriodOfGitRet(gitResult, periods);
+            if(periodRet[0] == null || periodRet[1] == null)
+                continue;
+            if(periodRet[0].id()> periodRet[1].id()){
+                System.out.println("periods ex:"+gitResult);
+                throw new RuntimeException("invalid parameter");
+            }
+            if(periodRet[0].id() ==  periodRet[1].id() && periodRet[0].isWorkTime()){
+                if(!periodRet[0].getIsInWork()){
+                    periodRet[0].setIsInWork(true);
+                    n++;
+                }
+                continue;
+            }
+            for(int i= periodRet[0].id();i<= periodRet[1].id();i++){
+                if( !periods.get(i-1).getIsInWork() && periods.get(i-1).isWorkTime()) {
+                    periods.get(i-1).setIsInWork(true);
+                    n++;
+                }
+            }
+        }
+        return n;
+    }
+
+    /**
+     * 从配置文件中获取真实姓名
+     * @return
+     */
     private Properties getRealnameProperties(){
         Properties properties = new Properties();
         try {
@@ -350,17 +380,6 @@ public class WorkService {
      * @return
      */
     public boolean isInPeriod(Date date , Period period){
-//        if(period.id()==168){
-//            System.out.println(168);
-//        }
-//        long dateM = date.getTime();
-//        String dateStr = DateUtil.formatDate(date);
-//        long start = period.start().getTime();
-//        String startStr = DateUtil.formatDate(period.start());
-//        long end = period.end().getTime();
-//        String endStr = DateUtil.formatDate(period.end());
-//        int cp1 = date.compareTo(period.start());
-//        int cp2 = date.compareTo(period.end());
 
         if(DateUtil.compareDate(date,period.start())>=0 && DateUtil.compareDate(date,period.end())<=0){
             return true;
@@ -442,39 +461,6 @@ public class WorkService {
         return null;
     }
 
-
-    /**
-     * 统计工作时间
-     * @param gitResults  周所对应所有gitret
-     * @param periods 周所对应所有period
-     * @return 工作时长
-     */
-    public int getHoursInWork(List<GitResult> gitResults,List<Period> periods){
-        int n = 0;
-        for (GitResult gitResult : gitResults){
-            Period[] periodRet = getPeriodOfGitRet(gitResult, periods);
-            if(periodRet[0] == null || periodRet[1] == null)
-                continue;
-            if(periodRet[0].id()> periodRet[1].id()){
-                System.out.println("periods ex:"+gitResult);
-                throw new RuntimeException("invalid parameter");
-            }
-            if(periodRet[0].id() ==  periodRet[1].id() && periodRet[0].isWorkTime()){
-                if(!periodRet[0].getIsInWork()){
-                    periodRet[0].setIsInWork(true);
-                    n++;
-                }
-                continue;
-            }
-            for(int i= periodRet[0].id();i<= periodRet[1].id();i++){
-                if( !periods.get(i).getIsInWork() && periods.get(i).isWorkTime()) {
-                    periods.get(i).setIsInWork(true);
-                    n++;
-                }
-            }
-        }
-        return n;
-    }
 
     /**
      * 重新赋值

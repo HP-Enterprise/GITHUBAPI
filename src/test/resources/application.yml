@@ -23,6 +23,7 @@ github:
         - InCar/ali-mns
         - InCar/cnpmjs.org
         - InCar/Track
+        - HP-Enterprise/RentalBA
 # Tomcat
 server.port: 8080
 # Logging level (TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF)

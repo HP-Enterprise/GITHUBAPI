@@ -89,4 +89,17 @@ public class Work {
     public void setRealname(String realname) {
         this.realname = realname;
     }
+
+    @Override
+    public String toString() {
+        return "Work{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", finishedWork=" + finishedWork +
+                ", unfinishedWork=" + unfinishedWork +
+                ", workHours=" + workHours +
+                ", weekInYear=" + weekInYear +
+                ", realname='" + realname + '\'' +
+                '}';
+    }
 }
