@@ -498,6 +498,7 @@ public class WorkService {
      * @param ascOrDesc 升序或降序 1表示升序，其他表示降序
      * @return
      */
+
     public Page<Work> findPageOfWork(String realname,String username,Integer weekInYear,Integer currentPage,Integer pageSize,Integer fuzzy,String orderByProperty,Integer ascOrDesc){
         currentPage = (currentPage == null || currentPage <= 0)?1:currentPage;
         pageSize = (pageSize == null || pageSize <= 0)?10:pageSize;
