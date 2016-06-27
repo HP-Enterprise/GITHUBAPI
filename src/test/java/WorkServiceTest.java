@@ -67,7 +67,7 @@ public class WorkServiceTest {
 
     @Test
     @Transactional
-    @Rollback(false)
+    @Rollback(true)
     public void testSaveWorkInfo(){
 //        workService.saveWorkInfo(20);
         long start = System.currentTimeMillis();
