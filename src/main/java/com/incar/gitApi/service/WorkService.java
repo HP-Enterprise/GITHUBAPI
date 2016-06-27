@@ -34,6 +34,22 @@ public class WorkService {
 
     private static int previousVal = 0;
 
+    private static final Properties REALNAMES =  new Properties();
+
+    static {
+        try {
+            String filePath = "src"+ File.separator+"main"+File.separator+"resources"+File.separator+"realnames.properties";
+            InputStreamReader  br = new InputStreamReader(new FileInputStream(new File(filePath)), "GBK");
+            REALNAMES.load(br);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     @Autowired
     public void setGitResultRepository(GitResultRepository gitResultRepository){this.gitResultRepository = gitResultRepository;}
 
@@ -91,11 +107,11 @@ public class WorkService {
      */
     public void saveWorkInfo(int weekInYear){
         List<Work> works = new ArrayList<>();
-        Properties properties = getRealnameProperties();
+//        Properties properties = getRealnameProperties();
         for (String assignee : this.getAllAssignee() ){
             if(assignee!=null){
                 Work work = getWorkInfo(assignee,weekInYear);
-                Object obj = properties.get(assignee);
+                Object obj = REALNAMES.get(assignee);
                 if(obj!=null){
                     work.setRealname((String)obj);
                 }
@@ -166,7 +182,7 @@ public class WorkService {
         work.setWorkHours(this.getHoursInWork(gitResults, periods1));
         work.setWeekInYear(weekOfYear);
         work.setUsername(username);
-//        System.out.println("工作信息结果："+work);
+//        System.out.println("工作信息结果：" + work);
         return work;
     }
 
@@ -207,20 +223,23 @@ public class WorkService {
      * 从配置文件中获取真实姓名
      * @return
      */
-    private Properties getRealnameProperties(){
-        Properties properties = new Properties();
-        try {
-            String filePath = "src"+ File.separator+"main"+File.separator+"resources"+File.separator+"realnames.properties";
-            InputStreamReader  br = new InputStreamReader(new FileInputStream(new File(filePath)), "GBK");
-            properties.load(br);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
+    private static Properties getRealnameProperties(){
+        if(REALNAMES != null){
+            return REALNAMES;
+        }else {
+            try {
+                String filePath = "src"+ File.separator+"main"+File.separator+"resources"+File.separator+"realnames.properties";
+                InputStreamReader  br = new InputStreamReader(new FileInputStream(new File(filePath)), "GBK");
+                REALNAMES.load(br);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            return REALNAMES;
         }
-        return properties;
     }
 
 
@@ -239,6 +258,11 @@ public class WorkService {
         return periods1;
     }
 
+    /**
+     * 获取到包含h或d标签的issue
+     * @param gitResults
+     * @return
+     */
     public List<GitResult> getGitRetHasLabelHOrD(List<GitResult> gitResults){
         List<GitResult> gitResults1 = new ArrayList<>();
         for (GitResult gitResult : gitResults){
@@ -374,14 +398,26 @@ public class WorkService {
     }
 
     /**
+     * 判断某个时间是否在本周后
+     * @param date
+     * @return
+     */
+    public boolean isAfterThisWeek(Date date,List<Period> periods){
+        if(date !=null && date.compareTo(periods.get(periods.size()-1).end())>0){
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
      * 判断某个时间点是否在某个片段内
      * @param date
      * @param period
      * @return
      */
     public boolean isInPeriod(Date date , Period period){
-
-        if(DateUtil.compareDate(date,period.start())>=0 && DateUtil.compareDate(date,period.end())<=0){
+        if(DateUtil.compareDate(date,period.start())>=0 && DateUtil.compareDate(date, period.end())<=0){
             return true;
         }
         return false;
@@ -398,14 +434,9 @@ public class WorkService {
         Period[] periodsArr = new Period[2];
         Date createdAt = gitResult.getCreatedAt();
         Date closedAt = gitResult.getClosedAt();
-        Period periodStart = getPeriodCreateAt(createdAt, periods);
-
-        Period periodEnd = getPeriodClosedAt(closedAt, periods);
-
-        periodsArr[0] = periodStart;
-        periodsArr[1] = periodEnd;
+        periodsArr[0] = getPeriodCreateAt(createdAt, periods);
+        periodsArr[1] = getPeriodClosedAt(closedAt, periods);
         return periodsArr;
-
     }
 
 
@@ -416,8 +447,8 @@ public class WorkService {
      * @return
      */
     public Period getPeriodCreateAt(Date created,List<Period> periods){
-        //上周创建的issue，返回第一个period
-        if(isBeforeFirstPeriod(created,periods)){
+        //本周以前创建的issue，返回第一个period
+        if(isBeforeFirstPeriod(created, periods)){
             return periods.get(0);
         }
         for(Period period : periods){
@@ -450,7 +481,7 @@ public class WorkService {
      * @return
      */
     public Period getPeriodClosedAt(Date closedAt,List<Period> periods){
-        if(closedAt==null){
+        if(closedAt==null || isAfterThisWeek(closedAt,periods)){
             return periods.get(periods.size()-1);
         }
         for(Period period : periods){
@@ -458,6 +489,7 @@ public class WorkService {
                 return period;
             }
         }
+
         return null;
     }
 
