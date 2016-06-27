@@ -34,22 +34,6 @@ public class WorkService {
 
     private static int previousVal = 0;
 
-    private static final Properties REALNAMES =  new Properties();
-
-    static {
-        try {
-            String filePath = "src"+ File.separator+"main"+File.separator+"resources"+File.separator+"realnames.properties";
-            InputStreamReader  br = new InputStreamReader(new FileInputStream(new File(filePath)), "GBK");
-            REALNAMES.load(br);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
     @Autowired
     public void setGitResultRepository(GitResultRepository gitResultRepository){this.gitResultRepository = gitResultRepository;}
 
@@ -107,11 +91,11 @@ public class WorkService {
      */
     public void saveWorkInfo(int weekInYear){
         List<Work> works = new ArrayList<>();
-//        Properties properties = getRealnameProperties();
+        Properties properties = getRealnameProperties();
         for (String assignee : this.getAllAssignee() ){
             if(assignee!=null){
                 Work work = getWorkInfo(assignee,weekInYear);
-                Object obj = REALNAMES.get(assignee);
+                Object obj = properties.get(assignee);
                 if(obj!=null){
                     work.setRealname((String)obj);
                 }
@@ -224,13 +208,11 @@ public class WorkService {
      * @return
      */
     private static Properties getRealnameProperties(){
-        if(REALNAMES != null){
-            return REALNAMES;
-        }else {
+             Properties properties = new Properties();
             try {
                 String filePath = "src"+ File.separator+"main"+File.separator+"resources"+File.separator+"realnames.properties";
                 InputStreamReader  br = new InputStreamReader(new FileInputStream(new File(filePath)), "GBK");
-                REALNAMES.load(br);
+                properties.load(br);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -238,8 +220,8 @@ public class WorkService {
             } catch (Exception e){
                 e.printStackTrace();
             }
-            return REALNAMES;
-        }
+            return properties;
+
     }
 
 
