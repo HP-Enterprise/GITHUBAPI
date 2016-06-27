@@ -1,7 +1,7 @@
 #server
 github:
-     username: travis4hpe
-     password: travis4Java
+     username:
+     password:
      repos:
         - HP-Enterprise/Rental653
         - HP-Enterprise/BriAir
@@ -23,6 +23,7 @@ github:
         - InCar/ali-mns
         - InCar/cnpmjs.org
         - InCar/Track
+        - HP-Enterprise/RentalBA
 # Tomcat
 server.port: 8080
 # Logging level (TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF)
@@ -39,7 +40,7 @@ spring:
         username: root
         password: 123456
     jpa:
-        show-sql: true
+        show-sql: false
         hibernate:
             # Hibernate DDL  auto: create, create-drop, update, validate
             ddl-auto: validate

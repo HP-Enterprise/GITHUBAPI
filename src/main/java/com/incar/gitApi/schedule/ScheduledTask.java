@@ -1,9 +1,11 @@
-package com.incar.gitApi.util;
+package com.incar.gitApi.schedule;
 
 import com.incar.gitApi.entity.GitResult;
 import com.incar.gitApi.service.GitResultService;
 import com.incar.gitApi.service.WorkService;
 import org.eclipse.egit.github.core.Issue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -26,18 +28,20 @@ public class ScheduledTask {
     @Autowired
     private WorkService workService;
 
-    @Scheduled(cron = "0 0 */1 * * ? ")
+    private Logger logger = LoggerFactory.getLogger(ScheduledTask.class);
+
+    @Scheduled(cron = "0 50 23 * * ?")
     public void scheduledQuery(){
-        List<Issue> issues = gitResultService.getAllIssues();
-        System.out.println("issue.size():" + issues.size());
-        List<GitResult> gitResults = gitResultService.getGitResult(issues);
-        System.out.println("gitresult.size():"+gitResults.size());
-        gitResultService.saveGitResult(gitResults);
+        logger.info(">>>>>>>>>>> saving gitResult >>>>>>>>>>>>");
+        gitResultService.saveGitResult();
     }
 
-    @Scheduled(cron = "0 0 0 ? * SAT")   // @Scheduled(cron = "0 */1 * * * ?")
+//    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 55 23 * * ?")
     public void gitRetAlalyse(){
+        logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");
         workService.deleteWorkInfo();
+        logger.info(">>>>>>>>>>> saving workInfo >>>>>>>>>>>>");
         workService.saveWorkInfo();
     }
 }

@@ -17,11 +17,11 @@ import javax.transaction.Transactional;
 @Repository
 public interface WorkRepository extends CrudRepository<Work,Integer> {
 
-    @Query("select w from Work w where (?1 is null or w.name=?1) and (?2 is null or w.weekInYear=?2)")
-    Page<Work> findPage(String name,Integer weekInYear,Pageable pageable);
+    @Query("select w from Work w where (?1 is null or w.realname=?1) and (?2 is null or w.username=?2) and (?3 is null or w.weekInYear=?3)")
+    Page<Work> findPage(String realname,String username,Integer weekInYear,Pageable pageable);
 
-    @Query("select w from Work w where (?1 is null or w.name like ?1) and (?2 is null or w.weekInYear=?2)")
-    Page<Work> fuzzyFindPage(String name,Integer weekInYear,Pageable pageable);
+    @Query("select w from Work w where (?1 is null or w.realname like ?1) and (?2 is null or w.username like ?2) and (?3 is null or w.weekInYear=?3)")
+    Page<Work> fuzzyFindPage(String realname,String username,Integer weekInYear,Pageable pageable);
 
     @Modifying
     @Transactional

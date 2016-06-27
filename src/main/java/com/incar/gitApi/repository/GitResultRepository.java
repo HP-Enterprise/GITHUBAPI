@@ -22,34 +22,7 @@ public interface GitResultRepository extends CrudRepository<GitResult,Integer> {
 
     Set<GitResult> findAll();
 
-//    @Query("select g from GitResult g where g.closedAt > ?1 and g.state=?2")
-//    Set<GitResult> findByClosedAt(Date closedAtStart,Date closedAtEnd);
-
     GitResult findByIssueId(int issueId);
-
-    @Query(value = "select g from GitResult g where " +
-            "(?1 is null or g.issueId = ?1) " +
-            " and (?2 is null or g.assignee = ?2) " +
-            " and (?3 is null or g.state = ?3) " +
-            " and (?4 is null or g.milestone = ?4) " +
-            " and (?5 is null or g.title = ?5)  " +
-            " and (?6 is null or g.createdAt > ?6) " +
-            " and (?7 is null or g.createdAt < ?7) " +
-            " and (?8 is null or g.closedAt > ?8)  " +
-            " and (?9 is null or g.closedAt < ?9)")
-    Page<GitResult> findByKeys(Integer issueId, String assignee, String state, Integer mileStone, String title, Date createdBegin, Date createdEnd, Date closedBegin, Date closedEnd, Pageable pageable);
-
-    @Query(value = "select g from GitResult g where " +
-            "(?1 is null or g.issueId = ?1) " +
-            " and (?2 is null or g.assignee like concat('%',concat(?2,'%') ) ) " +
-            " and (?3 is null or g.state like concat('%',concat(?3,'%') ) ) " +
-            " and (?4 is null or g.milestone = ?4) " +
-            " and (?5 is null or g.title like concat('%',concat(?5,'%') ) )  " +
-            " and (?6 is null or g.createdAt > ?6) " +
-            " and (?7 is null or g.createdAt < ?7) " +
-            " and (?8 is null or g.closedAt > ?8)  " +
-            " and (?9 is null or g.closedAt < ?9)")
-    Page<GitResult> fuzzyFindByKeys(Integer issueId, String assignee, String state, Integer mileStone, String title, Date createdBegin, Date createdEnd, Date closedBegin, Date closedEnd, Pageable pageable);
 
     @Query( "select distinct g.assignee from GitResult g")
     List<String> findAllAssignee();

@@ -2,23 +2,19 @@ package com.incar.gitApi.service;
 
 import com.incar.gitApi.entity.GitResult;
 import com.incar.gitApi.entity.Work;
+import com.incar.gitApi.period.Period;
+import com.incar.gitApi.period.PeriodFactory;
 import com.incar.gitApi.repository.GitResultRepository;
 import com.incar.gitApi.repository.WorkRepository;
 import com.incar.gitApi.util.DateUtil;
-import com.incar.gitApi.util.GithubClientConfig;
-import com.incar.gitApi.util.Period;
-import com.incar.gitApi.util.PeriodFactory;
-import org.eclipse.egit.github.core.Milestone;
-import org.eclipse.egit.github.core.service.MilestoneService;
+import com.incar.gitApi.GithubClientConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.io.*;
 import java.util.*;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,16 +24,15 @@ import java.util.regex.Pattern;
 @Service
 public class WorkService {
 
-    private String username;
-
-    private String password;
-
     private GitResultRepository gitResultRepository;
 
     private GithubClientConfig githubClientConfig;
 
     private WorkRepository workRepository;
 
+    private static List<Period> periods = null;
+
+    private static int previousVal = 0;
 
     @Autowired
     public void setGitResultRepository(GitResultRepository gitResultRepository){this.gitResultRepository = gitResultRepository;}
@@ -53,6 +48,14 @@ public class WorkService {
     }
 
 
+    public static  List<Period> getPeriods(int year,int weekOfYear){
+        if(weekOfYear != previousVal || periods == null){
+            periods = Arrays.asList(PeriodFactory.generatePeriods(year, weekOfYear));
+        }
+        previousVal = weekOfYear;
+        return periods;
+    }
+
     /**
      * 查询所有人github帐号
      * @return
@@ -67,9 +70,14 @@ public class WorkService {
      */
     public void saveWorkInfo(){
         List<Work> works = new ArrayList<>();
+        Properties properties = getRealnameProperties();
         for (String assignee : this.getAllAssignee() ){
             if(assignee!=null){
                 Work work = getWorkInfo(assignee);
+                Object obj = properties.get(assignee);
+                if(obj!=null){
+                    work.setRealname((String)obj);
+                }
                 works.add(work);
             }
         }
@@ -83,9 +91,14 @@ public class WorkService {
      */
     public void saveWorkInfo(int weekInYear){
         List<Work> works = new ArrayList<>();
+        Properties properties = getRealnameProperties();
         for (String assignee : this.getAllAssignee() ){
             if(assignee!=null){
                 Work work = getWorkInfo(assignee,weekInYear);
+                Object obj = properties.get(assignee);
+                if(obj!=null){
+                    work.setRealname((String)obj);
+                }
                 works.add(work);
             }
         }
@@ -95,13 +108,7 @@ public class WorkService {
 
     /**
      * 删除工作信息
-     * @param weekInYear
      */
-    public void deleteWorkInfo(int weekInYear){
-        workRepository.deleteByWeek(weekInYear);
-    }
-
-
     public void deleteWorkInfo(){
         int weekInYear = DateUtil.getWeekInYear();
         workRepository.deleteByWeek(weekInYear);
@@ -110,18 +117,18 @@ public class WorkService {
 
     /**
      * 获取某周工作信息
-     * @param assignee
-     * @param weekOfYear
+     * @param assignee 用户
+     * @param weekOfYear 星期数
      * @return
      */
     public Work getWorkInfo(String assignee,int weekOfYear){
-        return this.getWorkInfo(assignee,DateUtil.getYear(),weekOfYear);
+        return this.getWorkInfo(assignee, DateUtil.getYear(), weekOfYear);
     }
 
 
     /**
      * 获取本周工作信息
-     * @param assignee
+     * @param assignee 用户
      * @return
      */
     public Work getWorkInfo(String assignee){
@@ -130,35 +137,114 @@ public class WorkService {
 
 
     /**
-     * 获取某年某周工作信息
-     * @param assignee
+     * 获取某周工作信息
+     * @param username
      * @param weekYear
      * @param weekOfYear
      * @return
      */
-    public Work getWorkInfo(String assignee,int weekYear,int weekOfYear){
-        Date start = DateUtil.getWeekStart(weekYear,weekOfYear);
-        Date end = DateUtil.getWeekEnd(weekYear, weekOfYear);
-
-        List<GitResult> openGitRets = this.getOpenGitRet(assignee,end);
-        List<GitResult> closedGitRets = this.getClosedGitRet(assignee, start, end);
-
+    public Work getWorkInfo(String username,int weekYear,int weekOfYear){
+        initPeriods(getPeriods(weekYear,weekOfYear));//初始化period
+        Date start = DateUtil.getWeekStart(weekYear, weekOfYear);
+        Date end = null;
+        int thisWeekOfYear = DateUtil.getWeekInYear();
+        if(thisWeekOfYear > weekOfYear){//查询是以前周的工作信息
+            end = DateUtil.getWeekEnd(weekYear, weekOfYear);
+        }else {
+            end = new Date();
+        }
+        List<GitResult> openGitRets = this.getOpenGitRet(username, DateUtil.getWeekEnd(weekYear, weekOfYear));
+        List<GitResult> closedGitRets = this.getClosedGitRet(username, start, end);
         List<GitResult> gitResults = new ArrayList<>();
         gitResults.addAll(this.getGitRetHasLabelHOrD(openGitRets));
         gitResults.addAll(this.getGitRetHasLabelHOrD(closedGitRets));
-
-        List<Period> periods = PeriodFactory.generatePeriodList(weekYear, weekOfYear);
-
+        //获取到目前为止的所有period
+        List<Period> periods1 =this.getPeriodsByEnd(end, periods);
         Work work = new Work();
         work.setFinishedWork(this.getTotalFinishedWork(closedGitRets));
         work.setUnfinishedWork(this.getTotalUnfinishedWork(openGitRets));
-        work.setWorkHours(this.getHoursInWork(gitResults,periods));
+        work.setWorkHours(this.getHoursInWork(gitResults, periods1));
         work.setWeekInYear(weekOfYear);
-        work.setName(assignee);
+        work.setUsername(username);
+//        System.out.println("工作信息结果：" + work);
         return work;
     }
 
+    /**
+     * 统计工作时间
+     * @param gitResults  周所对应所有gitret
+     * @param periods 周所对应所有period
+     * @return 工作时长
+     */
+    public int getHoursInWork(List<GitResult> gitResults,List<Period> periods){
+        int n = 0;
+        for (GitResult gitResult : gitResults){
+            Period[] periodRet = getPeriodOfGitRet(gitResult, periods);
+            if(periodRet[0] == null || periodRet[1] == null)
+                continue;
+            if(periodRet[0].id()> periodRet[1].id()){
+                System.out.println("periods ex:"+gitResult);
+                throw new RuntimeException("invalid parameter");
+            }
+            if(periodRet[0].id() ==  periodRet[1].id() && periodRet[0].isWorkTime()){
+                if(!periodRet[0].getIsInWork()){
+                    periodRet[0].setIsInWork(true);
+                    n++;
+                }
+                continue;
+            }
+            for(int i= periodRet[0].id();i<= periodRet[1].id();i++){
+                if( !periods.get(i-1).getIsInWork() && periods.get(i-1).isWorkTime()) {
+                    periods.get(i-1).setIsInWork(true);
+                    n++;
+                }
+            }
+        }
+        return n;
+    }
 
+    /**
+     * 从配置文件中获取真实姓名
+     * @return
+     */
+    private static Properties getRealnameProperties(){
+             Properties properties = new Properties();
+            try {
+                String filePath = "src"+ File.separator+"main"+File.separator+"resources"+File.separator+"realnames.properties";
+                InputStreamReader  br = new InputStreamReader(new FileInputStream(new File(filePath)), "GBK");
+                properties.load(br);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            return properties;
+
+    }
+
+
+    //获取一个时间之前的所有period
+    public List<Period> getPeriodsByEnd(Date end,List<Period> periods){
+        List<Period> periods1 = new ArrayList<>();
+        Period period1 = this.getPeriodClosedAt(end, periods);
+        if(period1 == null)
+            return  periods1;
+        for(Period period : periods){
+            periods1.add(period);
+            if(period1.id()==period.id()){
+                break;
+            }
+        }
+        return periods1;
+    }
+
+    /**
+     * 获取到包含h或d标签的issue
+     * @param gitResults
+     * @return
+     */
     public List<GitResult> getGitRetHasLabelHOrD(List<GitResult> gitResults){
         List<GitResult> gitResults1 = new ArrayList<>();
         for (GitResult gitResult : gitResults){
@@ -189,33 +275,6 @@ public class WorkService {
      */
     public List<GitResult> getOpenGitRet(String assignee,Date dueOn){
         return gitResultRepository.findOpenGitRet(assignee, "open", dueOn);
-    }
-
-
-    /**
-     * 获取某个assignee某年某周所有的issue结果
-     * @param assignee
-     * @param weekOfYear
-     * @return
-     */
-    public List<GitResult> getAllGitRetOfWeek(String assignee,int year,int weekOfYear){
-        Date start = DateUtil.getWeekStart(year, weekOfYear);
-        Date end = DateUtil.getWeekEnd(year,weekOfYear);
-        List<GitResult> gitResults = new ArrayList<>();
-        gitResults.addAll(this.getClosedGitRet(assignee, start, end));
-        gitResults.addAll(this.getOpenGitRet(assignee,end));
-        return gitResults;
-    }
-
-
-    /**
-     * 获取某个assignee本周所有的issue结果
-     * @param assignee
-     * @param weekOfYear
-     * @return
-     */
-    public List<GitResult> getAllGitRetOfWeek(String assignee,int weekOfYear){
-        return getAllGitRetOfWeek(assignee, DateUtil.getYear(), weekOfYear);
     }
 
 
@@ -282,29 +341,6 @@ public class WorkService {
 
 
     /**
-     * 获取所有完成的工作量
-     * @param assignee
-     * @param date1
-     * @param date2
-     * @return
-     */
-    public int getTotalFinishedWork(String assignee,Date date1 ,Date date2){
-        return this.totalFinishedWork(getClosedGitRet(assignee, date1, date2));
-    }
-
-
-    /**
-     * 获取某个assignee所有未完成的工作量
-     * @param assignee
-     * @param end
-     * @return
-     */
-    public int getUnfinishedWorkOfAssignee(String assignee,Date end){
-        return getTotalUnfinishedWork(getOpenGitRet(assignee, end));
-    }
-
-
-    /**
      * 获取某个结果未完成的工作量
      * @param gitResult
      * @return
@@ -312,11 +348,10 @@ public class WorkService {
     public int getUnfinishedWorkOfOneIssue(GitResult gitResult){
         int num = 0;
         if(isBeforeThisWeek(gitResult.getDueOn())) {
-            return num = oneIssueWork(gitResult);
+            return oneIssueWork(gitResult);
         }
         return num;
     }
-
 
     /**
      * 统计所有未完成工作
@@ -331,7 +366,6 @@ public class WorkService {
         return totalHours;
     }
 
-
     /**
      * 判断某个时间是否在本周之前
      * @param date
@@ -345,6 +379,18 @@ public class WorkService {
         return false;
     }
 
+    /**
+     * 判断某个时间是否在本周后
+     * @param date
+     * @return
+     */
+    public boolean isAfterThisWeek(Date date,List<Period> periods){
+        if(date !=null && date.compareTo(periods.get(periods.size()-1).end())>0){
+            return true;
+        }
+        return false;
+    }
+
 
     /**
      * 判断某个时间点是否在某个片段内
@@ -353,82 +399,10 @@ public class WorkService {
      * @return
      */
     public boolean isInPeriod(Date date , Period period){
-        Date periodStart = getTimeOfPeriod(period);
-        Date periodEnd = getEndTimeOfPeriod(period);
-        if(date.compareTo(periodStart)>=0 && date.compareTo(periodEnd)<=0){
+        if(DateUtil.compareDate(date,period.start())>=0 && DateUtil.compareDate(date, period.end())<=0){
             return true;
         }
         return false;
-    }
-
-
-    /**
-     * 获取period开始时所对应的date
-     * @param period
-     * @return
-     */
-    public Date getTimeOfPeriod(Period period){
-        return DateUtil.getPeriodStart(period);
-    }
-
-
-    /**
-     * 获取一个period结束时所对应的date
-     * @param period
-     * @return
-     */
-    public Date getEndTimeOfPeriod(Period period){
-        return DateUtil.getPeriodEnd(period);
-    }
-
-
-
-    /**
-     * 计算createdAt所在的period
-     * @param createdAt
-     * @param periods
-     * @return
-     */
-    public Period getPeriodOfCreated(Date createdAt,List<Period> periods){
-
-        if(isBeforeFirstPeriod(createdAt,periods.get(0))){
-            return periods.get(0);
-        }
-        if(isNotInPeriod(createdAt)){
-            return getFirstPeriodAfterCreated(createdAt, periods);
-        }
-        for(Period period : periods){
-            if(isInPeriod(createdAt,period)){
-                return period;
-            }
-        }
-        return null;
-    }
-
-
-    /**
-     * 计算closedAt所在的period
-     * @param closedAt
-     * @param periods
-     * @return
-     */
-    public Period getPreiodOfClosed(Date closedAt ,List<Period> periods){
-        //如果closedAt为空 将period设置为最后一个
-        if(closedAt == null){
-            return periods.get(periods.size()-1);
-        }
-        //如果closedAt在period空隙
-        if(isNotInPeriod(closedAt)){
-            return getLastPeriodBeforeClosed(closedAt, periods);
-        }
-
-        for(Period period : periods){
-            if(isInPeriod(closedAt,period)){
-                return period;
-            }
-        }
-
-        return null;
     }
 
 
@@ -442,49 +416,25 @@ public class WorkService {
         Period[] periodsArr = new Period[2];
         Date createdAt = gitResult.getCreatedAt();
         Date closedAt = gitResult.getClosedAt();
-
-        Period periodStart = getFirstPeriodAfterCreated(createdAt, periods);
-        Period periodEnd = getLastPeriodBeforeClosed(closedAt, periods);
-
-//        try {
-            if(periodStart!=null && periodEnd != null){
-                if( periodStart.getNumber()-periodEnd.getNumber()==1){
-                    if( isNotInPeriod(createdAt) && isNotInPeriod(closedAt)){//如果createAt和closedAt在同一个period空隙
-                        return periodsArr;
-                    }
-                    periodsArr[0] = periodStart;
-                    periodsArr[1] = periodStart;
-                    return periodsArr;
-                }
-            }
-//        }catch (Exception e){
-//            System.out.println("报错git："+gitResult);
-//            e.printStackTrace();
-//        }
-
-
-        periodsArr[0] = periodStart;
-        periodsArr[1] = periodEnd;
+        periodsArr[0] = getPeriodCreateAt(createdAt, periods);
+        periodsArr[1] = getPeriodClosedAt(closedAt, periods);
         return periodsArr;
     }
 
 
     /**
-     * 找到创建时间（不在period内）之后的第一个period
+     * 找到创建时间对应的period
      * @param created
      * @param periods
      * @return
      */
-    public Period getFirstPeriodAfterCreated(Date created,List<Period> periods){
-        Period lastPeriod = periods.get(periods.size()-1);
-        if(created.compareTo(getEndTimeOfPeriod(lastPeriod)) > 0){
-            return null;
-        }
-        if(created.compareTo(getTimeOfPeriod(lastPeriod))>=0){
-            return lastPeriod;
+    public Period getPeriodCreateAt(Date created,List<Period> periods){
+        //本周以前创建的issue，返回第一个period
+        if(isBeforeFirstPeriod(created, periods)){
+            return periods.get(0);
         }
         for(Period period : periods){
-            if(created.compareTo(getTimeOfPeriod(period))<0){
+            if (isInPeriod(created, period)){
                 return period;
             }
         }
@@ -493,13 +443,13 @@ public class WorkService {
 
 
     /**
-     * 判断时间点是否在第一个period之前
+     * 判断issue是否是本周以前创建的
      * @param createdAt
-     * @param period 第一个period
+     * @param periods period数组
      * @return
      */
-    public boolean isBeforeFirstPeriod(Date createdAt,Period period){
-        if(getTimeOfPeriod(period).compareTo(createdAt)>0){
+    public boolean isBeforeFirstPeriod(Date createdAt,List<Period> periods){
+        if(periods.get(0).start().compareTo(createdAt)>0){
             return true;
         }
         return false;
@@ -507,76 +457,39 @@ public class WorkService {
 
 
     /**
-     *判断某个时间点是否不在period里
-     * @param createdAt
-     * @return
-     */
-    public boolean isNotInPeriod(Date createdAt){
-        Calendar calendar = DateUtil.calendar;
-        calendar.setTime(createdAt);
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        if(hour <9 || (hour >= 12 && hour <13) || hour >17 ){
-            return true;
-        }
-        return false;
-    }
-
-
-    /**
-     * 获取issue关闭时间前的最后一个period
+     * 获取issue结束时间对应的period
      * @param closedAt
      * @param periods
      * @return
      */
-    public Period getLastPeriodBeforeClosed(Date closedAt,List<Period> periods){
-        if(closedAt==null){
+    public Period getPeriodClosedAt(Date closedAt,List<Period> periods){
+        if(closedAt==null || isAfterThisWeek(closedAt,periods)){
             return periods.get(periods.size()-1);
         }
-        for(int i=periods.size()-1;i>=0;i--){
-            if(closedAt.compareTo(getTimeOfPeriod(periods.get(i))) > 0){
-                return periods.get(i);
+        for(Period period : periods){
+            if(isInPeriod(closedAt, period)){
+                return period;
             }
         }
+
         return null;
     }
 
 
     /**
-     * 统计工作时间
-     * @param gitResults  周所对应所有gitret
-     * @param periods 周所对应所有period
-     * @return 工作时长
+     * 重新赋值
+     * @param periods
      */
-    public int getHoursInWork(List<GitResult> gitResults,List<Period> periods){
-        int n = 0;
-        for (GitResult gitResult : gitResults){
-            Period[] periodRet = getPeriodOfGitRet(gitResult, periods);
-            if(periodRet[0] == null || periodRet[1] == null)
-                continue;
-            if(periodRet[0].getNumber()> periodRet[1].getNumber()){
-                System.out.println("periods ex:"+gitResults);
-                throw new RuntimeException("invalid parameter");
-            }
-            if(periodRet[0].getNumber() ==  periodRet[1].getNumber()){
-                if(!periodRet[0].getIsInWork()){
-                    periodRet[0].setIsInWork(true);
-                    n++;
-                }
-                continue;
-            }
-            for(int i= periodRet[0].getNumber();i<= periodRet[1].getNumber();i++){
-                if( !periods.get(i).getIsInWork()) {
-                    periods.get(i).setIsInWork(true);
-                    n++;
-                }
-            }
+    private static void initPeriods(List<Period> periods){
+        for(Period period : periods){
+            period.setIsInWork(false);
         }
-        return n;
     }
 
+
     /**
-     *
-     * @param assignee issue执行者
+     * @param realname 真实姓名
+     * @param username github用户名
      * @param weekInYear 周数
      * @param currentPage 当前页
      * @param pageSize 每页大小
@@ -585,21 +498,22 @@ public class WorkService {
      * @param ascOrDesc 升序或降序 1表示升序，其他表示降序
      * @return
      */
-    public Page<Work> findPageOfWork(String assignee,Integer weekInYear,Integer currentPage,Integer pageSize,Integer fuzzy,String orderByProperty,Integer ascOrDesc){
-        currentPage = currentPage == null?1:(currentPage <= 0?1:currentPage);
-        pageSize = pageSize == null?100:(pageSize <= 0?100:pageSize);
-        boolean isFuzzy = fuzzy == null?false:(fuzzy==1?true:false);
-        assignee = assignee==""?null:assignee;
-        orderByProperty = orderByProperty ==null?"weekInYear":orderByProperty;
-        ascOrDesc = ascOrDesc==null?0:(ascOrDesc !=1 ?0:1);
-        Sort.Direction direction = ascOrDesc==1? Sort.Direction.ASC:Sort.Direction.DESC;
-        Pageable pageRequest = new PageRequest(currentPage-1,pageSize,new Sort(orderByProperty));
+
+    public Page<Work> findPageOfWork(String realname,String username,Integer weekInYear,Integer currentPage,Integer pageSize,Integer fuzzy,String orderByProperty,Integer ascOrDesc){
+        currentPage = (currentPage == null || currentPage <= 0)?1:currentPage;
+        pageSize = (pageSize == null || pageSize <= 0)?10:pageSize;
+        boolean isFuzzy = (fuzzy != null && fuzzy == 1)?true:false;
+        username = username==""?null:username;
+        Pageable pageRequest = new PageRequest(currentPage-1,pageSize,new Sort(Sort.Direction.DESC,"weekInYear"));
         Page<Work> workPage ;
-        if(isFuzzy && assignee != null){
-            assignee = "%"+assignee+"%";
-            workPage = workRepository.fuzzyFindPage(assignee,weekInYear,pageRequest);
+        if(isFuzzy ){
+            if(realname!=null)
+                realname = "%"+realname+"%";
+            if(username!=null)
+                username = "%"+username+"%";
+            workPage = workRepository.fuzzyFindPage(realname,username,weekInYear,pageRequest);
         }else {
-            workPage = workRepository.findPage(assignee,weekInYear,pageRequest);
+            workPage = workRepository.findPage(realname,username,weekInYear,pageRequest);
         }
         return new PageImpl<Work>(workPage.getContent(),pageRequest,workPage.getTotalElements());
     }

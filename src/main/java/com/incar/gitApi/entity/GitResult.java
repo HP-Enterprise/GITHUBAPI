@@ -175,19 +175,19 @@ public class GitResult {
 
     @Override
     public String toString() {
-        return "\nGitResult{" +"\n"+
-                "id=" + id +"\n"+
-                ", issueId=" + issueId +"\n"+
-                ", title='" + title + '\'' +"\n"+
-                ", state='" + state + '\'' +"\n"+
-                ", assignee='" + assignee + '\'' +"\n"+
-                ", milestone=" + milestone +"\n"+
-                ", createdAt=" + createdAt +"\n"+
-                ", updatedAt=" + updatedAt +"\n"+
-                ", closedAt=" + closedAt +"\n"+
-                ", labels='" + labels + '\'' +"\n"+
-                ", project='" + project + '\'' +"\n"+
-                ", user='" + user + '\'' +"\n"+
+        return "\nGitResult{" +""+
+                "id=" + id +""+
+                ", issueId=" + issueId +""+
+                ", title='" + title + '\'' +""+
+                ", state='" + state + '\'' +""+
+                ", assignee='" + assignee + '\'' +""+
+                ", milestone=" + milestone +""+
+                ", createdAt=" + createdAt +""+
+                ", updatedAt=" + updatedAt +""+
+                ", closedAt=" + closedAt +""+
+                ", labels='" + labels + '\'' +""+
+                ", project='" + project + '\'' +""+
+                ", user='" + user + '\'' +""+
                 '}';
     }
 }
