@@ -185,9 +185,9 @@ public class WorkDetailService {
     public Page<WorkDetail> findPageOfWorkDetail(String userName,String project,String state,Integer week,Integer month,Integer year,Integer currentPage,Integer pageSize){
         currentPage=(currentPage==null||currentPage<=0)?1:currentPage;
         pageSize=(pageSize==null||pageSize<=0)?10:pageSize;
-        userName = userName==""?null:"%"+userName+"%";
-        project = project==""?null:"%"+project+"%";
-        state = state==""?null:state;
+//        userName = (userName.equals("")||userName==null)?null:userName;
+//        project = (project.equals("")||project==null)?null:project;
+//        state = (state.equals("")||state==null)?null:state;
         Pageable pageable = new PageRequest(currentPage-1,pageSize);
         Page<WorkDetail> workDetailPage= workDetailRepository.findPage(userName, project, state, week, month, year, pageable);
         return new PageImpl<WorkDetail>(workDetailPage.getContent(),pageable,workDetailPage.getTotalElements());

@@ -31,7 +31,7 @@ public class WorkDetail {
     @Column
     private Integer week;
     @Column
-    private Integer efficiency;//-1��Ч�ʣ�0���Ч�ʣ�1��Ч��
+    private Integer efficiency;//-1表示低效率，0表示平衡，1表示高效率�
     @Column
     private Integer month;
     @Column
