@@ -61,3 +61,6 @@ V<VERSION>__<NAME>.sql，<VERSION>可以写成1 或者 2_1或者3.1
 ```SHELL
 gradle bootRun
 ```
+
+     username: travis4hpe
+     password: travis4Java

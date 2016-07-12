@@ -25,7 +25,7 @@ github:
         - InCar/Track
         - HP-Enterprise/RentalBA
 # Tomcat
-server.port: 8080
+server.port: 7777
 # Logging level (TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF)
 logging:
     level:
@@ -38,7 +38,7 @@ spring:
     datasource:
         url: jdbc:mysql://localhost:3306/gitApi?characterEncoding=utf8
         username: root
-        password: 123456
+        password: zhangfan
     jpa:
         show-sql: false
         hibernate:

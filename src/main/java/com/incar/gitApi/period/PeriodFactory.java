@@ -10,17 +10,18 @@ import java.util.*;
 public class PeriodFactory {
 
     public static Period[] generatePeriods(int year,int weekOfYear){
-        Period[] periods = new Period[168];
+        Period[] periods = new Period[168];//每周168个时间片
         int k = 0;
         //初始化periods
-        for(int i=Calendar.SUNDAY;i<=Calendar.SATURDAY;i++) {
-            if(i==Calendar.SUNDAY||i==Calendar.SATURDAY){
+        for(int i=Calendar.SUNDAY;i<=Calendar.SATURDAY;i++) {//calendar.sunday=1,calendar.saturday=7.
+            if(i==Calendar.SUNDAY||i==Calendar.SATURDAY){//周末的工作时间设置isWorkTime属性为false
                 for(int j=0;j<=23;j++){
-                    Date start = DateUtil.setPeriodTime(year, weekOfYear, i,j,0, 0);
+                    Date start = DateUtil.setPeriodTime(year, weekOfYear, i,j,0, 0);//
                     Date end = DateUtil.setPeriodTime(year, weekOfYear, i,j, 59, 59);
                     periods[k++] = new Period(k,start,end,false,false);
                 }
-            }else {
+            }
+            else {
                 for(int j=0 ; j<=23 ; j++){
                     Date start = DateUtil.setPeriodTime(year, weekOfYear, i,j, 0, 0);
                     Date end = DateUtil.setPeriodTime(year, weekOfYear, i, j, 59, 59);

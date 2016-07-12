@@ -32,7 +32,11 @@ public class ScheduledTask {
 
     private Logger logger = LoggerFactory.getLogger(ScheduledTask.class);
 
+<<<<<<< Updated upstream
     @Scheduled(cron = "0 12 10 * * ?")
+=======
+    @Scheduled(cron = "0 30 11 * * ?")
+>>>>>>> Stashed changes
     public void scheduledQuery(){
         logger.info(">>>>>>>>>>> saving gitResult >>>>>>>>>>>>");
         gitResultService.saveGitResult();
@@ -46,7 +50,11 @@ public class ScheduledTask {
         workDetailService.saveWorkDetailInfo();
     }
 //    @Scheduled(cron = "0 */1 * * * ?")
+<<<<<<< Updated upstream
     @Scheduled(cron = "0 45 14 * * ?")
+=======
+    @Scheduled(cron = "0 50 11 * * ?")
+>>>>>>> Stashed changes
     public void gitRetAlalyse(){
         logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");
         workService.deleteWorkInfo();
