@@ -46,4 +46,5 @@ spring:
             ddl-auto: validate
             naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
             properties:
-                hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+            hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+
