@@ -236,7 +236,7 @@
                 </select>-->
             </div>
             <a href="" ng-click="getAllGitHubWork('flag')">查询</a>
-            <a href="" ng-click="getAllGitHubWork('flag')">详细查询</a>
+            <a href="index-detail.html" ng-click="getAllGitHubWork('flag')">详细查询</a>
         </div>
         <div class="fr">
             <a href="" class="btn">导出Excel</a>
@@ -268,7 +268,7 @@
         </tbody>
     </table>
     <div class="page fr">
-        <a href="" ng-click="upPageClick(workPageObject,workPageObject.currentPage)"><</a>
+        <a href="" ng-click="upPageClick(workPageObject,workPageObject.currentPage)"></a>
         <span ng-repeat="page in workPageObject.pages" >
             <a href="" ng-click="showCurrentPageContent(workPageObject,page)"><span ng-class="{true:'active',false:'inactive'}[workPageObject.currentPage == page]" ng-bind="page"></span></a>
         </span>

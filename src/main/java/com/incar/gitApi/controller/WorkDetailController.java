@@ -40,7 +40,7 @@ public class WorkDetailController {
             @RequestParam(value = "state" ,required = false )String state,
             @RequestParam(value = "week",required = false)Integer week,
             @RequestParam(value = "month",required = false)Integer month,
-            @RequestParam(value = "yaer",required = false)Integer year,
+            @RequestParam(value = "year",required = false)Integer year,
             @RequestParam(value = "currentPage",required = false)Integer currentPage,
             @RequestParam(value = "pageSize",required = false)Integer pageSize,
             HttpServletResponse response){

@@ -47,12 +47,10 @@ public class GitResultRepositoryTest {
         System.out.println(gitResults.toString());
         System.out.println("gitResults1.size" + gitResults1.size());
         System.out.println(gitResults1.toString());
-<<<<<<< Updated upstream
 
-=======
 //        Assert.notEmpty(gitResults1);
 //        Assert.notEmpty(gitResults);
->>>>>>> Stashed changes
+
     }
 
     @Test

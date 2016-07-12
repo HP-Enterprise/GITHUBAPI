@@ -1,6 +1,6 @@
 var app = angular.module('indexApp_detail',['ngResource']);
 
-app.controller("indexCtrl_detail", function($scope,$http, $location, $resource){
+app.controller("indexCtrlDetail", function($scope,$http, $location, $resource){
     //分页
     $scope.workPageObject = {
         currentPage : 1,
@@ -83,30 +83,44 @@ app.controller("indexCtrl_detail", function($scope,$http, $location, $resource){
     //分页
 
     $scope.getAllGitHubWork = function(flag){
-        if($scope.worKeSelect.realname==''){
-            $scope.worKeSelect.realname = null;
+        console.log(flag);
+        if($scope.worKeSelect.userName==''){
+            $scope.worKeSelect.userName = null;
         }
-        if($scope.worKeSelect.username==''){
-            $scope.worKeSelect.username = null;
+        if($scope.worKeSelect.project==''){
+            $scope.worKeSelect.project = null;
         }
-        if($scope.worKeSelect.weekNum==''){
-            $scope.worKeSelect.weekNum = null;
+        if($scope.worKeSelect.state==''){
+            $scope.worKeSelect.state = null;
+        }
+        if($scope.worKeSelect.week==''){
+            $scope.worKeSelect.week = null;
+        }
+        if($scope.worKeSelect.month==''){
+            $scope.worKeSelect.month = null;
+        }
+        if($scope.worKeSelect.year==''){
+            $scope.worKeSelect.year = null;
         }
 
         $scope.workSearch={
             params:{
-                realname:$scope.worKeSelect.realname,
-                username:$scope.worKeSelect.username,
-                weekNum:$scope.worKeSelect.weekNum,
+                userName:$scope.worKeSelect.userName,
+                project:$scope.worKeSelect.project,
+                state:$scope.worKeSelect.state,
+                week:$scope.worKeSelect.week,
+                month:$scope.worKeSelect.month,
+                year:$scope.worKeSelect.year,
                 currentPage:$scope.workPageObject.currentPage,
                 pageSize:$scope.workPageObject.pageSize,
                 fuzzy:1
             }
         };
-        $http.get("/api/work",$scope.workSearch).success(function(data,status,headers){
+        $http.get("/api/workDetail",$scope.workSearch).success(function(data,status,headers){
+
             $scope.workPageObject.totalPage = headers('Page-Count'); //总页数
             $scope.allWork = data.message;
-            if(flag == 'work'){
+            if(flag == 'workDetail'){
                 $scope.showFirstPageContent($scope.workPageObject,1);
             }
         }).error(function(err){
@@ -114,7 +128,7 @@ app.controller("indexCtrl_detail", function($scope,$http, $location, $resource){
         })
     };
 
-    $scope.getAllGitHubWork('work');
+    $scope.getAllGitHubWork('workDetail');
     $scope.$watch('workPageObject.currentPage',function(){$scope.getAllGitHubWork();});
 
 });

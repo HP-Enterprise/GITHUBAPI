@@ -213,10 +213,10 @@
     <script src="/lib/angular/angular.min.js"></script>
     <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/lib/angular-resource/angular-resource.js"></script>
-    <script src="/scripts/indexCtrl.js"></script>
+    <script src="/scripts/indexCtrl_detail.js"></script>
 
 </head>
-<body ng-controller="indexCtrl">
+<body ng-controller="indexCtrlDetail">
 <div class="inner">
     <div class="gitlogo">
         <img src="images/logo.png" alt=""/>
@@ -224,9 +224,9 @@
     <div class="buttons">
         <div class="fl">
             <span>用户名：</span>
-            <input type="text" ng-model="worKeSelect.realname"/>
+            <input type="text" ng-model="worKeSelect.userName"/>
             <span>项目名：</span>
-            <input type="text" ng-model="worKeSelect.username"/>
+            <input type="text" ng-model="worKeSelect.project"/>
             <span>状态：</span>
             <div class="selectkuang">
             <select ng-model="worKeSelect.state">
@@ -235,11 +235,11 @@
             </select>
             </div>
             <span>周：</span>
-            <input type="text" ng-model="worKeSelect.username"/>
+            <input type="text" ng-model="worKeSelect.week"/>
             <span>月：</span>
-            <input type="text" ng-model="worKeSelect.username"/>
+            <input type="text" ng-model="worKeSelect.month"/>
             <span>年：</span>
-            <input type="text" ng-model="worKeSelect.username"/>
+            <input type="text" ng-model="worKeSelect.year"/>
             <!--<span>时间(周数)：</span>-->
             <!--<div class="selectkuang">-->
                 <!--<input type="text" ng-model="worKeSelect.weekNum"  placeholder="周数"/>-->
@@ -274,19 +274,19 @@
         </thead>
         <tbody>
         <tr ng-repeat="aw in allWork">
-            <td ng-bind="aw.username"></td>
-            <td ng-bind="aw.realname"></td>
+            <td ng-bind="aw.userName"></td>
+            <td ng-bind="aw.realName"></td>
             <td ng-bind="aw.title"></td>
             <td ng-bind="aw.project"></td>
-            <td ng-bind="aw.expected_time"></td>
-            <td ng-bind="aw.actual_time"></td>
+            <td ng-bind="aw.expectedTime"></td>
+            <td ng-bind="aw.actualTime"></td>
             <td ng-bind="aw.state"></td>
             <td ng-bind="aw.efficiency"></td>
         </tr>
         </tbody>
     </table>
     <div class="page fr">
-        <a href="" ng-click="upPageClick(workPageObject,workPageObject.currentPage)"><</a>
+        <a href="" ng-click="upPageClick(workPageObject,workPageObject.currentPage)"></a>
         <span ng-repeat="page in workPageObject.pages" >
             <a href="" ng-click="showCurrentPageContent(workPageObject,page)"><span ng-class="{true:'active',false:'inactive'}[workPageObject.currentPage == page]" ng-bind="page"></span></a>
         </span>
