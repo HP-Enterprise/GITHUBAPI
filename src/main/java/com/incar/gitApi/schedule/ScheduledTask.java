@@ -2,6 +2,7 @@ package com.incar.gitApi.schedule;
 
 import com.incar.gitApi.entity.GitResult;
 import com.incar.gitApi.service.GitResultService;
+import com.incar.gitApi.service.WorkDetailService;
 import com.incar.gitApi.service.WorkService;
 import org.eclipse.egit.github.core.Issue;
 import org.slf4j.Logger;
@@ -24,24 +25,33 @@ public class ScheduledTask {
 
     @Autowired
     private GitResultService gitResultService;
-
     @Autowired
     private WorkService workService;
+    @Autowired
+    private WorkDetailService workDetailService;
 
     private Logger logger = LoggerFactory.getLogger(ScheduledTask.class);
 
-    @Scheduled(cron = "0 50 23 * * ?")
+    @Scheduled(cron = "0 12 10 * * ?")
     public void scheduledQuery(){
         logger.info(">>>>>>>>>>> saving gitResult >>>>>>>>>>>>");
         gitResultService.saveGitResult();
     }
 
+    @Scheduled(cron = "0 26 10 * * ?")
+    public void gitRetDetail(){
+        logger.info(">>>>>>>>>>> deleting workDetailInfo >>>>>>>>>>>>");
+        workDetailService.deleteWorkDetailInfo();
+        logger.info(">>>>>>>>>>> saving workDetailInfo >>>>>>>>>>>>");
+        workDetailService.saveWorkDetailInfo();
+    }
 //    @Scheduled(cron = "0 */1 * * * ?")
-    @Scheduled(cron = "0 55 23 * * ?")
+    @Scheduled(cron = "0 45 14 * * ?")
     public void gitRetAlalyse(){
         logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");
         workService.deleteWorkInfo();
         logger.info(">>>>>>>>>>> saving workInfo >>>>>>>>>>>>");
         workService.saveWorkInfo();
     }
+
 }

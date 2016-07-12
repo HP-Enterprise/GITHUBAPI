@@ -207,7 +207,7 @@ public class WorkService {
      * 从配置文件中获取真实姓名
      * @return
      */
-    private Properties getRealnameProperties(){
+    public Properties getRealnameProperties(){
         Properties properties = new Properties();
         try {
             String filePath = "src"+ File.separator+"main"+File.separator+"resources"+File.separator+"realnames.properties";

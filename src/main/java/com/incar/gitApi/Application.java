@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  * Created by ct on 2016/2/19 0019.
  */
 
-@SpringBootApplication
+@SpringBootApplication()
 @EnableConfigurationProperties(GithubClientConfig.class)
 public class Application  {
     public static void main(String[] args) {

@@ -49,4 +49,38 @@ public class PeriodFactory {
 //        System.out.println(Arrays.toString(period1s));
 //        System.out.println(DateUtil.getWeekInYear());
 //    }
+
+    /**
+     *
+     * @param startTime issue创建时间
+     * @param endTime   issue关闭时间
+     * @return  issue的实际花费时间
+     */
+    public static int  getHours(Date startTime,Date  endTime) {
+        Calendar start = Calendar.getInstance();
+        start.setTime(startTime);
+        Calendar end = Calendar.getInstance();
+        end.setTime(endTime);
+        int hours=0;
+        int  minute= start.get(Calendar.MINUTE);
+        while (start.compareTo(end) <= 0) {
+            int day = start.get(Calendar.DAY_OF_WEEK);
+            int  hour= start.get(Calendar.HOUR_OF_DAY);
+            if (day != Calendar.SUNDAY && day != Calendar.SATURDAY) {
+                if(hour >=9&&hour <=18) {
+                    if(hour <12 || hour >13){
+                        hours++;
+
+                    }
+                }
+            }
+            start.set(Calendar.HOUR, start.get(Calendar.HOUR) + 1);
+        }
+        if(minute>30){
+            hours--;
+        }
+        return hours;
+    }
+
+
 }
