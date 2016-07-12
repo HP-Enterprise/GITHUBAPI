@@ -82,7 +82,7 @@ public class WorkDetialServiceTest {
     }
     @Test
     public void testWorkDetailPage(){
-        Page<WorkDetail> workDetailPage = workDetailService.findPageOfWorkDetail("", "", "", null, null, 2016, null, null);
+        Page<WorkDetail> workDetailPage = workDetailService.findPageOfWorkDetail(null, null, null, null, null, 2016, null, null);
         System.out.println(workDetailPage.getContent());
         System.out.println(workDetailPage.getTotalPages());
         System.out.println(workDetailPage.getTotalElements());

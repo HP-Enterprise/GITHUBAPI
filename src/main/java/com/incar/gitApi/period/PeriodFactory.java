@@ -63,7 +63,7 @@ public class PeriodFactory {
         Calendar end = Calendar.getInstance();
         end.setTime(endTime);
         int hours=0;
-        int  minute= start.get(Calendar.MINUTE);
+//        int  minute= start.get(Calendar.MINUTE);
         while (start.compareTo(end) <= 0) {
             int day = start.get(Calendar.DAY_OF_WEEK);
             int  hour= start.get(Calendar.HOUR_OF_DAY);
@@ -77,9 +77,9 @@ public class PeriodFactory {
             }
             start.set(Calendar.HOUR, start.get(Calendar.HOUR) + 1);
         }
-        if(minute>30){
-            hours--;
-        }
+//        if(minute>30){//去掉后不满一小时按一小时算
+//            hours--;
+//        }
         return hours;
     }
 
