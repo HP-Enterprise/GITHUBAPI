@@ -207,20 +207,20 @@ public class WorkService {
      * 从配置文件中获取真实姓名
      * @return
      */
-    private static Properties getRealnameProperties(){
-             Properties properties = new Properties();
-            try {
-                String filePath = "src"+ File.separator+"main"+File.separator+"resources"+File.separator+"realnames.properties";
-                InputStreamReader  br = new InputStreamReader(new FileInputStream(new File(filePath)), "GBK");
-                properties.load(br);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            return properties;
+    public Properties getRealnameProperties(){
+        Properties properties = new Properties();
+        try {
+            String filePath = "src"+ File.separator+"main"+File.separator+"resources"+File.separator+"realnames.properties";
+            InputStreamReader  br = new InputStreamReader(new FileInputStream(new File(filePath)), "GBK");
+            properties.load(br);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return properties;
 
     }
 

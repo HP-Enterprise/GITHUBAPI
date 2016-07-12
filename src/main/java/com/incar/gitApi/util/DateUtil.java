@@ -49,6 +49,21 @@ public class DateUtil {
         calendar.setTime(new Date());
         return calendar.get(Calendar.WEEK_OF_YEAR);
     }
+    public static int getIssueWeek(Date due){
+        calendar = Calendar.getInstance();
+        calendar.setTime(due);
+        return calendar.get(Calendar.WEEK_OF_YEAR);
+    }
+    public static int getIssueYear(Date due){
+        calendar = Calendar.getInstance();
+        calendar.setTime(due);
+        return calendar.get(Calendar.YEAR);
+    }
+    public static int getIssueMonth(Date due){
+        calendar = Calendar.getInstance();
+        calendar.setTime(due);
+        return calendar.get(Calendar.MONTH);
+    }
 
     public static int getYear(){
         calendar = Calendar.getInstance();

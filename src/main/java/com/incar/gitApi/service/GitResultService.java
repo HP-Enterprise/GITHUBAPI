@@ -48,7 +48,7 @@ public class GitResultService {
         gitResultRepository.save(gitResults);
     }
 
-    public Set<GitResult> findAll(){
+    public List<GitResult> findAll(){
         return gitResultRepository.findAll();
     }
 

@@ -32,8 +32,8 @@ public class GitResultRepositoryTest {
     @Test
     public void testFindAllAssignee(){
         List<String> assignees = gitResultRepository.findAllAssignee();
-        Assert.notEmpty(assignees);
-        System.out.println(assignees.toString());
+     Assert.notEmpty(assignees);
+        System.out.println("assignees:"+assignees.toString());
     }
 
     @Test
@@ -41,13 +41,13 @@ public class GitResultRepositoryTest {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         List<GitResult> gitResults = gitResultRepository.findClosedGitRet("Septemberwh", "closed", sdf.parse("2016-03-20"), sdf.parse("2016-03-26"));
         List<GitResult> gitResults1 = gitResultRepository.findClosedGitRet("wangh2015", "closed", sdf.parse("2016-03-20"), sdf.parse("2016-03-26"));
-
+//        Assert.notEmpty(gitResults1);
+//        Assert.notEmpty(gitResults);
         System.out.println("gitResults.size"+gitResults.size());
         System.out.println(gitResults.toString());
-        System.out.println("gitResults1.size"+gitResults1.size());
+        System.out.println("gitResults1.size" + gitResults1.size());
         System.out.println(gitResults1.toString());
-        Assert.notEmpty(gitResults1);
-        Assert.notEmpty(gitResults);
+
     }
 
     @Test

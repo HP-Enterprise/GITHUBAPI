@@ -1,8 +1,11 @@
 package com.incar.gitApi.controller;
 
 import com.incar.gitApi.entity.Work;
+import com.incar.gitApi.entity.WorkDetail;
+import com.incar.gitApi.service.WorkDetailService;
 import com.incar.gitApi.service.WorkService;
 import com.incar.gitApi.service.ObjectResult;
+import com.incar.gitApi.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,8 @@ public class WorkController {
 
     @Autowired
     private WorkService workService;
+    @Autowired
+    private WorkDetailService workDetailService;
 
 
     /**
@@ -53,5 +58,19 @@ public class WorkController {
         response.addHeader("Page",String.valueOf(page.getNumber())+1);
         response.addHeader("Page-Count",String.valueOf(page.getTotalPages()));
         return new ObjectResult("true",workList);
+    }
+    @RequestMapping(value = "/personalWorkDetail" ,method = RequestMethod.GET)
+    public ObjectResult personalWorkDetailPage(
+                                       @RequestParam(value = "userName",required = true)String userName,
+                                       @RequestParam(value = "week",required = true)Integer week,
+                                    //   @RequestParam(value = "year",required = false)Integer year,
+                                       @RequestParam(value = "currentPage",required = false )Integer currentPage,
+                                       @RequestParam(value = "pageSize",required = false)Integer pageSize,
+                                       HttpServletResponse response){
+        Page<WorkDetail> personalWorkDetailPage= workDetailService.findPageOfWorkDetail(userName, week,DateUtil.getYear(), currentPage, pageSize);
+        List<WorkDetail> personalWorkDetailList=  personalWorkDetailPage.getContent();
+        response.addHeader("Page",String.valueOf(personalWorkDetailPage.getNumber())+1);
+        response.addHeader("Page-Count",String.valueOf(personalWorkDetailPage.getTotalPages()));
+        return new ObjectResult("true",personalWorkDetailList);
     }
 }
