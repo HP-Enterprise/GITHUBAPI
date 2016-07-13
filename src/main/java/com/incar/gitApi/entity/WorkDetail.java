@@ -35,6 +35,8 @@ public class WorkDetail {
     @Column
     private Integer month;
     @Column
+    private Integer quarter;
+    @Column
     private Integer year;
 
     public Integer getYear() {
@@ -135,6 +137,14 @@ public class WorkDetail {
         this.efficiency = efficiency;
     }
 
+    public Integer getQuarter() {
+        return quarter;
+    }
+
+    public void setQuarter(Integer quarter) {
+        this.quarter = quarter;
+    }
+
     @Override
     public String toString() {
         return "WorkDetail{" +
@@ -149,6 +159,7 @@ public class WorkDetail {
                 ", week=" + week +
                 ", efficiency=" + efficiency +
                 ", month=" + month +
+                ", quarter=" + quarter +
                 ", year=" + year +
                 '}';
     }

@@ -41,11 +41,12 @@ public class WorkDetailController {
             @RequestParam(value = "state" ,required = false )String state,
             @RequestParam(value = "week",required = false)Integer week,
             @RequestParam(value = "month",required = false)Integer month,
+            @RequestParam(value = "quarter",required = false)Integer quarter,
             @RequestParam(value = "year",required = false)Integer year,
             @RequestParam(value = "currentPage",required = false)Integer currentPage,
             @RequestParam(value = "pageSize",required = false)Integer pageSize,
             HttpServletResponse response){
-        Page<WorkDetail> page= workDetailService.findPageOfWorkDetail(userName, project, state, week, month, year, currentPage, pageSize);
+        Page<WorkDetail> page= workDetailService.findPageOfWorkDetail(userName, project, state, week, month,quarter, year, currentPage, pageSize);
         List<WorkDetail> workDetailList= page.getContent();
         response.addHeader("Page",String.valueOf(page.getNumber())+1);
         response.addHeader("Page-Count",String.valueOf(page.getTotalPages()));

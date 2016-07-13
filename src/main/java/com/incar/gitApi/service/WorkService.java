@@ -211,7 +211,7 @@ public class WorkService {
         Properties properties = new Properties();
         try {
             String filePath = "src"+ File.separator+"main"+File.separator+"resources"+File.separator+"realnames.properties";
-            InputStreamReader  br = new InputStreamReader(new FileInputStream(new File(filePath)), "GBK");
+            InputStreamReader  br = new InputStreamReader(new FileInputStream(new File(filePath)), "utf-8");
             properties.load(br);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

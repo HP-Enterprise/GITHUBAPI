@@ -32,13 +32,13 @@ public class ScheduledTask {
 
     private Logger logger = LoggerFactory.getLogger(ScheduledTask.class);
 
-    @Scheduled(cron = "0 12 10 * * ?")
+    @Scheduled(cron = "0 33 10 * * ?")
     public void scheduledQuery(){
         logger.info(">>>>>>>>>>> saving gitResult >>>>>>>>>>>>");
         gitResultService.saveGitResult();
     }
 
-    @Scheduled(cron = "0 26 10 * * ?")
+    @Scheduled(cron = "0 30 11 * * ?")
     public void gitRetDetail(){
         logger.info(">>>>>>>>>>> deleting workDetailInfo >>>>>>>>>>>>");
         workDetailService.deleteWorkDetailInfo();
@@ -46,7 +46,7 @@ public class ScheduledTask {
         workDetailService.saveWorkDetailInfo();
     }
 //    @Scheduled(cron = "0 */1 * * * ?")
-    @Scheduled(cron = "0 43 16 * * ?")
+    @Scheduled(cron = "0 36 11 * * ?")
     public void gitRetAlalyse(){
         logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");
         workService.deleteWorkInfo();
