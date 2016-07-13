@@ -61,20 +61,22 @@ public class WorkDetailService {
       List<WorkDetail> workDetails =new ArrayList<>();
         for (GitResult gitResult : gitResults1) {
          //   Object obj = properties.get(gitResult.getAssignee());
-            WorkDetail workDetail=new WorkDetail();
-            workDetail.setState(gitResult.getState());
-            workDetail.setUserName(gitResult.getAssignee());
-            workDetail.setRealName(null);
-            workDetail.setState(gitResult.getState());
-            workDetail.setTitle(gitResult.getTitle());
-            workDetail.setProject(gitResult.getProject());
-            workDetail.setActualTime(this.oneIssueActuWork(gitResult));
-            workDetail.setExpectedTime(workService.oneIssueWork(gitResult));
-            workDetail.setEfficiency(this.oneIssueEffic(gitResult));
-            workDetail.setWeek(this.oneIssueWeek(gitResult));
-            workDetail.setMonth(this.oneIssueMonth(gitResult));
-            workDetail.setYear(this.oneIssueYear(gitResult));
-            workDetails.add(workDetail);
+            if(gitResult.getAssignee()!=null) {//防止插入真实姓名出现空指针异常
+                WorkDetail workDetail = new WorkDetail();
+                workDetail.setState(gitResult.getState());
+                workDetail.setUserName(gitResult.getAssignee());
+                workDetail.setRealName((String)properties.get(gitResult.getAssignee()));
+                workDetail.setState(gitResult.getState());
+                workDetail.setTitle(gitResult.getTitle());
+                workDetail.setProject(gitResult.getProject());
+                workDetail.setActualTime(this.oneIssueActuWork(gitResult));
+                workDetail.setExpectedTime(workService.oneIssueWork(gitResult));
+                workDetail.setEfficiency(this.oneIssueEffic(gitResult));
+                workDetail.setWeek(this.oneIssueWeek(gitResult));
+                workDetail.setMonth(this.oneIssueMonth(gitResult));
+                workDetail.setYear(this.oneIssueYear(gitResult));
+                workDetails.add(workDetail);
+            }
         }
         return workDetails;
     }
@@ -172,15 +174,15 @@ public class WorkDetailService {
 
     /**
      * 分页查询详细工作信息
-     * @param userName
-     * @param project
-     * @param state
-     * @param week
-     * @param month
-     * @param year
-     * @param currentPage
-     * @param pageSize
-     * @return
+     * @param userName 用户名
+     * @param project 项目名
+     * @param state issue状态
+     * @param week 周
+     * @param month 月
+     * @param year  年
+     * @param currentPage  当前页
+     * @param pageSize  每页数量
+     * @return json数据
      */
     public Page<WorkDetail> findPageOfWorkDetail(String userName,String project,String state,Integer week,Integer month,Integer year,Integer currentPage,Integer pageSize){
         currentPage=(currentPage==null||currentPage<=0)?1:currentPage;
@@ -188,6 +190,9 @@ public class WorkDetailService {
 //        userName = (userName.equals("")||userName==null)?null:userName;
 //        project = (project.equals("")||project==null)?null:project;
 //        state = (state.equals("")||state==null)?null:state;
+        if(userName!=null){userName="%"+userName+"%";}//设置模糊查询
+        if(project!=null){project="%"+project+"%";}
+        if(state!=null){state="%"+state+"%";}
         Pageable pageable = new PageRequest(currentPage-1,pageSize);
         Page<WorkDetail> workDetailPage= workDetailRepository.findPage(userName, project, state, week, month, year, pageable);
         return new PageImpl<WorkDetail>(workDetailPage.getContent(),pageable,workDetailPage.getTotalElements());

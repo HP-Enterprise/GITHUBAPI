@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by Administrator on 2016/7/11.
@@ -36,24 +37,28 @@ public class WorkDetialServiceTest {
 
     @Test
     public void testGetAll() throws ParseException {
+        Properties properties = workService.getRealnameProperties();
        List<GitResult> gitResults= gitResultService.findAll();
         List<GitResult> gitResults1= workService.getGitRetHasLabelHOrD(gitResults);
         List<WorkDetail> workDetails =new ArrayList<>();
         for (GitResult gitResult : gitResults1) {
-            WorkDetail workDetail=new WorkDetail();
-            workDetail.setState(gitResult.getState());
-            workDetail.setUserName(gitResult.getUser());
-            workDetail.setState(gitResult.getState());
-            workDetail.setTitle(gitResult.getTitle());
-            workDetail.setProject(gitResult.getProject());
-            workDetail.setExpectedTime(workService.oneIssueWork(gitResult));
-            workDetail.setActualTime(workDetailService.oneIssueActuWork(gitResult));
-            workDetail.setEfficiency(workDetailService.oneIssueEffic(gitResult));
-
-            workDetails.add(workDetail);
+            if(gitResult.getAssignee()!=null) {
+                properties.get(gitResult.getAssignee());
+                WorkDetail workDetail = new WorkDetail();
+                workDetail.setState(gitResult.getState());
+                workDetail.setUserName(gitResult.getUser());
+                workDetail.setState(gitResult.getState());
+                workDetail.setTitle(gitResult.getTitle());
+                workDetail.setProject(gitResult.getProject());
+                workDetail.setExpectedTime(workService.oneIssueWork(gitResult));
+                workDetail.setActualTime(workDetailService.oneIssueActuWork(gitResult));
+                workDetail.setEfficiency(workDetailService.oneIssueEffic(gitResult));
+                System.out.println(properties.get(gitResult.getAssignee()));
+                workDetails.add(workDetail);
+            }
         }
-        System.out.println(workDetails.size());
-        System.out.println(workDetails);
+       System.out.println(workDetails.size());
+//        System.out.println(workDetails);
 
     }
 
@@ -82,7 +87,7 @@ public class WorkDetialServiceTest {
     }
     @Test
     public void testWorkDetailPage(){
-        Page<WorkDetail> workDetailPage = workDetailService.findPageOfWorkDetail(null, null, null, null, null, 2016, null, null);
+        Page<WorkDetail> workDetailPage = workDetailService.findPageOfWorkDetail("eem", null, null, null, null, 2016, null, null);
         System.out.println(workDetailPage.getContent());
         System.out.println(workDetailPage.getTotalPages());
         System.out.println(workDetailPage.getTotalElements());
