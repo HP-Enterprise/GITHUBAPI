@@ -46,7 +46,7 @@ public class WorkDetialServiceTest {
                 properties.get(gitResult.getAssignee());
                 WorkDetail workDetail = new WorkDetail();
                 workDetail.setState(gitResult.getState());
-                workDetail.setUserName(gitResult.getUser());
+                workDetail.setUserName(gitResult.getAssignee());
                 workDetail.setState(gitResult.getState());
                 workDetail.setTitle(gitResult.getTitle());
                 workDetail.setProject(gitResult.getProject());
@@ -87,7 +87,7 @@ public class WorkDetialServiceTest {
     }
     @Test
     public void testWorkDetailPage(){
-        Page<WorkDetail> workDetailPage = workDetailService.findPageOfWorkDetail("eem", null, null, null, null, 2016, null, null);
+        Page<WorkDetail> workDetailPage = workDetailService.findPageOfWorkDetail("eem", null, null, null, null,2, 2016, null, null);
         System.out.println(workDetailPage.getContent());
         System.out.println(workDetailPage.getTotalPages());
         System.out.println(workDetailPage.getTotalElements());

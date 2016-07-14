@@ -8,6 +8,8 @@ import com.incar.gitApi.repository.GitResultRepository;
 import com.incar.gitApi.repository.WorkRepository;
 import com.incar.gitApi.util.DateUtil;
 import com.incar.gitApi.GithubClientConfig;
+import com.incar.gitApi.util.ExportExcelUtil;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -211,7 +213,7 @@ public class WorkService {
         Properties properties = new Properties();
         try {
             String filePath = "src"+ File.separator+"main"+File.separator+"resources"+File.separator+"realnames.properties";
-            InputStreamReader  br = new InputStreamReader(new FileInputStream(new File(filePath)), "GBK");
+            InputStreamReader  br = new InputStreamReader(new FileInputStream(new File(filePath)), "UTF-8");
             properties.load(br);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -463,7 +465,7 @@ public class WorkService {
      * @return
      */
     public Period getPeriodClosedAt(Date closedAt,List<Period> periods){
-        if(closedAt==null || isAfterThisWeek(closedAt,periods)){
+        if(closedAt==null || isAfterThisWeek(closedAt, periods)){
             return periods.get(periods.size()-1);
         }
         for(Period period : periods){
@@ -518,4 +520,19 @@ public class WorkService {
         return new PageImpl<Work>(workPage.getContent(),pageRequest,workPage.getTotalElements());
     }
 
+    /**
+     * 导出excel表格
+     * @param realname 姓名
+     * @param username 用户名
+     * @param weekInYear 周
+     * @return
+     */
+    public HSSFWorkbook findWorkToExcel(String realname,String username,Integer weekInYear){
+//        if(realname!=null){username="%"+realname+"%";}
+//        if(username!=null){username="%"+username+"%";}
+        List<Work> workList= workRepository.findExcel(realname, username, weekInYear);
+        String[] tableHeader={"编号","用户名","姓名","已完成工作时长（小时）","未完成工作时长（小时）","工作时长（小时）","周"};
+        String[] methods={"id","username","realname","finishedWork","unfinishedWork）","workHours","weekInYear"};
+       return ExportExcelUtil.exprotExcel(tableHeader,methods,workList);
+    }
 }

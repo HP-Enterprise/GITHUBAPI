@@ -7,10 +7,7 @@ import com.incar.gitApi.repository.GitResultRepository;
 import com.incar.gitApi.repository.WorkDetailRepository;
 import com.incar.gitApi.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
@@ -65,7 +62,7 @@ public class WorkDetailService {
                 WorkDetail workDetail = new WorkDetail();
                 workDetail.setState(gitResult.getState());
                 workDetail.setUserName(gitResult.getAssignee());
-                workDetail.setRealName((String)properties.get(gitResult.getAssignee()));
+                workDetail.setRealName((String) properties.get(gitResult.getAssignee()));
                 workDetail.setState(gitResult.getState());
                 workDetail.setTitle(gitResult.getTitle());
                 workDetail.setProject(gitResult.getProject());
@@ -74,6 +71,7 @@ public class WorkDetailService {
                 workDetail.setEfficiency(this.oneIssueEffic(gitResult));
                 workDetail.setWeek(this.oneIssueWeek(gitResult));
                 workDetail.setMonth(this.oneIssueMonth(gitResult));
+                workDetail.setQuarter(this.oneIssueQuarter(gitResult));
                 workDetail.setYear(this.oneIssueYear(gitResult));
                 workDetails.add(workDetail);
             }
@@ -139,6 +137,28 @@ public class WorkDetailService {
     }
 
     /**
+     * 计算issue属于哪个季度
+     * @param gitResult
+     * @return
+     */
+    public int oneIssueQuarter(GitResult gitResult){
+        dueOn= gitResult.getDueOn();
+        if(dueOn==null) {
+            dueOn = gitResult.getCreatedAt();
+        }
+        int month=DateUtil.getIssueMonth(dueOn);
+        if(month==1||month==2||month==3){
+            return 1;
+        }else if(month==4||month==5||month==6){
+            return 2;
+        }else if(month==7||month==8||month==9){
+            return 3;
+        }else{
+            return 4;
+        }
+    }
+
+    /**
      * 计算某个issue的工作效率
      * @param gitResult
      * @return
@@ -184,7 +204,7 @@ public class WorkDetailService {
      * @param pageSize  每页数量
      * @return json数据
      */
-    public Page<WorkDetail> findPageOfWorkDetail(String userName,String project,String state,Integer week,Integer month,Integer year,Integer currentPage,Integer pageSize){
+    public Page<WorkDetail> findPageOfWorkDetail(String userName,String project,String state,Integer week,Integer month,Integer quarter,Integer year,Integer currentPage,Integer pageSize){
         currentPage=(currentPage==null||currentPage<=0)?1:currentPage;
         pageSize=(pageSize==null||pageSize<=0)?10:pageSize;
 //        userName = (userName.equals("")||userName==null)?null:userName;
@@ -193,8 +213,8 @@ public class WorkDetailService {
         if(userName!=null){userName="%"+userName+"%";}//设置模糊查询
         if(project!=null){project="%"+project+"%";}
         if(state!=null){state="%"+state+"%";}
-        Pageable pageable = new PageRequest(currentPage-1,pageSize);
-        Page<WorkDetail> workDetailPage= workDetailRepository.findPage(userName, project, state, week, month, year, pageable);
+        Pageable pageable = new PageRequest(currentPage-1,pageSize,new Sort(Sort.Direction.DESC,"year"));
+        Page<WorkDetail> workDetailPage= workDetailRepository.findPage(userName, project, state, week, month,quarter, year, pageable);
         return new PageImpl<WorkDetail>(workDetailPage.getContent(),pageable,workDetailPage.getTotalElements());
     }
 

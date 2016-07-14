@@ -20,6 +20,7 @@ public interface WorkDetailRepository extends CrudRepository<WorkDetail,Integer>
            "(?3 is null or w.state like ?3) and " +
            "(?4 is null or w.week = ?4) and " +
            "(?5 is null or w.month = ?5)and" +
-           "(?6 is null or w.year = ?6)")
-   Page<WorkDetail> findPage(String userName,String project,String state,Integer week,Integer month,Integer year,Pageable pageable);
+           "(?6 is null or w.quarter = ?6)and "+
+           "(?7 is null or w.year = ?7)")
+   Page<WorkDetail> findPage(String userName,String project,String state,Integer week,Integer month,Integer quarter,Integer year,Pageable pageable);
 }

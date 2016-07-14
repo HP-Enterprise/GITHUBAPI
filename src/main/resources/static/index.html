@@ -120,7 +120,9 @@
             -webkit-border-radius: 2px;
             -o-border-radius: 2px;
         }
-
+        input.ng-invalid {
+            background-color: lightblue;
+        }
         .buttons a.btn {
             display: block;
             float: left;
@@ -231,7 +233,7 @@
 <body ng-controller="indexCtrl">
 <div class="fr">
     <div class=" home">
-        <a href="" class="btn">导出Excel</a>
+        <input type="button" value="导出数据" onclick="DownloadExcel()"/>
     </div>
 </div>
 <div class="inner">
@@ -241,7 +243,7 @@
     <div class="buttons">
         <div class="fl">
             <span>姓名：</span>
-            <input type="text" ng-model="worKeSelect.realname"/>
+            <input type="text" ng-model="worKeSelect.realname" required/>
             <span>用户名：</span>
             <input type="text" ng-model="worKeSelect.username"/>
             <span>时间(周数)：</span>

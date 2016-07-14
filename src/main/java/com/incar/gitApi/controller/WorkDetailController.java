@@ -3,13 +3,21 @@ package com.incar.gitApi.controller;
 import com.incar.gitApi.entity.WorkDetail;
 import com.incar.gitApi.service.ObjectResult;
 import com.incar.gitApi.service.WorkDetailService;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -41,15 +49,48 @@ public class WorkDetailController {
             @RequestParam(value = "state" ,required = false )String state,
             @RequestParam(value = "week",required = false)Integer week,
             @RequestParam(value = "month",required = false)Integer month,
+            @RequestParam(value = "quarter",required = false)Integer quarter,
             @RequestParam(value = "year",required = false)Integer year,
             @RequestParam(value = "currentPage",required = false)Integer currentPage,
             @RequestParam(value = "pageSize",required = false)Integer pageSize,
             HttpServletResponse response){
-        Page<WorkDetail> page= workDetailService.findPageOfWorkDetail(userName, project, state, week, month, year, currentPage, pageSize);
+        Page<WorkDetail> page= workDetailService.findPageOfWorkDetail(userName, project, state, week, month,quarter, year, currentPage, pageSize);
         List<WorkDetail> workDetailList= page.getContent();
         response.addHeader("Page",String.valueOf(page.getNumber())+1);
         response.addHeader("Page-Count",String.valueOf(page.getTotalPages()));
         return new ObjectResult("true",workDetailList);
+    }
+    @RequestMapping("/ExportExcel")
+    public void exportExcel(HttpServletResponse response,HttpServletRequest request){
+
+
+        HSSFWorkbook workBook = new HSSFWorkbook();
+
+        HSSFSheet sheet = workBook.createSheet("ZJK001");
+
+        HSSFRow rowTitle = sheet.createRow(0);
+        rowTitle.createCell((int) 0).setCellValue("编号");
+        rowTitle.createCell((int) 1).setCellValue("姓名");
+
+        HSSFRow row = sheet.createRow(1);
+        row.createCell((int) 0).setCellValue("Z001");
+        row.createCell((int) 1).setCellValue("张三");
+
+        response.addHeader("Content-Disposition", "attachment;filename=text.xls");
+        OutputStream os = null;
+        try {
+            os = response.getOutputStream();
+
+            workBook.write(os);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                os.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

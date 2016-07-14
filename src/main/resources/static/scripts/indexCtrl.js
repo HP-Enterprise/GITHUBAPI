@@ -103,6 +103,13 @@ app.controller("indexCtrl", function($scope,$http, $location, $resource){
                 fuzzy:1
             }
         };
+
+        DownloadExcel = function(){
+            var url="http://localhost:7890/api/exportExcel";
+            window.open(url);
+        };
+
+
         $http.get("/api/work",$scope.workSearch).success(function(data,status,headers){
             $scope.workPageObject.totalPage = headers('Page-Count'); //总页数
             $scope.allWork = data.message;

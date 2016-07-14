@@ -133,13 +133,15 @@ app.controller("indexCtrl_personal", function($scope,$http, $location, $resource
 
 
             var count = [];
+
             var ID;
-            for (var i = 1; i <=2; i++) {
-                ID= {'id':i};
+            for (var i = 1; i <=data.message.length; i++) {
+                ID= {"id":i};
+                count.push(ID);
             }
-            count.push(ID);
+
             $scope.countWork = count;
-            console.log(data.message);
+            console.log($scope.countWork );
 
             if(flag == 'personalWorkDetail'){
                 $scope.showFirstPageContent($scope.workPageObject,1);
