@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Administrator on 2016/7/14.
  */
 public class ExportExcelUtil {
-    public static HSSFWorkbook exprotExcel(String[] tableHeader,String[] methods,Object obj){
+    public static HSSFWorkbook exprotExcel(String[] tableHeader,String methods[],Object obj){
          HSSFWorkbook workbook =new HSSFWorkbook();
          HSSFSheet sheet= workbook.createSheet();
         //生成表格表头
@@ -32,6 +32,16 @@ public class ExportExcelUtil {
                 }
             }
         }
+        System.out.println(sheet.getRow(1).getCell(0));
+        System.out.println(sheet.getRow(1).getCell(1));
+        System.out.println(sheet.getRow(1).getCell(2));
+        System.out.println(sheet.getRow(1).getCell(3));
+        System.out.println(sheet.getRow(1).getCell(4));
+        System.out.println(sheet.getRow(1).getCell(5));
+        System.out.println(sheet.getRow(1).getCell(6));
+        System.out.println(sheet.getRow(0).getCell(1));
+        System.out.println(sheet.getRow(0).getCell(2));
+        System.out.println(sheet.getRow(0).getCell(3));
         return workbook;
     }
 }

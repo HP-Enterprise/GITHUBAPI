@@ -532,7 +532,7 @@ public class WorkService {
         if(username!=null){username="%"+username+"%";}
         List<Work> workList= workRepository.findExcel(realname, username, weekInYear);
         String[] tableHeader={"编号","用户名","姓名","已完成工作时长（小时）","未完成工作时长（小时）","工作时长（小时）","周"};
-        String[] methods={"id","username","realname","finishedWork","unfinishedWork）","workHours","weekInYear"};
+        String methods[]={"getId","getUsername","getRealname","getFinishedWork","getUnfinishedWork）","getWorkHours","getWeekInYear"};
        return ExportExcelUtil.exprotExcel(tableHeader,methods,workList);
     }
 

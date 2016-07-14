@@ -85,16 +85,16 @@ public class WorkController {
      * @param response http响应
      * @param request http请求
      * @param realname 姓名
-     * @param usernam 用户名
+     * @param username 用户名
      * @param weekInYear 周
      * @return
      */
     @ RequestMapping(value = "/exportExcel" ,method = RequestMethod.GET)
     public ObjectResult exportWorkExcel(HttpServletResponse response, HttpServletRequest request,
                                        @RequestParam(value = "realname", required = false) String realname,
-                                       @RequestParam(value = "username", required = false) String usernam,
+                                       @RequestParam(value = "username", required = false) String username,
                                        @RequestParam(value = "weekInYear", required = false) Integer weekInYear){
-        HSSFWorkbook work= workService.findWorkToExcel(realname, usernam, weekInYear);
+        HSSFWorkbook work= workService.findWorkToExcel(realname, username, weekInYear);
         response.setHeader("conent-type", "application/octet-stream");
         response.setContentType("application/octet-stream");
         response.addHeader("Content-Disposition", "attachment;filename=Work" + new SimpleDateFormat("yyyyMMdd").format(new Date()) + ".xls");
