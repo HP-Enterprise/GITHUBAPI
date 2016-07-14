@@ -60,37 +60,4 @@ public class WorkDetailController {
         response.addHeader("Page-Count",String.valueOf(page.getTotalPages()));
         return new ObjectResult("true",workDetailList);
     }
-    @RequestMapping("/ExportExcel")
-    public void exportExcel(HttpServletResponse response,HttpServletRequest request){
-
-
-        HSSFWorkbook workBook = new HSSFWorkbook();
-
-        HSSFSheet sheet = workBook.createSheet("ZJK001");
-
-        HSSFRow rowTitle = sheet.createRow(0);
-        rowTitle.createCell((int) 0).setCellValue("编号");
-        rowTitle.createCell((int) 1).setCellValue("姓名");
-
-        HSSFRow row = sheet.createRow(1);
-        row.createCell((int) 0).setCellValue("Z001");
-        row.createCell((int) 1).setCellValue("张三");
-
-        response.addHeader("Content-Disposition", "attachment;filename=text.xls");
-        OutputStream os = null;
-        try {
-            os = response.getOutputStream();
-
-            workBook.write(os);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally{
-            try {
-                os.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 }
