@@ -9,6 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 
 /**
@@ -22,6 +23,8 @@ public interface WorkRepository extends CrudRepository<Work,Integer> {
 
     @Query("select w from Work w where (?1 is null or w.realname like ?1) and (?2 is null or w.username like ?2) and (?3 is null or w.weekInYear=?3)")
     Page<Work> fuzzyFindPage(String realname,String username,Integer weekInYear,Pageable pageable);
+    @Query("select w from Work w where (?1 is null or w.realname like ?1) and (?2 is null or w.username like ?2) and (?3 is null or w.weekInYear=?3)")
+    List<Work>   findExcel(String realname,String username,Integer weekInYear);
 
     @Modifying
     @Transactional
