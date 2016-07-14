@@ -40,7 +40,7 @@ public class ScheduledTask {
         gitResultService.saveGitResult();
     }
 
-    @Scheduled(cron = "0 16 15 * * ?")
+    @Scheduled(cron = "0 2 9 * * ?")
     public void gitRetDetail(){
         logger.info(">>>>>>>>>>> deleting workDetailInfo >>>>>>>>>>>>");
         workDetailService.deleteWorkDetailInfo();
@@ -50,7 +50,7 @@ public class ScheduledTask {
 //    @Scheduled(cron = "0 */1 * * * ?")
 
 
-    @Scheduled(cron = "0 20 15 * * ?")
+    @Scheduled(cron = "0 5 9 * * ?")
     public void gitRetAlalyse(){
         logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");
         workService.deleteWorkInfo();

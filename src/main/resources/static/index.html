@@ -56,9 +56,12 @@
             width: 100%;
             height: 34px;
         }
-
+        .fr .home{
+            padding-right: 1%;
+            width: 100%;
+        }
         .buttons .fl span {
-            width: 100px;
+            width: 150px;
             height: 34px;
             line-height: 34px;
             float: left;
@@ -212,9 +215,25 @@
     <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/lib/angular-resource/angular-resource.js"></script>
     <script src="/scripts/indexCtrl.js"></script>
+    <script language="javascript">
+        function doclick()
+        {
+            var td = event.srcElement; // 通过event.srcElement 获取激活事件的对象 td
+            var a=td.parentElement.rowIndex;
+//            alert("行号：" + (td.parentElement.rowIndex) + "，列号：" + td.(cellIndex+1));
+//            var aa=document.getElementById("table").rows[a].cells[1].innerHTML;
+//            alert(aa);
+           // alert(document.getElementById("1").innerHTML);
+        }
+    </script>
 
 </head>
 <body ng-controller="indexCtrl">
+<div class="fr">
+    <div class=" home">
+        <a href="" class="btn">导出Excel</a>
+    </div>
+</div>
 <div class="inner">
     <div class="gitlogo">
         <img src="images/logo.png" alt=""/>
@@ -227,7 +246,7 @@
             <input type="text" ng-model="worKeSelect.username"/>
             <span>时间(周数)：</span>
             <div class="selectkuang">
-                <input type="text" ng-model="worKeSelect.weekNum"  placeholder="周数"/>
+                <input type="text" ng-model="worKeSelect.weekNum"/>
                 <!--<select ng-model="worKeSelect.weekNum">
                     <option value="01">第1周</option>
                     <option value="01">第2周</option>
@@ -238,12 +257,9 @@
             <a href="" ng-click="getAllGitHubWork('flag')">查询</a>
             <a href="index-detail.html" ng-click="getAllGitHubWork('flag')">详细查询</a>
         </div>
-        <div class="fr">
-            <a href="" class="btn">导出Excel</a>
-        </div>
     </div>
 
-    <table>
+    <table id="table" onclick="doclick()">
         <thead>
         <tr>
             <th>用户名</th>
@@ -263,7 +279,7 @@
             <td ng-bind="aw.unfinishedWork"></td>
             <td ng-bind="aw.workHours"></td>
             <td ng-bind="aw.weekInYear"></td>
-            <td ng-bind=<body><a href ="index_test.html">查看详情</a></td></body></html>
+            <td><a ng-click="goHtml(aw)">查看详情</a></td>
         </tr>
         </tbody>
     </table>
@@ -272,7 +288,7 @@
         <span ng-repeat="page in workPageObject.pages" >
             <a href="" ng-click="showCurrentPageContent(workPageObject,page)"><span ng-class="{true:'active',false:'inactive'}[workPageObject.currentPage == page]" ng-bind="page"></span></a>
         </span>
-        <a href="" ng-click="downPageClick(workPageObject,workPageObject.currentPage)">></a>
+        <a href="" ng-click="downPageClick(workPageObject,workPageObject.currentPage)"></a>
     </div>
     <!---->
 </div>

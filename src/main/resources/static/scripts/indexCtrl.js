@@ -1,4 +1,4 @@
-var app = angular.module('indexApp',['ngResource']);
+var app = angular.module('indexApp',['ngResource'])
 
 app.controller("indexCtrl", function($scope,$http, $location, $resource){
     //分页
@@ -117,4 +117,10 @@ app.controller("indexCtrl", function($scope,$http, $location, $resource){
     $scope.getAllGitHubWork('work');
     $scope.$watch('workPageObject.currentPage',function(){$scope.getAllGitHubWork();});
 
+
+
+    $scope.goHtml = function (obj){
+        //console.log(obj);
+        window.location.href ="index_personal.html?userName="+obj.username+"&week="+obj.weekInYear;
+    }
 });

@@ -52,7 +52,10 @@
             height: 68px;
             margin: 50px auto 60px;
         }
-
+        .fr .home{
+            padding-right: 1%;
+            width: 100%;
+        }
         .buttons {
             width: 100%;
             height: 34px;
@@ -69,7 +72,7 @@
         }
 
         .buttons .fl input {
-            width: 80px;
+            width: 90px;
             height: 24px;
             padding: 5px 6px;
             border: 0;
@@ -80,7 +83,7 @@
         }
 
         .buttons .fl .selectkuang {
-            width: 80px;
+            width: 150px;
             height: 34px;
             border: 0;
             background: #fff;
@@ -90,7 +93,7 @@
         }
 
         .buttons .fl .selectkuang select {
-            width: 80px;
+            width: 150px;
             height: 34px;
             padding: 5px 6px;
             border: 0;
@@ -217,6 +220,12 @@
 
 </head>
 <body ng-controller="indexCtrlDetail">
+<div class="fr">
+    <div class=" home">
+    <a href="index.html">首页</a>
+    <a href="" class="btn">导出Excel</a>
+    </div>
+</div>
 <div class="inner">
     <div class="gitlogo">
         <img src="images/logo.png" alt=""/>
@@ -230,16 +239,37 @@
             <span>状态：</span>
             <div class="selectkuang">
             <select ng-model="worKeSelect.state">
+                <option value=""></option>
                 <option value="open">open</option>
                 <option value="closed">closed</option>
             </select>
             </div>
-            <span>周：</span>
-            <input type="text" ng-model="worKeSelect.week"/>
+            <span>年：</span>
+            <div class="selectkuang">
+                <select ng-model="worKeSelect.year">
+                    <option value="2014">2014</option>
+                    <option value="2015">2015</option>
+                    <option selected = "2016">2016</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                </select>
+            </div>
+            <span>季度：</span>
+            <div class="selectkuang">
+                <select ng-model="worKeSelect.quarter">
+                    <option selected = ""></option>
+                    <option value="1">第一季度</option>
+                    <option value="2">第二季度</option>
+                    <option value="3">第三季度</option>
+                    <option value="4">第四季度</option>
+                </select>
+            </div>
             <span>月：</span>
             <input type="text" ng-model="worKeSelect.month"/>
-            <span>年：</span>
-            <input type="text" ng-model="worKeSelect.year"/>
+            <span>周：</span>
+            <input type="text" ng-model="worKeSelect.week"/>
+
+
             <!--<span>时间(周数)：</span>-->
             <!--<div class="selectkuang">-->
                 <!--<input type="text" ng-model="worKeSelect.weekNum"  placeholder="周数"/>-->
@@ -251,8 +281,7 @@
                 </select>-->
             <!--</div>-->
             <a href="" ng-click="getAllGitHubWork('flag')">查询</a>
-            <a href="index.html">返回</a>
-            <a href="" class="btn">导出Excel</a>
+
         </div>
 <!--        <div class="fr">
             <a href="" class="btn">导出Excel</a>
@@ -294,7 +323,5 @@
     </div>
     <!---->
 </div>
-
-
 </body>
 </html>

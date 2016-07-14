@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html ng-app="indexApp">
+<html ng-app="indexApp_personal">
 <head>
     <!-- Date:2016.03.07 lyx-->
     <meta http-equiv="X-UA-Compatible" content="IE=7"/>
@@ -26,18 +26,31 @@
             margin: 0;
             border: 0;
         }
-
         .fl {
-            float: left;
+            padding-left: 7%;
+            width: 100%;
         }
 
         .fr {
-            float: right
+            padding-left: 90%;
+            width: 100%;
         }
-
+        #u1 {
+            z-index: 2;
+            color: white;
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin: 19px 0 5px 0;
+            padding: 0 96px 0 0;
+        }
         .clearfix {
             zoom: 1;
             overflow: hidden;
+        }
+        .fr .home{
+            padding-right: 1%;
+            width: 200px;
         }
 
         .inner {
@@ -58,7 +71,7 @@
         }
 
         .buttons .fl span {
-            width: 200px;
+            width: 150px;
             height: 34px;
             line-height: 34px;
             float: left;
@@ -118,7 +131,7 @@
             line-height: 34px;
             text-align: center;
             text-decoration: none;
-            background: #000;
+            background: #ffffff;
             color: #fff;
             margin-left: 50px;
             font-size: 18px;
@@ -221,26 +234,34 @@
     <script src="/lib/angular/angular.min.js"></script>
     <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/lib/angular-resource/angular-resource.js"></script>
-    <script src="/scripts/indexCtrl.js"></script>
+    <script src="/scripts/indexCtrl_personal.js"></script>
 
 </head>
-<body ng-controller="indexCtrl">
+<body ng-controller="indexCtrl_personal">
+<div id="u1">
+<div class="fr">
+    <div class=" home">
+        <a href="index.html">首页</a>
+        <a href="" class="btn">导出Excel</a>
+    </div>
+</div>
+</div>
 <div class="inner">
     <div class="gitlogo">
         <img src="images/logo.png" alt=""/>
     </div>
+
     <div class="buttons">
         <div class="fl">
-            <span>用户名：<body>aaaaaa</body></span>
-            <!--<input type="text" ng-model="worKeSelect.realname"/>-->
-            <span>姓名：<body>bbbbbb</body></span>
-            <!--<input type="text" ng-model="worKeSelect.username"/>-->
-            <span>issue个数：<body>cccccc</body></span>
-            <!--<input type="text" ng-model="worKeSelect.username"/>-->
-            <span>时间（周）：<body>dddddd</body>></span>
-
-            <a href="index.html">返回</a>
-            <a href="">导出EXCel</a>
+            <span><b>用户名：</b></span>
+                <span ng-bind>{{oneWork.userName}}</span>
+            </span>
+            <span><b>姓名：</b></span>
+                <span ng-bind>{{oneWork.realName}}</span>
+            <span><b>issue个数：</b></span>
+                <span ng-bind>{{allWork.length}}</span>
+            <span><b>时间（周）：</b></span>
+                <span ng-bind>{{oneWork.week}}</span>
         </div>
 
         <!--<div class="fr">-->
@@ -263,19 +284,19 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="aw in allWork">
-            <td ng-bind="aw.id"></td>
+        <tr ng-repeat="aw in allWork",ng-repeat="cc in countWork">
+            <td ng-bind="countWork.id"></td>
             <td ng-bind="aw.title"></td>
             <td ng-bind="aw.project"></td>
-            <td ng-bind="aw.expected_time"></td>
-            <td ng-bind="aw.actual_time"></td>
+            <td ng-bind="aw.expectedTime"></td>
+            <td ng-bind="aw.actualTime"></td>
             <td ng-bind="aw.state"></td>
             <td ng-bind="aw.efficiency"></td>
         </tr>
         </tbody>
     </table>
     <div class="page fr">
-        <a href="" ng-click="upPageClick(workPageObject,workPageObject.currentPage)"><</a>
+        <a href="" ng-click="upPageClick(workPageObject,workPageObject.currentPage)"></a>
         <span ng-repeat="page in workPageObject.pages" >
             <a href="" ng-click="showCurrentPageContent(workPageObject,page)"><span ng-class="{true:'active',false:'inactive'}[workPageObject.currentPage == page]" ng-bind="page"></span></a>
         </span>

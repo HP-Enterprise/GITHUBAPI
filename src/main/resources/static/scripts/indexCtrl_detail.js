@@ -102,6 +102,9 @@ app.controller("indexCtrlDetail", function($scope,$http, $location, $resource){
         if($scope.worKeSelect.year==''){
             $scope.worKeSelect.year = null;
         }
+        if($scope.worKeSelect.quarter==''){
+            $scope.worKeSelect.quarter = null;
+        }
 
         $scope.workSearch={
             params:{
@@ -111,6 +114,7 @@ app.controller("indexCtrlDetail", function($scope,$http, $location, $resource){
                 week:$scope.worKeSelect.week,
                 month:$scope.worKeSelect.month,
                 year:$scope.worKeSelect.year,
+                quarter:$scope.worKeSelect.quarter,
                 currentPage:$scope.workPageObject.currentPage,
                 pageSize:$scope.workPageObject.pageSize,
                 fuzzy:1
