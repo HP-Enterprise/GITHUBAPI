@@ -93,7 +93,7 @@ public class WorkController {
     public ObjectResult exportWorkExcel(HttpServletResponse response, HttpServletRequest request,
                                        @RequestParam(value = "realname", required = false) String realname,
                                        @RequestParam(value = "username", required = false) String username,
-                                       @RequestParam(value = "weekInYear", required = false) Integer weekInYear){
+                                       @RequestParam(value = "weekNum", required = false) Integer weekInYear){
         HSSFWorkbook work= workService.findWorkToExcel(realname, username, weekInYear);
         response.setHeader("conent-type", "application/octet-stream");
         response.setContentType("application/octet-stream");

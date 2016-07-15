@@ -33,4 +33,6 @@ public interface WorkDetailRepository extends CrudRepository<WorkDetail,Integer>
             "(?6 is null or w.quarter = ?6)and "+
             "(?7 is null or w.year = ?7)order by w.year asc")
     List<WorkDetail> findExcel(String userName,String project,String state,Integer week,Integer month,Integer quarter,Integer year);
+    @Query("select w from WorkDetail w where w.userName=?1")
+    List<WorkDetail> findAll(String userName);
 }
