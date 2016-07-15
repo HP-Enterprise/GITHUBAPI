@@ -104,10 +104,10 @@ app.controller("indexCtrl", function($scope,$http, $location, $resource){
             }
         };
 
-        DownloadExcel = function(){
-            var url="http://localhost:7890/api/exportExcel";
-            window.open(url);
-        };
+        //DownloadExcel = function(){
+        //    var url="http://localhost:7890/api/exportExcel";
+        //    window.open(url);
+        //};
 
 
         $http.get("/api/work",$scope.workSearch).success(function(data,status,headers){
@@ -123,22 +123,35 @@ app.controller("indexCtrl", function($scope,$http, $location, $resource){
 
 
     $scope.DownloadExcel = function(flag){
-        //$scope.REALNAME==$scope.worKeSelect.realname=='' ?  $scope.REALNAME="realname="+$scope.worKeSelect.realname : $scope.REALNAME='';
-        $scope.USERNAME==$scope.worKeSelect.username=='' ?  $scope.USERNAME="username="+$scope.worKeSelect.username : $scope.USERNAME='';
-        $scope.WEEKNUM==$scope.worKeSelect.weekNum=='' ?  $scope.WEEKNUM="weekNum="+$scope.worKeSelect.weekNum : $scope.WEEKNUM='';
-        $scope.workSearch={
-            params:{
-                realname:$scope.worKeSelect.realname,
-                username:$scope.worKeSelect.username,
-                weekNum:$scope.worKeSelect.weekNum,
-                currentPage:$scope.workPageObject.currentPage,
-                pageSize:$scope.workPageObject.pageSize,
-                fuzzy:1
-            }
-        };
-        $scope.url="http://localhost:7890/api/exportExcel?"+ $scope.USERNAME +"&"+ $scope.WEEKNUM;
+
+        if($scope.worKeSelect.weekNum=='' || $scope.worKeSelect.weekNum==undefined ){
+            $scope.worKeSelect.weekNum= null;
+            $scope.WEEKNUM = null;
+        }
+        else{
+            $scope.WEEKNUM="weekNum="+$scope.worKeSelect.weekNum;
+        }
+
+        if($scope.worKeSelect.username=='' || $scope.worKeSelect.username== undefined ){
+            $scope.worKeSelect.username= null;
+            $scope.USERNAME = null;
+        }
+        else{
+            $scope.USERNAME="username="+$scope.worKeSelect.username;
+        }
+
+        if($scope.worKeSelect.realname=='' || $scope.worKeSelect.realname== undefined ){
+            $scope.worKeSelect.realname= null;
+            $scope.REALNAME = null;
+        }
+        else{
+            $scope.REALNAME="realname="+$scope.worKeSelect.realname;
+        }
+
+        //$scope.url="http://localhost:7890/api/exportExcel?"+ $scope.USERNAME +"&"+ $scope.WEEKNUM;
+        $scope.url="http://localhost:7890/api/exportExcel?"+ $scope.REALNAME+"&"+ $scope.USERNAME +"&"+ $scope.WEEKNUM;
         window.open($scope.url);
-        console.log($scope.url);
+        //console.log($scope.url);
     }
 
 

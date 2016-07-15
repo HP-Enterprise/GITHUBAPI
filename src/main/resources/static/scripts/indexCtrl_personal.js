@@ -130,20 +130,20 @@ app.controller("indexCtrl_personal", function($scope,$http, $location, $resource
 
 
 
-        $http.get("/api/personalWorkDetail",$scope.workSearch).success(function(data,status,headers){
-            $scope.workPageObject.totalPage = headers('Page-Count'); //总页数
-            $scope.allWork = data.message;
-            $scope.oneWork = data.message[0];
-
-            $scope.countWork = count;
-            console.log( );
-
-            if(flag == 'personalWorkDetail'){
-                $scope.showFirstPageContent($scope.workPageObject,1);
-            }
-        }).error(function(err){
-            console.log(err);
-        })
+        //$http.get("/api/personalWorkDetail",$scope.workSearch).success(function(data,status,headers){
+        //    $scope.workPageObject.totalPage = headers('Page-Count'); //总页数
+        //    $scope.allWork = data.message;
+        //    $scope.oneWork = data.message[0];
+        //
+        //    $scope.countWork = count;
+        //    console.log( );
+        //
+        //    if(flag == 'personalWorkDetail'){
+        //        $scope.showFirstPageContent($scope.workPageObject,1);
+        //    }
+        //}).error(function(err){
+        //    console.log(err);
+        //})
     };
 
     $scope.getAllGitHubWork('personalWorkDetail');

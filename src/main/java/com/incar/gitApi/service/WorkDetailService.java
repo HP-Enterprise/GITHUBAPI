@@ -6,6 +6,8 @@ import com.incar.gitApi.period.PeriodFactory;
 import com.incar.gitApi.repository.GitResultRepository;
 import com.incar.gitApi.repository.WorkDetailRepository;
 import com.incar.gitApi.util.DateUtil;
+import com.incar.gitApi.util.ExportExcelUtil;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -218,6 +220,26 @@ public class WorkDetailService {
         return new PageImpl<WorkDetail>(workDetailPage.getContent(),pageable,workDetailPage.getTotalElements());
     }
 
+    /**
+     * 导出workDetail的excel数据
+     * @param userName 用户名
+     * @param project  项目
+     * @param state  状态
+     * @param week 周
+     * @param month 月
+     * @param quarter 季度
+     * @param year 年
+     * @return
+     */
+   public HSSFWorkbook findWorkDetailToExcel(String userName,String project,String state,Integer week,Integer month,Integer quarter,Integer year){
+       if (userName!=null){userName="%"+userName+"%";}
+       if (project!=null){project="%"+project+"%";}
+       List<WorkDetail> workDetailList=  workDetailRepository.findExcel(userName, project, state, week, month, quarter, year);
+       String[] tableHeader={"编号","用户名","姓名","预期时长（小时）","实际时长（小时）","问题","项目","状态","效率","周","月","季度","年"};
+       String methods[]={"getId","getUserName","getRealName","getExpectedTime","getActualTime","getTitle","getProject","getState","getEfficiency","getWeek","getMonth","getQuarter","getYear"};
+       return ExportExcelUtil.exprotExcel(tableHeader,methods,workDetailList);
+
+   }
 
 }
 

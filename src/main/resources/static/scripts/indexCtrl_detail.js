@@ -132,6 +132,94 @@ app.controller("indexCtrlDetail", function($scope,$http, $location, $resource){
         })
     };
 
+    $scope.DownloadExcel = function(flag) {
+        //$scope.REALNAME==$scope.worKeSelect.realname=='' ?  $scope.REALNAME="realname="+$scope.worKeSelect.realname : $scope.REALNAME='';
+        $scope.USERNAME == $scope.worKeSelect.userName == '' ? $scope.USERNAME = "userName=" + $scope.worKeSelect.userName : $scope.USERNAME = null;
+        $scope.PROJECT == $scope.worKeSelect.project == '' ? $scope.PROJECT = "project=" + $scope.worKeSelect.project : $scope.PROJECT = null;
+        $scope.STATE == $scope.worKeSelect.state == '' ? $scope.STATE = "state=" + $scope.worKeSelect.state : $scope.STATE = null;
+        $scope.YEAR == $scope.worKeSelect.year == '' ? $scope.YEAR = "year=" + $scope.worKeSelect.year : $scope.YEAR = null;
+        $scope.QUARTER == $scope.worKeSelect.quarter == '' ? $scope.QUARTER = "quarter=" + $scope.worKeSelect.quarter : $scope.QUARTER = null;
+        $scope.MONTH == $scope.worKeSelect.month == '' ? $scope.MONTH = "month=" + $scope.worKeSelect.month : $scope.MONTH = null;
+        $scope.WEEK == $scope.worKeSelect.week == '' ? $scope.WEEK = "week=" + $scope.worKeSelect.week : $scope.WEEK = null;
+
+        if($scope.worKeSelect.userName=='' || $scope.worKeSelect.userName==undefined ){
+            $scope.worKeSelect.userName= null;
+            $scope.USERNAME = null;
+        }
+        else{
+            $scope.USERNAME="userName="+$scope.worKeSelect.userName;
+        }
+
+        if($scope.worKeSelect.project=='' || $scope.worKeSelect.project==undefined ){
+            $scope.worKeSelect.project= null;
+            $scope.PROJECT = null;
+        }
+        else{
+            $scope.PROJECT="project="+$scope.worKeSelect.project;
+        }
+
+        if($scope.worKeSelect.state=='' || $scope.worKeSelect.state==undefined ){
+            $scope.worKeSelect.state= null;
+            $scope.STATE = null;
+        }
+        else{
+            $scope.STATE="state="+$scope.worKeSelect.state;
+        }
+
+        if($scope.worKeSelect.year=='' || $scope.worKeSelect.year==undefined ){
+            $scope.worKeSelect.year= null;
+            $scope.YEAR = null;
+        }
+        else{
+            $scope.YEAR="year="+$scope.worKeSelect.year;
+        }
+
+        if($scope.worKeSelect.quarter=='' || $scope.worKeSelect.quarter==undefined ){
+            $scope.worKeSelect.quarter= null;
+            $scope.WEEKNUM = null;
+        }
+        else{
+            $scope.QUARTER="quarter="+$scope.worKeSelect.quarter;
+        }
+
+        if($scope.worKeSelect.month=='' || $scope.worKeSelect.month==undefined ){
+            $scope.worKeSelect.month= null;
+            $scope.MONTH = null;
+        }
+        else{
+            $scope.MONTH="month="+$scope.worKeSelect.month;
+        }
+
+        if($scope.worKeSelect.week=='' || $scope.worKeSelect.week==undefined ){
+            $scope.worKeSelect.week= null;
+            $scope.WEEK = null;
+        }
+        else{
+            $scope.WEEK="week="+$scope.worKeSelect.week;
+        }
+
+        $scope.workSearch = {
+            params: {
+                userName: $scope.worKeSelect.userName,
+                project: $scope.worKeSelect.project,
+                state: $scope.worKeSelect.state,
+                week: $scope.worKeSelect.week,
+                month: $scope.worKeSelect.month,
+                year: $scope.worKeSelect.year,
+                quarter: $scope.worKeSelect.quarter,
+                currentPage: $scope.workPageObject.currentPage,
+                pageSize: $scope.workPageObject.pageSize,
+                fuzzy: 1
+            }
+        };
+            $scope.url = "http://localhost:7890/api/workDetail/exportExcel?" +
+                $scope.USERNAME + "&" +  $scope.PROJECT+ "&" + $scope.STATE+ "&" +$scope.YEAR+ "&" +$scope.QUARTER+ "&" +$scope.MONTH + "&" +$scope.WEEK;
+        //window.open($scope.url);
+
+        console.log($scope.url);
+    }
+
+
     $scope.getAllGitHubWork('workDetail');
     $scope.$watch('workPageObject.currentPage',function(){$scope.getAllGitHubWork();});
 
