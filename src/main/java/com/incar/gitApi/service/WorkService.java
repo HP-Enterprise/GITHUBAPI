@@ -528,8 +528,8 @@ public class WorkService {
      * @return
      */
     public HSSFWorkbook findWorkToExcel(String realname,String username,Integer weekInYear){
-//        if(realname!=null){username="%"+realname+"%";}
-//        if(username!=null){username="%"+username+"%";}
+        if(realname!=null){realname="%"+realname+"%";}
+        if(username!=null){username="%"+username+"%";}
         List<Work> workList= workRepository.findExcel(realname, username, weekInYear);
         String[] tableHeader={"编号","用户名","姓名","已完成工作时长（小时）","未完成工作时长（小时）","工作时长（小时）","周"};
         String methods[]={"getId","getUsername","getRealname","getFinishedWork","getUnfinishedWork）","getWorkHours","getWeekInYear"};

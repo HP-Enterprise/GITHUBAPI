@@ -32,16 +32,6 @@ public class ExportExcelUtil {
                 }
             }
         }
-        System.out.println(sheet.getRow(1).getCell(0));
-        System.out.println(sheet.getRow(1).getCell(1));
-        System.out.println(sheet.getRow(1).getCell(2));
-        System.out.println(sheet.getRow(1).getCell(3));
-        System.out.println(sheet.getRow(1).getCell(4));
-        System.out.println(sheet.getRow(1).getCell(5));
-        System.out.println(sheet.getRow(1).getCell(6));
-        System.out.println(sheet.getRow(0).getCell(1));
-        System.out.println(sheet.getRow(0).getCell(2));
-        System.out.println(sheet.getRow(0).getCell(3));
         return workbook;
     }
 }
