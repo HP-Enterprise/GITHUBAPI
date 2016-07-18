@@ -47,7 +47,8 @@ var config ={
         verticalAlign: 'middle',
         borderWidth: 0
     },
-    series: [{
+
+series: [{
         name: 'Tokyo',
         data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
     }, {
@@ -104,7 +105,7 @@ app.controller("highchartCtrl", function($scope,$http, $location, $resource){
         newConfig.xAxis={
             categories: $scope.fff.category
         };
-        newConfig.series=[{name:"预期工作时长",data:$scope.fff.expect_data},{name:"实际工作时长",data:$scope.fff.actual_data}];
+        newConfig.series=[{name:"预期工作时长",data:$scope.fff.expect_data,color:'red'},{name:"实际工作时长",data:$scope.fff.actual_data,color:'blue'}];
         newConfig.title = {text:"个人工作时长"};
         showChart(newConfig);
     }).error(function(err){
