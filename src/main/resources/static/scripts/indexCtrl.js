@@ -104,10 +104,6 @@ app.controller("indexCtrl", function($scope,$http, $location, $resource){
             }
         };
 
-        //DownloadExcel = function(){
-        //    var url="http://localhost:7890/api/exportExcel";
-        //    window.open(url);
-        //};
 
 
         $http.get("/api/work",$scope.workSearch).success(function(data,status,headers){

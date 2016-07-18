@@ -134,8 +134,7 @@ app.controller("indexCtrl_personal", function($scope,$http, $location, $resource
             $scope.workPageObject.totalPage = headers('Page-Count'); //总页数
             $scope.allWork = data.message;
             $scope.oneWork = data.message[0];
-
-            console.log( );
+            console.log($scope.oneWork.userName );
 
             if(flag == 'personalWorkDetail'){
                 $scope.showFirstPageContent($scope.workPageObject,1);
@@ -148,5 +147,8 @@ app.controller("indexCtrl_personal", function($scope,$http, $location, $resource
     $scope.getAllGitHubWork('personalWorkDetail');
     $scope.$watch('workPageObject.currentPage',function(){$scope.getAllGitHubWork();});
 
-
+    $scope.getChart = function(obj){
+        //console.log(oneWork.userName);
+        window.location.href ="highchart.html?userName="+obj.userName;
+    }
 });
