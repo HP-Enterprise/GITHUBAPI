@@ -125,8 +125,8 @@ public class WorkDetailController {
      * @throws IOException
      */
     @RequestMapping(value = "/json")
-    public  ObjectResult  getData( @RequestParam(value = "userName",required = false)String userName) throws ServletException, IOException{
-        List<WorkDetail> list = workDetailRepository.findAll("TeemolSparrow");
+    public  ObjectResult  getData( @RequestParam(value = "userName",required = true)String userName) throws ServletException, IOException{
+        List<WorkDetail> list = workDetailRepository.findAll(userName);
         Map map= MapUtil.putToMap(list);
       return new ObjectResult("true",map);
     }

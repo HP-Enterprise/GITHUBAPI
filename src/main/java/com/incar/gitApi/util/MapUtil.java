@@ -11,15 +11,15 @@ import java.util.Map;
  * Created by Administrator on 2016/7/15.
  */
 public class MapUtil {
-    public  static Map<String,Object[]> putToMap(List<WorkDetail> list){
-        Map<String,Object[]> map = new HashMap<>();
+    public  static Map<Object,Object[]> putToMap(List<WorkDetail> list){
+        Map<Object,Object[]> map = new HashMap<>();
         Object[] str1= new Object[list.size()];
         Object[] str2= new Object[list.size()];
         Object[] str3= new Object[list.size()];
         for (int i=0;i<list.size();i++) {
             str1[i] = list.get(i).getId().toString();
-            str2[i] = list.get(i).getExpectedTime().toString();
-            str3[i] = list.get(i).getActualTime().toString();
+            str2[i] = list.get(i).getExpectedTime();
+            str3[i] = list.get(i).getActualTime();
         }
         map.put("category",str1);
         map.put("expect_data",str2);
