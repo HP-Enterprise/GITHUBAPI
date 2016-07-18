@@ -253,8 +253,10 @@
         <a href="index.html">首页</a>
         <a href="" class="btn">导出Excel</a>
     </div>
-    <div class ="home">
-        <a ng-click ="getChart(oneWork)">查看工作时间曲线图</a>
+    <div class=" home">
+        <a href="" ng-click ="getChart(oneWork)">查看工作时间曲线图</a>
+
+
     </div>
 </div>
 </div>
@@ -310,7 +312,7 @@
         </tbody>
     </table>
     <div class="page fr">
-        <a href="" ng-click="upPageClick(workPageObject,workPageObject.currentPage)"></a>
+        <a href="" ng-click="upPageClick(workPageObject,workPageObject.currentPage)"><</a>
         <span ng-repeat="page in workPageObject.pages" >
             <a href="" ng-click="showCurrentPageContent(workPageObject,page)"><span ng-class="{true:'active',false:'inactive'}[workPageObject.currentPage == page]" ng-bind="page"></span></a>
         </span>

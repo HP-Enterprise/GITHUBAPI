@@ -145,7 +145,7 @@ app.controller("indexCtrl", function($scope,$http, $location, $resource){
         }
 
         //$scope.url="http://localhost:7890/api/exportExcel?"+ $scope.USERNAME +"&"+ $scope.WEEKNUM;
-        $scope.url="http://localhost:7890/api/exportExcel?"+ $scope.REALNAME+"&"+ $scope.USERNAME +"&"+ $scope.WEEKNUM;
+        $scope.url="http://localhost:8080/api/exportExcel?"+ $scope.REALNAME+"&"+ $scope.USERNAME +"&"+ $scope.WEEKNUM;
         window.open($scope.url);
         //console.log($scope.url);
     }

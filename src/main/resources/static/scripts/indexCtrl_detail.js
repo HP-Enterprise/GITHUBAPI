@@ -212,11 +212,11 @@ app.controller("indexCtrlDetail", function($scope,$http, $location, $resource){
                 fuzzy: 1
             }
         };
-            $scope.url = "http://localhost:7890/api/workDetail/exportExcel?" +
+            $scope.url = "http://localhost:8080/api/workDetail/exportExcel?" +
                 $scope.USERNAME + "&" +  $scope.PROJECT+ "&" + $scope.STATE+ "&" +$scope.YEAR+ "&" +$scope.QUARTER+ "&" +$scope.MONTH + "&" +$scope.WEEK;
-        //window.open($scope.url);
-
-        console.log($scope.url);
+        window.open($scope.url);
+        //
+        //console.log($scope.url);
     }
 
 

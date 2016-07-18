@@ -126,9 +126,6 @@ app.controller("indexCtrl_personal", function($scope,$http, $location, $resource
             }
         };
 
-        var x=10;
-
-
 
         $http.get("/api/personalWorkDetail",$scope.workSearch).success(function(data,status,headers){
             $scope.workPageObject.totalPage = headers('Page-Count'); //总页数

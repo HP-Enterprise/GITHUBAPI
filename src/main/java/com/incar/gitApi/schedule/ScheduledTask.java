@@ -53,13 +53,16 @@ public class ScheduledTask {
 
 
 
-    @Scheduled(cron = "0 5 15 * * ?")
+    @Scheduled(cron = "0 5 17 * * ?")
 
     public void gitRetAlalyse(){
         logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");
         workService.deleteWorkInfo();
         logger.info(">>>>>>>>>>> saving workInfo >>>>>>>>>>>>");
         workService.saveWorkInfo();
+        for(int i=1;i<=30;i++){
+            workService.saveWorkInfo(i);
+        }
     }
 
 }
