@@ -34,14 +34,14 @@ public class ScheduledTask {
 
 
 
-    @Scheduled(cron = "0 25 12 * * ?")
+    @Scheduled(cron = "0 14 10 * * ?")
 
     public void scheduledQuery(){
         logger.info(">>>>>>>>>>> saving gitResult >>>>>>>>>>>>");
         gitResultService.saveGitResult();
     }
 
-    @Scheduled(cron = "0 42 12 * * ?")
+    @Scheduled(cron = "0 16 10 * * ?")
 
     public void gitRetDetail(){
         logger.info(">>>>>>>>>>> deleting workDetailInfo >>>>>>>>>>>>");
@@ -53,7 +53,7 @@ public class ScheduledTask {
 
 
 
-    @Scheduled(cron = "0 45 12 * * ?")
+    @Scheduled(cron = "0 16 10 * * ?")
 
     public void gitRetAlalyse(){
         logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");

@@ -1,74 +1,94 @@
-<script src="/lib/chart/echarts.js"></script>
-<script src="/lib/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript">
-    //        $(function(){//jquery的文档就绪函数
-    // 路径配置
-    //            var category_data;//类型信息
-    //            var soft_data;//软件部销售数据
-    //            var net_data;//网络部销售数据
-    //            var mobile_data;//移动事业部销售数据
-    //            $.ajax({
-    //                url:'/21-sun/echarts/EChartsDataServelt',
-    //                async:false,
-    //                success: function(data){
-    //                    category_data=data.category;
-    //                    soft_data=data.soft_data;
-    //                    net_data=data.net_data;
-    //                    mobile_data=data.mobile_data;}
-    //            })
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html ng-app="chartApp">
+<head>
+    <meta charset="UTF-8" />
+    <title>个人详情曲线</title>
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/angular/angular.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/lib/angular-resource/angular-resource.js"></script>
+    <script src="/scripts/chart.js"></script>
+    <script src="/lib/Highcharts/js/highcharts.js"></script>
+</head>
+<body ng-controller="chartCtrl">
+<div>
+<a href="" ng-click="check('flag')">导出EXCEL</a>
+</div>
+<div id="container" style="width: 2000px; height: 800px; margin: 0 auto"></div>
 
-    require.config({
-        paths: {
-            echarts: 'lib/chart'
-        } });
-    require(
-            [
-                'echarts',//代指echarts设置的路径，即'echarts/dist'
-                'echarts/chart/line'//加载折线图,引入line.js文件, 按需加载
-            ],
-//        function (ec) {
-//            var myChart = ec.init(document.getElementById('sell_data'));
-            option = {
-                tooltip: {//提示框，鼠标悬浮交互时的信息提示
-                    show: true
 
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        dataView: {show: true, readOnly: false},
-                        magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']}
-                    }
-                },
-                legend: {
-                    data: ['软件部', '网络板块', '移动事业部']
-                },
-                xAxis: {
-                    type: 'category',
-                    data: ["第一季度", "第二季度", "第三季度", "第四季度"]
-                },
-                yAxis: {
-                    type: 'value',
-                },
-                series: [
-                    {
-                        "name": "软件部",
-                        "type": "line",
-                        "data": [80, 300, 200, 100]
-                    },
-                    {
-                        "name": "网络板块",
-                        "type": "line",
-                        "data": [50, 200, 120, 200]
-                    },
-                    {
-                        "name": "移动事业部",
-                        "type": "line",
-                        "data": [20, 60, 30, 15]
-                    }
-                ]
-            })
+<script language="JavaScript">
+    var coulp=['一月', '二月', '三月', '四月', '五月', '六月'
+        ,'七月', '八月', '九月', '十月', '十一月', '十san月','十三月'];
+    $(document).ready(function() {
 
+        var title = {
+            text: '工作时间'
+        };
+        var subtitle = {
+            text: '预期时间与实际时间的对比'
+        };
+        var xAxis = {
+            categories: coulp
+        };
+        var yAxis = {
+            title: {
+                text: '小时（h）'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        };
+
+        var tooltip = {
+            valueSuffix: '\xB0C'
+        }
+
+        var legend = {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        };
+
+        var series =  [
+            {
+                name: 'expect_data',
+                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2,
+                    26.5, 23.3, 18.3, 13.9, 9.6]
+            },
+            {
+                name: 'actual_data',
+                data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8,
+                    24.1, 20.1, 14.1, 8.6, 2.5]
+            }
+//            {
+//                name: 'Berlin',
+//                data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6,
+//                    17.9, 14.3, 9.0, 3.9, 1.0]
+//            },
+//            {
+//                name: 'London',
+//                data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0,
+//                    16.6, 14.2, 10.3, 6.6, 4.8]
+//            }
+        ];
+
+        var json = {};
+
+        json.title = title;
+        json.subtitle = subtitle;
+        json.xAxis = xAxis;
+        json.yAxis = yAxis;
+        json.tooltip = tooltip;
+        json.legend = legend;
+        json.series = series;
+
+        $('#container').highcharts(json);
+    });
 </script>
-<!-- 为ECharts准备一个具备大小的区域，必须指定高度 -->
-<div id="sell_data" style="height:400px"></div>
+</body>
+</html>

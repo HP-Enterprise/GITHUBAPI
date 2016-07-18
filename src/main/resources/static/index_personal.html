@@ -235,79 +235,6 @@
     <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/lib/angular-resource/angular-resource.js"></script>
     <script src="/scripts/indexCtrl_personal.js"></script>
-    <script src="/lib/chart/echarts.js"></script>
-    <script type="text/javascript">
-//        $(function(){//jquery的文档就绪函数
-            // 路径配置
-//            var category_data;//类型信息
-//            var soft_data;//软件部销售数据
-//            var net_data;//网络部销售数据
-//            var mobile_data;//移动事业部销售数据
-//            $.ajax({
-//                url:'/21-sun/echarts/EChartsDataServelt',
-//                async:false,
-//                success: function(data){
-//                    category_data=data.category;
-//                    soft_data=data.soft_data;
-//                    net_data=data.net_data;
-//                    mobile_data=data.mobile_data;}
-//            })
-
-            require.config({
-                paths: {
-                    echarts: './lib/chart',
-                } });
-            require(
-                    [
-                        'echarts',//代指echarts设置的路径，即'echarts/dist'
-                        'echarts/chart/line'//加载折线图,引入line.js文件, 按需加载
-                    ],
-//        function (ec) {
-//            var myChart = ec.init(document.getElementById('sell_data'));
-                    option = {
-                        tooltip: {//提示框，鼠标悬浮交互时的信息提示
-                            show: true
-
-                        },
-                        toolbox: {
-                            show: true,
-                            feature: {
-                                dataView: {show: true, readOnly: false},
-                                magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']}
-                            }
-                        },
-                        legend: {
-                            data: ['软件部', '网络板块', '移动事业部']
-                        },
-                        xAxis: {
-                            type: 'category',
-                            data: ["第一季度", "第二季度", "第三季度", "第四季度"]
-                        },
-                        yAxis: {
-                            type: 'value',
-                        },
-                        series: [
-                            {
-                                "name": "软件部",
-                                "type": "line",
-                                "data": [80, 300, 200, 100]
-                            },
-                            {
-                                "name": "网络板块",
-                                "type": "line",
-                                "data": [50, 200, 120, 200]
-                            },
-                            {
-                                "name": "移动事业部",
-                                "type": "line",
-                                "data": [20, 60, 30, 15]
-                            }
-                        ]
-                    })
-
-    </script>
-    <!-- 为ECharts准备一个具备大小的区域，必须指定高度 -->
-    <div id="sell_data" style="height:400px"></div>
 
 </head>
 <body ng-controller="indexCtrl_personal">
@@ -315,7 +242,8 @@
 <div class="fr">
     <div class=" home">
         <a href="index.html">首页</a>
-        <input id="Button1" type="button" value="导出EXCEL" onclick="javascript:method1('targetTable')"><a href="" class="btn">导出Excel</a>
+        <a href="" class="btn">导出Excel</a>
+        <a href="chart.html" class="btn">查看曲线图</a>
     </div>
 </div>
 </div>
