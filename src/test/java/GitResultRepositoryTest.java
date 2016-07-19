@@ -48,6 +48,9 @@ public class GitResultRepositoryTest {
         System.out.println("gitResults1.size" + gitResults1.size());
         System.out.println(gitResults1.toString());
 
+//        Assert.notEmpty(gitResults1);
+//        Assert.notEmpty(gitResults);
+
     }
 
     @Test

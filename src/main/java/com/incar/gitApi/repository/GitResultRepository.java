@@ -33,5 +33,4 @@ public interface GitResultRepository extends JpaRepository<GitResult,Integer>{
 
     @Query( "select g from GitResult g where g.assignee = ?1 and g.state = ?2 and  (g.dueOn is null or g.dueOn <= ?3) ")
     List<GitResult> findOpenGitRet(String assignee, String state, Date dueOn);
-
 }

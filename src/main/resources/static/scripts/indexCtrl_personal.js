@@ -1,6 +1,6 @@
-var app = angular.module('indexApp',['ngResource'])
+var app = angular.module('indexApp_personal',['ngResource']);
 
-app.controller("indexCtrl", function($scope,$http, $location, $resource){
+app.controller("indexCtrl_personal", function($scope,$http, $location, $resource){
     //分页
     $scope.workPageObject = {
         currentPage : 1,
@@ -81,8 +81,30 @@ app.controller("indexCtrl", function($scope,$http, $location, $resource){
 
     $scope.worKeSelect = {};//搜索栏信息
     //分页
+    //$scope.count = data.message;
 
     $scope.getAllGitHubWork = function(flag){
+        var name,value;
+        var str=location.href; //取得整个地址栏
+        var num=str.indexOf("?")
+        str=str.substr(num+1); //取得所有参数
+        var values=[];
+        var arr=str.split("&"); //各个参数放到数组里
+        for(var i=0;i < arr.length;i++){
+            num=arr[i].indexOf("=");
+            if(num>0){
+                name=arr[i].substring(0,num);
+                value=arr[i].substr(num+1);
+                values[i] = value;
+            }
+        }
+        //var numbers={};
+        //for(var i=1;i <= count.length;i++){
+        //    numbers={id : "i"};
+        //}
+
+
+
         if($scope.worKeSelect.realname==''){
             $scope.worKeSelect.realname = null;
         }
@@ -96,8 +118,8 @@ app.controller("indexCtrl", function($scope,$http, $location, $resource){
         $scope.workSearch={
             params:{
                 realname:$scope.worKeSelect.realname,
-                username:$scope.worKeSelect.username,
-                weekNum:$scope.worKeSelect.weekNum,
+                userName:values[0],
+                week:values[1],
                 currentPage:$scope.workPageObject.currentPage,
                 pageSize:$scope.workPageObject.pageSize,
                 fuzzy:1
@@ -105,11 +127,13 @@ app.controller("indexCtrl", function($scope,$http, $location, $resource){
         };
 
 
-
-        $http.get("/api/work",$scope.workSearch).success(function(data,status,headers){
+        $http.get("/api/personalWorkDetail",$scope.workSearch).success(function(data,status,headers){
             $scope.workPageObject.totalPage = headers('Page-Count'); //总页数
             $scope.allWork = data.message;
-            if(flag == 'work'){
+            $scope.oneWork = data.message[0];
+            console.log($scope.oneWork.userName );
+
+            if(flag == 'personalWorkDetail'){
                 $scope.showFirstPageContent($scope.workPageObject,1);
             }
         }).error(function(err){
@@ -117,47 +141,11 @@ app.controller("indexCtrl", function($scope,$http, $location, $resource){
         })
     };
 
-
-    $scope.DownloadExcel = function(flag){
-
-        if($scope.worKeSelect.weekNum=='' || $scope.worKeSelect.weekNum==undefined ){
-            $scope.worKeSelect.weekNum= null;
-            $scope.WEEKNUM = null;
-        }
-        else{
-            $scope.WEEKNUM="weekNum="+$scope.worKeSelect.weekNum;
-        }
-
-        if($scope.worKeSelect.username=='' || $scope.worKeSelect.username== undefined ){
-            $scope.worKeSelect.username= null;
-            $scope.USERNAME = null;
-        }
-        else{
-            $scope.USERNAME="username="+$scope.worKeSelect.username;
-        }
-
-        if($scope.worKeSelect.realname=='' || $scope.worKeSelect.realname== undefined ){
-            $scope.worKeSelect.realname= null;
-            $scope.REALNAME = null;
-        }
-        else{
-            $scope.REALNAME="realname="+$scope.worKeSelect.realname;
-        }
-
-        //$scope.url="http://localhost:7890/api/exportExcel?"+ $scope.USERNAME +"&"+ $scope.WEEKNUM;
-        $scope.url="http://localhost:8080/api/exportExcel?"+ $scope.REALNAME+"&"+ $scope.USERNAME +"&"+ $scope.WEEKNUM;
-        window.open($scope.url);
-        //console.log($scope.url);
-    }
-
-
-    $scope.getAllGitHubWork('work');
+    $scope.getAllGitHubWork('personalWorkDetail');
     $scope.$watch('workPageObject.currentPage',function(){$scope.getAllGitHubWork();});
 
-
-
-    $scope.goHtml = function (obj){
-        //console.log(obj);
-        window.location.href ="index_personal.html?userName="+obj.username+"&week="+obj.weekInYear;
+    $scope.getChart = function(obj){
+        //console.log(oneWork.userName);
+        window.location.href ="highchart.html?userName="+obj.userName;
     }
 });

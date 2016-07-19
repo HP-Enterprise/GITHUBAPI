@@ -1,0 +1,417 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html ng-app="indexApp_detail">
+<head>
+    <!-- Date:2016.03.07 lyx-->
+    <meta http-equiv="X-UA-Compatible" content="IE=7"/>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>详情查询</title>
+    <META content="" name="keywords">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <style type="text/css">
+        body {
+            font-family: 'Microsoft YaHei';
+            font-weight: normal;
+            font-size: 16px;
+            color: #282828;
+            background: #f5f5f5;
+            line-height: 24px;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+
+        .fl {
+            padding-left: 1%;
+            width: 100%;
+        }
+
+        .fr {
+            float: right
+        }
+
+        .clearfix {
+            zoom: 1;
+            overflow: hidden;
+        }
+
+        .inner {
+            width: 80%;
+            min-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .gitlogo {
+            width: 430px;
+            height: 68px;
+            margin: 50px auto 60px;
+        }
+        .fr .home{
+            padding-right: 1%;
+            width: 100%;
+        }
+        .buttons {
+            width: 100%;
+            height: 34px;
+            text-align:center;
+        }
+
+        .buttons .fl span {
+            width: 80px;
+            height: 34px;
+            line-height: 34px;
+            float: left;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .buttons .fl input {
+            width: 90px;
+            height: 24px;
+            padding: 5px 6px;
+            border: 0;
+            background: #ffffff;
+            float: left;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .buttons .fl .selectkuang {
+            width: 150px;
+            height: 34px;
+            border: 0;
+            background: #fff;
+            float: left;
+            font-size: 16px;
+            overflow: hidden;
+        }
+
+        .buttons .fl .selectkuang select {
+            width: 150px;
+            height: 34px;
+            padding: 5px 6px;
+            border: 0;
+            background: #fff;
+            float: left;
+            font-size: 16px;
+            border: 0;
+            line-height: 34px;
+            color: #666;
+        }
+
+        .buttons .fl a {
+            display: block;
+            float: left;
+            width: 100px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            text-decoration: none;
+            background: #000000;
+            color: #fff;
+            margin-left: 50px;
+            font-size: 18px;
+            border-radius: 2px;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            -o-border-radius: 2px;
+        }
+
+        .buttons a.btn {
+            display: block;
+            float: left;
+            width: 100px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            text-decoration: none;
+            background: #000000;
+            color: #fff;
+            margin-left: 50px;
+            font-size: 18px;
+            border-radius: 2px;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            -o-border-radius: 2px;
+        }
+
+        .buttons .fl a:hover, .buttons a.btn:hover {
+            filter: alpha(opacity=60);
+            -moz-opacity: 0.6;
+            -khtml-opacity: 0.6;
+            opacity: 0.6;
+        }
+
+        table {
+            width: 100%;
+            margin: 30px auto;
+            background: #fff;
+            text-align: center;
+            border-collapse: collapse; /* 边框合并属性  */
+        }
+
+        table tr td {
+            padding: 0 6px;
+            line-height: 50px;
+            border: 0;
+            width: 8%;
+            min-width: 100px;
+            color: #666;
+        }
+
+        table thead {
+            height: 60px;
+            line-height: 60px;
+            border-bottom: 1px #e4e0e0 solid;
+            color: #666; /* background:#e4e0e0; */
+        }
+
+        table tbody tr:hover {
+            cursor: pointer;
+            background: #faf8f8;
+        }
+
+        table tbody tr:hover td {
+            color: #333;
+        }
+
+        .page {
+            height: 30px;
+            line-height: 25px;
+        }
+
+        .page a {
+            display: block;
+            width: 20px;
+            line-height: 20px;
+            height: 20px;
+            color: #666;
+            background: #f5f5f5;
+            border: 1px #ccc solid;
+            text-align: center;
+            text-decoration: none;
+            float: left;
+            font-size: 14px;
+            margin: 0 2px;
+        }
+
+        .page span {
+            float: left;
+            display: block;
+            margin: 0 2px;
+        }
+        .active{
+            color:red;
+        }
+    </style>
+
+    <!--==========我是JS的分隔线~=====================================================================-->
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/angular/angular.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/lib/angular-resource/angular-resource.js"></script>
+    <script src="/scripts/indexCtrl_detail.js"></script>
+    <!--<script type="text/javascript" language="javascript">-->
+        <!--var idTmr;-->
+        <!--function  getExplorer() {-->
+            <!--var explorer = window.navigator.userAgent ;-->
+            <!--//ie-->
+            <!--if (explorer.indexOf("MSIE") >= 0) {-->
+                <!--return 'ie';-->
+            <!--}-->
+            <!--//firefox-->
+            <!--else if (explorer.indexOf("Firefox") >= 0) {-->
+                <!--return 'Firefox';-->
+            <!--}-->
+            <!--//Chrome-->
+            <!--else if(explorer.indexOf("Chrome") >= 0){-->
+                <!--return 'Chrome';-->
+            <!--}-->
+            <!--//Opera-->
+            <!--else if(explorer.indexOf("Opera") >= 0){-->
+                <!--return 'Opera';-->
+            <!--}-->
+            <!--//Safari-->
+            <!--else if(explorer.indexOf("Safari") >= 0){-->
+                <!--return 'Safari';-->
+            <!--}-->
+        <!--}-->
+        <!--function method1(tableid) {//整个表格拷贝到EXCEL中-->
+            <!--if(getExplorer()=='ie')-->
+            <!--{-->
+                <!--var curTbl = document.getElementById(tableid);-->
+                <!--var oXL = new ActiveXObject("Excel.Application");-->
+
+                <!--//创建AX对象excel-->
+                <!--var oWB = oXL.Workbooks.Add();-->
+                <!--//获取workbook对象-->
+                <!--var xlsheet = oWB.Worksheets(1);-->
+                <!--//激活当前sheet-->
+                <!--var sel = document.body.createTextRange();-->
+                <!--sel.moveToElementText(curTbl);-->
+                <!--//把表格中的内容移到TextRange中-->
+                <!--sel.select();-->
+                <!--//全选TextRange中内容-->
+                <!--sel.execCommand("Copy");-->
+                <!--//复制TextRange中内容-->
+                <!--xlsheet.Paste();-->
+                <!--//粘贴到活动的EXCEL中-->
+                <!--oXL.Visible = true;-->
+                <!--//设置excel可见属性-->
+
+                <!--try {-->
+                    <!--var fname = oXL.Application.GetSaveAsFilename("Excel.xls", "Excel Spreadsheets (*.xls), *.xls");-->
+                <!--} catch (e) {-->
+                    <!--print("Nested catch caught " + e);-->
+                <!--} finally {-->
+                    <!--oWB.SaveAs(fname);-->
+
+                    <!--oWB.Close(savechanges = false);-->
+                    <!--//xls.visible = false;-->
+                    <!--oXL.Quit();-->
+                    <!--oXL = null;-->
+                    <!--//结束excel进程，退出完成-->
+                    <!--//window.setInterval("Cleanup();",1);-->
+                    <!--idTmr = window.setInterval("Cleanup();", 1);-->
+
+                <!--}-->
+
+            <!--}-->
+            <!--else-->
+            <!--{-->
+                <!--tableToExcel(tableid)-->
+            <!--}-->
+        <!--}-->
+        <!--function Cleanup() {-->
+            <!--window.clearInterval(idTmr);-->
+            <!--CollectGarbage();-->
+        <!--}-->
+        <!--var tableToExcel = (function() {-->
+            <!--var uri = 'data:application/vnd.ms-excel;base64,',-->
+                    <!--template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head>&lt;!&ndash;[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]&ndash;&gt;</head><body><table>{table}</table></body></html>',-->
+                    <!--base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) },-->
+                    <!--format = function(s, c) {-->
+                        <!--return s.replace(/{(\w+)}/g,-->
+                                <!--function(m, p) { return c[p]; }) }-->
+            <!--return function(table, name) {-->
+                <!--if (!table.nodeType) table = document.getElementById(table)-->
+                <!--var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}-->
+                <!--window.location.href = uri + base64(format(template, ctx))-->
+            <!--}-->
+        <!--})()-->
+    <!--</script>-->
+
+</head>
+<body ng-controller="indexCtrlDetail">
+<div class="fr">
+    <div class=" home">
+    <a href="index.html">首页</a>
+        <!--<input id="Button1" type="button" value="导出EXCEL" onclick="javascript:method1('targetTable')">-->
+        <a href="" ng-click="DownloadExcel('flag')">导出EXCEL</a>
+    </div>
+</div>
+<div class="inner">
+    <div class="gitlogo">
+        <img src="images/logo.png" alt=""/>
+    </div>
+    <div class="buttons">
+        <div class="fl">
+            <span>用户名：</span>
+            <input type="text" ng-model="worKeSelect.userName"/>
+            <span>项目名：</span>
+            <input type="text" ng-model="worKeSelect.project"/>
+            <span>状态：</span>
+            <div class="selectkuang">
+            <select ng-model="worKeSelect.state">
+                <option value=""></option>
+                <option value="open">open</option>
+                <option value="closed">closed</option>
+            </select>
+            </div>
+            <span>年：</span>
+            <div class="selectkuang">
+                <select ng-model="worKeSelect.year">
+                    <option value="2014">2014</option>
+                    <option value="2015">2015</option>
+                    <option selected = "2016">2016</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                </select>
+            </div>
+            <span>季度：</span>
+            <div class="selectkuang">
+                <select ng-model="worKeSelect.quarter">
+                    <option selected = ""></option>
+                    <option value="1">第一季度</option>
+                    <option value="2">第二季度</option>
+                    <option value="3">第三季度</option>
+                    <option value="4">第四季度</option>
+                </select>
+            </div>
+            <span>月：</span>
+            <input type="text" ng-model="worKeSelect.month"/>
+            <span>周：</span>
+            <input type="text" ng-model="worKeSelect.week"/>
+
+
+            <!--<span>时间(周数)：</span>-->
+            <!--<div class="selectkuang">-->
+                <!--<input type="text" ng-model="worKeSelect.weekNum"  placeholder="周数"/>-->
+                <!--<select ng-model="worKeSelect.weekNum">
+                    <option value="01">第1周</option>
+                    <option value="01">第2周</option>
+                    <option value="01">第3周</option>
+                    <option value="14">第4周</option>
+                </select>-->
+            <!--</div>-->
+            <a href="" ng-click="getAllGitHubWork('flag')">查询</a>
+
+        </div>
+<!--        <div class="fr">
+            <a href="" class="btn">导出Excel</a>
+        </div>-->
+    </div>
+
+    <table id ="targetTable">
+        <thead>
+        <tr>
+            <th>用户名</th>
+            <th>姓名</th>
+            <th>问题</th>
+            <th>项目名</th>
+            <th>预期工作时长（H）</th>
+            <th>实际工作时长（H）</th>
+            <th>状态</th>
+            <th>工作效率</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="aw in allWork">
+            <td ng-bind="aw.userName"></td>
+            <td ng-bind="aw.realName"></td>
+            <td ng-bind="aw.title"></td>
+            <td ng-bind="aw.project"></td>
+            <td ng-bind="aw.expectedTime"></td>
+            <td ng-bind="aw.actualTime"></td>
+            <td ng-bind="aw.state"></td>
+            <td ng-bind="aw.efficiency"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="page fr">
+        <a href="" ng-click="upPageClick(workPageObject,workPageObject.currentPage)"><</a>
+        <span ng-repeat="page in workPageObject.pages" >
+            <a href="" ng-click="showCurrentPageContent(workPageObject,page)"><span ng-class="{true:'active',false:'inactive'}[workPageObject.currentPage == page]" ng-bind="page"></span></a>
+        </span>
+        <a href="" ng-click="downPageClick(workPageObject,workPageObject.currentPage)">></a>
+    </div>
+    <!---->
+</div>
+</body>
+</html>

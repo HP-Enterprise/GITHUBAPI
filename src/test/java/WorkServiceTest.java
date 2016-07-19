@@ -3,7 +3,9 @@ import com.incar.gitApi.entity.GitResult;
 import com.incar.gitApi.entity.Work;
 import com.incar.gitApi.period.Period;
 import com.incar.gitApi.period.PeriodFactory;
+import com.incar.gitApi.repository.WorkRepository;
 import com.incar.gitApi.service.WorkService;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +31,8 @@ import java.util.List;
 @SpringApplicationConfiguration(classes = Application.class)
 @Transactional
 public class WorkServiceTest {
+    @Autowired
+    private WorkRepository workRepository;
 
     @Autowired
     private WorkService workService;
@@ -128,8 +132,23 @@ public class WorkServiceTest {
         Work work17  = workService.getWorkInfo("bettermouse", 17);
         Work work18  = workService.getWorkInfo("TeemolSparrow", 20);
     }
+@Test
+public void testExcel(){
+      HSSFWorkbook workbook= workService.findWorkToExcel(null, null, null);
 
-
+    System.out.println(workbook.getAllEmbeddedObjects().size()+"kkk");
+    System.out.println(workbook.getAllEmbeddedObjects()+"lll");
+    System.out.println(workbook.getBytes()+"....");
+ //     List<Work> workList= workRepository.findExcel(null, null, null);
+//    for (Work work : workList) {
+//        work.getId();
+//        work.getRealname();
+//        work.getUsername();
+//        work.getWeekInYear();
+//        System.out.printf(work.getUsername());
+//        System.out.println(work.getWeekInYear());
+//    }
+    }
 
 
 }

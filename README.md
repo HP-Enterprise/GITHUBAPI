@@ -26,7 +26,7 @@ npm install --registry=http://registry.npm.taobao.org
 执行以下命令检测是否缺少依赖项
 ```SHELL
 npm ls --depth=0 #检测packages.json依赖
-bower ls -o #检测boweer.json依赖
+bower ls -o #检测bower.json依赖
 ```
 
 
@@ -61,3 +61,6 @@ V<VERSION>__<NAME>.sql，<VERSION>可以写成1 或者 2_1或者3.1
 ```SHELL
 gradle bootRun
 ```
+
+     username: travis4hpe
+     password: travis4Java

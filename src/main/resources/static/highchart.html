@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="highchartApp">
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        .gitlogo {
+            width: 430px;
+            height: 68px;
+            margin: 50px auto 60px;
+        }
+    </style>
+    <title>个人工作时间图</title>
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/angular/angular.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/lib/angular-resource/angular-resource.js"></script>
+    <script src="/lib/Highcharts/js/highcharts.js"></script>
+    <script src="/scripts/highchartCtrl.js"></script>
+</head>
+<!--<div>-->
+    <!--<a href="" ng-click="check('flag')">TEST</a>-->
+<!--</div>-->
+<div class="gitlogo">
+    <img src="images/logo.png" alt=""/>
+</div>
+<body ng-controller="highchartCtrl">
+<div id="container"></div>
+</body>
+</html>

@@ -10,6 +10,7 @@ create table g_work_detail(
   efficiency int(2) COMMENT '工作效率',
   week int(8) COMMENT '本周序号',
   month int(8) COMMENT '本月的序号',
+  quarter int(2) COMMENT '本季度的序号',
   year int(8) COMMENT '本年的序号',
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='详细工作统计表';
