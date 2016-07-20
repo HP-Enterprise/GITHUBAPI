@@ -5,9 +5,7 @@ import com.incar.gitApi.service.RepoService;
 import org.eclipse.egit.github.core.Issue;
 import org.eclipse.egit.github.core.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -25,8 +23,8 @@ public class RepoController {
      * @param repository
      * @return
      */
-    @RequestMapping(value ="/addRepository")
-    public ObjectResult addRepository(@RequestParam Repository repository){
+    @RequestMapping(value ="/addRepository" ,method = RequestMethod.POST)
+    public ObjectResult addRepository(@RequestBody Repository repository){
         Repository repo=  repoService.addRepository(repository);
         return  new ObjectResult("true",repo);
     }
@@ -37,9 +35,10 @@ public class RepoController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value ="/addIssue")
-    public ObjectResult addIssue(@RequestParam Issue issue)throws IOException{
-        Issue issue1= repoService.addIssue( "newProject",issue);
+    @RequestMapping(value ="/addIssue" ,method = RequestMethod.POST)
+    public ObjectResult addIssue(@RequestParam(value ="repository",required = true) String repository,
+                                 @RequestBody Issue issue)throws IOException{
+        Issue issue1= repoService.addIssue( repository,issue);
         return new ObjectResult("true",issue1);
     }
 }
