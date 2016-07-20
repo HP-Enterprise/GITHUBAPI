@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html ng-app="repositoryApp">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=7"/>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>创建仓库</title>
+    <META content="" name="keywords">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <style type="text/css">
+        body {
+            font-family: 'Microsoft YaHei';
+            font-weight: normal;
+            font-size: 16px;
+            color: #282828;
+            background: #f5f5f5;
+            line-height: 24px;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+
+        .fl {
+            float: left;
+        }
+
+        .fr {
+            float: right
+        }
+
+        .clearfix {
+            zoom: 1;
+            overflow: hidden;
+        }
+
+        .inner {
+            width: 80%;
+            min-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .gitlogo {
+            width: 430px;
+            height: 68px;
+            margin: 50px auto 60px;
+        }
+
+        .buttons {
+            width: 100%;
+            height: 34px;
+        }
+        .fr .home{
+            padding-right: 1%;
+            width: 100%;
+        }
+        .buttons .fl span {
+            width: 150px;
+            height: 34px;
+            line-height: 34px;
+            float: left;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .buttons .fl input {
+            width: 200px;
+            height: 24px;
+            padding: 5px 6px;
+            border: 0;
+            background: #fff;
+            float: left;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .buttons .fl .selectkuang {
+            width: 200px;
+            height: 34px;
+            border: 0;
+            background: #fff;
+            float: left;
+            font-size: 16px;
+            overflow: hidden;
+        }
+
+        .buttons .fl .selectkuang select {
+            width: 220px;
+            height: 34px;
+            padding: 5px 6px;
+            border: 0;
+            background: #fff;
+            float: left;
+            font-size: 16px;
+            border: 0;
+            line-height: 34px;
+            color: #666;
+        }
+
+        .buttons .fl a {
+            display: block;
+            float: left;
+            width: 100px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            text-decoration: none;
+            background: #000;
+            color: #fff;
+            margin-left: 50px;
+            font-size: 18px;
+            border-radius: 2px;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            -o-border-radius: 2px;
+        }
+        input.ng-invalid {
+            background-color: lightblue;
+        }
+        .buttons a.btn {
+            display: block;
+            float: left;
+            width: 120px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            text-decoration: none;
+            background: #000;
+            color: #fff;
+            margin-left: 50px;
+            font-size: 18px;
+            border-radius: 2px;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            -o-border-radius: 2px;
+        }
+
+        .buttons .fl a:hover, .buttons a.btn:hover {
+            filter: alpha(opacity=60);
+            -moz-opacity: 0.6;
+            -khtml-opacity: 0.6;
+            opacity: 0.6;
+        }
+
+        table {
+            width: 100%;
+            margin: 30px auto;
+            background: #fff;
+            text-align: center;
+            border-collapse: collapse; /* 边框合并属性  */
+        }
+
+        table tr td {
+            padding: 0 6px;
+            line-height: 50px;
+            border: 0;
+            width: 20%;
+            min-width: 100px;
+            color: #666;
+        }
+
+        table thead {
+            height: 60px;
+            line-height: 60px;
+            border-bottom: 1px #e4e0e0 solid;
+            color: #666; /* background:#e4e0e0; */
+        }
+
+        table tbody tr:hover {
+            cursor: pointer;
+            background: #faf8f8;
+        }
+
+        table tbody tr:hover td {
+            color: #333;
+        }
+
+        .page {
+            height: 30px;
+            line-height: 25px;
+        }
+
+        .page a {
+            display: block;
+            width: 20px;
+            line-height: 20px;
+            height: 20px;
+            color: #666;
+            background: #f5f5f5;
+            border: 1px #ccc solid;
+            text-align: center;
+            text-decoration: none;
+            float: left;
+            font-size: 14px;
+            margin: 0 2px;
+        }
+
+        .page span {
+            float: left;
+            display: block;
+            margin: 0 2px;
+        }
+        .active{
+            color:red;
+        }
+    </style>
+
+    <!--==========我是JS的分隔线~=====================================================================-->
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/angular/angular.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/lib/angular-resource/angular-resource.js"></script>
+    <script src="/scripts/repositoryCtrl.js"></script>
+
+</head>
+<body ng-controller="repositoryCtrl">
+<div class="inner">
+    <div class="gitlogo">
+        <img src="images/logo.png" alt=""/>
+    </div>
+
+    <div class="fl">
+            <b>创建一个新的仓库</b>
+    </div><br>
+    <div>
+            <span>拥有者：</span>
+            <input type="text" ng-model="Repository.owner"test/><br>
+            <!--<a>输入的为：<a>{{get.owner}}-->
+    </div>
+    <div>
+            <span>仓库名称：</span>
+            <input type="text" ng-model="Repository.name"/><br>
+    </div>
+    <div>
+            <span>描述：</span>
+            <input type="text" ng-model="Repository.description "/><br>
+    </div>
+    <div>
+            <form action="" method="get"><br/>
+                <label><input  type="radio" ng-model="Repository.isPrivate" value="false"/>共有 </label><br>
+                <label><input  type="radio" ng-model="Repository.isPrivate" value="true" />私有</label><br>
+            </form>
+    </div>
+        <br>
+    <br>
+    <br>
+    <div class ="buttons">
+            <!--<a href="" ng-click="EstablishRepository('flag')">创建</a>-->
+            <a href="" ng-click="show(Repository)">创建</a>
+    </div>
+
+</div>
+</body>
+</html>

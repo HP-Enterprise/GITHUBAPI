@@ -146,6 +146,7 @@ app.controller("indexCtrl_personal", function($scope,$http, $location, $resource
 
     $scope.getChart = function(obj){
         //console.log(oneWork.userName);
-        window.location.href ="highchart.html?userName="+obj.userName;
+        //window.location.href ="highchart.html?userName="+obj.userName;
+        window.location.href ="repository.html";
     }
 });
