@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>xiu</title>
+
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/lib/bootstrap-select-1.10.0/dist/css/bootstrap-select.css">
+
+  <style type="text/css">
+    body {
+      padding-top: 70px;
+    }
+    .title{
+      font-size: 40px;
+      font-style: normal;
+      text-align: center;
+    }
+    .name{
+      font-size: 18px;
+      padding-left: 10%;
+      color: #5e5e5e;
+      background-color: transparent;
+    }
+    .buttons{
+      padding-left:60%;
+    }
+    
+    
+    
+    
+    
+    
+  </style>
+  <script src="/lib/jquery/dist/jquery.min.js"></script>
+  <script src="/lib/angular/angular.min.js"></script>
+  <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/lib/angular-resource/angular-resource.js"></script>
+  <script src="/lib/bootstrap-select-1.10.0/dist/js/bootstrap-select.js"></script>
+</head>
+<body>
+<div class="title">
+  <b>增加Issues</b>
+  <hr>
+</div>
+<div class="name">
+  <span>仓库名：</span>
+  <span ng-bind>{{engineer.name}}</span><br>
+  <hr>
+  <span>描述：</span>
+  <span ng-bind>{{oneWork.userName}}</span>
+  <hr>
+</div>
+<div class="container">
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand">Labels::</a>
+      </div>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <select class="selectpicker" multiple data-live-search="true" data-live-search-placeholder="label" data-actions-box="true">
+            <optgroup label="filter1">
+              <option>option1</option>
+              <option>option2</option>
+              <option>option3</option>
+              <option>option4</option>
+            </optgroup>
+            <optgroup label="filter2">
+              <option>option1</option>
+              <option>option2</option>
+              <option>option3</option>
+              <option>option4</option>
+            </optgroup>
+            <optgroup label="filter3">
+              <option>option1</option>
+              <option>option2</option>
+              <option>option3</option>
+              <option>option4</option>
+            </optgroup>
+          </select>
+        </div>
+      </form>
+    </div>
+  </nav>
+  <hr>
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Milestones:</a>
+      </div>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <select id="first-disabled" class="selectpicker" data-hide-disabled="true" data-live-search="true">
+            <optgroup disabled="disabled" label="disabled">
+              <option>Hidden</option>
+            </optgroup>
+            <optgroup label="Fruit">
+              <option>Apple</option>
+              <option>Orange</option>
+            </optgroup>
+            <optgroup label="Vegetable">
+              <option>Corn</option>
+              <option>Carrot</option>
+            </optgroup>
+          </select>
+        </div>
+      </form>
+    </div>
+  </nav>
+  <hr>
+</div>
+
+<div class="buttons">
+  <input type="button" value="确定" onclick="gogo(sss)"/>
+  <input type="button" value="取消" onclick="gogo(sss)"/>
+</div>
+
+<script>
+  $(document).ready(function () {
+    var mySelect = $('#first-disabled2');
+
+    $('#special').on('click', function () {
+      mySelect.find('option:selected').prop('disabled', true);
+      mySelect.selectpicker('refresh');
+    });
+
+    $('#special2').on('click', function () {
+      mySelect.find('option:disabled').prop('disabled', false);
+      mySelect.selectpicker('refresh');
+    });
+
+    $('#basic2').selectpicker({
+      liveSearch: true,
+      maxOptions: 1
+    });
+  });
+</script>
+</body>
+</html>

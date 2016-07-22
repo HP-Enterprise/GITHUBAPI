@@ -20,19 +20,51 @@
             line-height: 24px;
         }
 
+        div {
+            display: block;
+        }
+
         * {
             padding: 0;
             margin: 0;
             border: 0;
         }
 
-        .fl {
-            float: left;
+        .title {
+            height: 80px;
+            padding-top:10px;
+            padding-bottom:5px;
+            font-size:25pt;
+            background-position: center;
+            text-align:center;
+            font-weight :bold;
+            border-bottom:1px solid #e5e5e5;
         }
 
-        .fr {
-            float: right
+        input[type=radio] {
+            margin: 5px 0 0 -20px;
+            vertical-align: middle;
         }
+        [type="radio"] {
+            box-sizing: border-box;
+            padding: 0;
+        }
+
+        label {
+            font-weight: 600;
+        }
+
+        .form-checkbox {
+            padding-left: 36%;
+            margin: 15px 0;
+            vertical-align: middle;
+            border-bottom:1px solid #e5e5e5;
+            padding-bottom: 2%;
+        }
+
+        /*.fl {*/
+            /*float: left*/
+        /*}*/
 
         .clearfix {
             zoom: 1;
@@ -52,57 +84,34 @@
         }
 
         .buttons {
-            width: 100%;
+            padding-left: 55%;
             height: 34px;
+            padding-bottom: 2%;
         }
-        .fr .home{
-            padding-right: 1%;
-            width: 100%;
+
+        .fl{
+            border-bottom:1px solid #e5e5e5;
         }
-        .buttons .fl span {
-            width: 150px;
+        
+        .fl span {
+            padding-left: 35%;
             height: 34px;
             line-height: 34px;
-            float: left;
             text-align: center;
             font-size: 16px;
         }
 
-        .buttons .fl input {
-            width: 200px;
-            height: 24px;
+        .fl input {
+            width: 400px;
+            height: 30px;
             padding: 5px 6px;
             border: 0;
             background: #fff;
-            float: left;
             font-size: 16px;
             color: #666;
         }
 
-        .buttons .fl .selectkuang {
-            width: 200px;
-            height: 34px;
-            border: 0;
-            background: #fff;
-            float: left;
-            font-size: 16px;
-            overflow: hidden;
-        }
-
-        .buttons .fl .selectkuang select {
-            width: 220px;
-            height: 34px;
-            padding: 5px 6px;
-            border: 0;
-            background: #fff;
-            float: left;
-            font-size: 16px;
-            border: 0;
-            line-height: 34px;
-            color: #666;
-        }
-
-        .buttons .fl a {
+        .inner .buttons a {
             display: block;
             float: left;
             width: 100px;
@@ -119,10 +128,12 @@
             -webkit-border-radius: 2px;
             -o-border-radius: 2px;
         }
-        input.ng-invalid {
+        input .ng-model {
             background-color: lightblue;
         }
-        .buttons a.btn {
+
+        .buttons a {
+
             display: block;
             float: left;
             width: 120px;
@@ -140,74 +151,6 @@
             -o-border-radius: 2px;
         }
 
-        .buttons .fl a:hover, .buttons a.btn:hover {
-            filter: alpha(opacity=60);
-            -moz-opacity: 0.6;
-            -khtml-opacity: 0.6;
-            opacity: 0.6;
-        }
-
-        table {
-            width: 100%;
-            margin: 30px auto;
-            background: #fff;
-            text-align: center;
-            border-collapse: collapse; /* 边框合并属性  */
-        }
-
-        table tr td {
-            padding: 0 6px;
-            line-height: 50px;
-            border: 0;
-            width: 20%;
-            min-width: 100px;
-            color: #666;
-        }
-
-        table thead {
-            height: 60px;
-            line-height: 60px;
-            border-bottom: 1px #e4e0e0 solid;
-            color: #666; /* background:#e4e0e0; */
-        }
-
-        table tbody tr:hover {
-            cursor: pointer;
-            background: #faf8f8;
-        }
-
-        table tbody tr:hover td {
-            color: #333;
-        }
-
-        .page {
-            height: 30px;
-            line-height: 25px;
-        }
-
-        .page a {
-            display: block;
-            width: 20px;
-            line-height: 20px;
-            height: 20px;
-            color: #666;
-            background: #f5f5f5;
-            border: 1px #ccc solid;
-            text-align: center;
-            text-decoration: none;
-            float: left;
-            font-size: 14px;
-            margin: 0 2px;
-        }
-
-        .page span {
-            float: left;
-            display: block;
-            margin: 0 2px;
-        }
-        .active{
-            color:red;
-        }
     </style>
 
     <!--==========我是JS的分隔线~=====================================================================-->
@@ -218,40 +161,37 @@
     <script src="/scripts/repositoryCtrl.js"></script>
 
 </head>
-<body ng-controller="repositoryCtrl">
-<div class="inner">
-    <div class="gitlogo">
-        <img src="images/logo.png" alt=""/>
-    </div>
-
-    <div class="fl">
+<br ng-controller="repositoryCtrl">
+    <!--<div class="gitlogo">-->
+        <!--<img src="images/logo.png" alt=""/>-->
+    <!--</div>-->
+<div class=" home">
+    <a href="addIssues.html" ng-click="">addIssues</a>
+</div>
+    <div class="title">
             <b>创建一个新的仓库</b>
-    </div><br>
-    <div>
+    </div><br></br>
+    <div class="fl">
             <span>拥有者：</span>
-            <input type="text" ng-model="Repository.owner"test/><br>
+            <input class="ng-model" type="text" ng-model="repository.owner"test/><br></br>
             <!--<a>输入的为：<a>{{get.owner}}-->
-    </div>
-    <div>
+
+
             <span>仓库名称：</span>
-            <input type="text" ng-model="Repository.name"/><br>
-    </div>
-    <div>
+            <input type="text" ng-model="repository.name"/><br></br>
+
             <span>描述：</span>
-            <input type="text" ng-model="Repository.description "/><br>
+            <input type="text" ng-model="repository.description "/><br></br>
     </div>
-    <div>
+    <div class="form-checkbox">
             <form action="" method="get"><br/>
-                <label><input  type="radio" ng-model="Repository.isPrivate" value="false"/>共有 </label><br>
-                <label><input  type="radio" ng-model="Repository.isPrivate" value="true" />私有</label><br>
+                <label><input  type="radio" ng-model="repository.isPrivate" value="false"/> &nbsp;  共有 </label><br>
+                <label><input  type="radio" ng-model="repository.isPrivate" value="true" /> &nbsp;  私有</label><br>
+                <label><input  type="radio" ng-model="repository.hasIssues" value="true" /> &nbsp;   是否有issues</label><br>
             </form>
     </div>
-        <br>
-    <br>
-    <br>
     <div class ="buttons">
-            <!--<a href="" ng-click="EstablishRepository('flag')">创建</a>-->
-            <a href="" ng-click="show(Repository)">创建</a>
+            <a href="" ng-click="show(repository)">创建</a>
     </div>
 
 </div>

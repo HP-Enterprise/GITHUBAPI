@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html ng-app="addIssuesDetailApp">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=7"/>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>增加Issues详情</title>
+    <META content="" name="keywords">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/css/bootstrap-select.css">
+
+    <style>
+
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="dist/js/bootstrap-select.js"></script>
+    <style type="text/css">
+
+        body {
+            padding-top: 70px;
+            font-family: 'Microsoft YaHei';
+            font-weight: normal;
+            font-size: 16px;
+            color: #282828;
+            background: #f5f5f5;
+            line-height: 24px;
+        }
+
+        div {
+            display: block;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+
+        .title {
+            height: 80px;
+            padding-top:10px;
+            padding-bottom:5px;
+            font-size:25pt;
+            background-position: center;
+            text-align:center;
+            font-weight :bold;
+            border-bottom:1px solid #e5e5e5;
+        }
+
+        input[type=radio] {
+            margin: 5px 0 0 -20px;
+            vertical-align: middle;
+        }
+        [type="radio"] {
+            box-sizing: border-box;
+            padding: 0;
+        }
+
+        label {
+            font-weight: 600;
+        }
+
+        .form-checkbox {
+            padding-left: 36%;
+            margin: 15px 0;
+            vertical-align: middle;
+            border-bottom:1px solid #e5e5e5;
+            padding-bottom: 2%;
+        }
+
+        /*.fl {*/
+            /*float: left*/
+        /*}*/
+
+        .clearfix {
+            zoom: 1;
+            overflow: hidden;
+        }
+
+        .inner {
+            width: 80%;
+            min-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .gitlogo {
+            width: 430px;
+            height: 68px;
+            margin: 50px auto 60px;
+        }
+
+        .buttons {
+            padding-left: 55%;
+            height: 34px;
+            padding-bottom: 2%;
+        }
+
+        .fl{
+            border-bottom:1px solid #e5e5e5;
+        }
+        
+        .fl span {
+            padding-left: 35%;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .fl input {
+            width: 400px;
+            height: 30px;
+            padding: 5px 6px;
+            border: 0;
+            background: #fff;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .inner .buttons a {
+            display: block;
+            float: left;
+            width: 100px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            text-decoration: none;
+            background: #000;
+            color: #fff;
+            margin-left: 50px;
+            font-size: 18px;
+            border-radius: 2px;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            -o-border-radius: 2px;
+        }
+        input .ng-model {
+            background-color: lightblue;
+        }
+
+        .buttons a {
+
+            display: block;
+            float: left;
+            width: 120px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            text-decoration: none;
+            background: #000;
+            color: #fff;
+            margin-left: 50px;
+            font-size: 18px;
+            border-radius: 2px;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            -o-border-radius: 2px;
+        }
+
+    </style>
+
+    <!--==========我是JS的分隔线~=====================================================================-->
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/angular/angular.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/lib/bootstrap-select-1.10.0/js/bootstrap-select.js"></script>
+    <script src="/lib/angular-resource/angular-resource.js"></script>
+    <script src="/scripts/addIssuesDetailCtrl.js"></script>
+
+
+</head>
+<body ng-controller="addIssuesDetailCtrl">
+
+    <div class="title">
+            <b>增加Issues</b>
+    </div>
+    <div class="">
+            <span>仓库名：</span>
+            <span ng-bind>{{engineer.name}}</span><br>
+            <span>描述：</span>
+            <span ng-bind>{{oneWork.userName}}</span>
+    </div>
+    <div>
+        <div class="">
+            <div class="">
+                <input aria-label="Title" autofocus="autofocus"  id="issue_title" name="issue[title]" placeholder="Title" required="required" size="30" tabindex="1" type="text">
+            </div>
+            <div>
+                <select
+                        ng-model = "fff.aaa"
+                        class=""
+                        ng-options = "a.name +' (' + a.type + ')' for a in activities"
+                        ng-value="a.id for a in activities"
+                        checkboxes="true">>
+                </select >
+            </div>
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Issues</a>
+                    </div>
+                    <form class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <select class="selectpicker" multiple data-live-search="true" data-live-search-placeholder="1111" data-actions-box="true">
+                                <optgroup label="filter1">
+                                    <option>option1</option>
+                                    <option>option2</option>
+                                    <option>option3</option>
+                                    <option>option4</option>
+                                </optgroup>
+                                <optgroup label="filter2">
+                                    <option>option1</option>
+                                    <option>option2</option>
+                                    <option>option3</option>
+                                    <option>option4</option>
+                                </optgroup>
+                                <optgroup label="filter3">
+                                    <option>option1</option>
+                                    <option>option2</option>
+                                    <option>option3</option>
+                                    <option>option4</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <!--<div class="input-group">-->
+                        <!--<input type="text" class="form-control" placeholder="222" name="q">-->
+                        <!--<div class="input-group-btn">-->
+                        <!--<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<button type="submit" class="btn btn-default">Search</button>-->
+                    </form>
+                </div>
+            </nav>
+
+
+
+                <select multiple="multiple"
+                        ng-model="worKeSelect.quarter">
+                    <option selected = ""></option>
+                    <option value="1">第一季度</option>
+                    <option value="2">第二季度</option>
+                    <option value="3">第三季度</option>
+                    <option value="4">第四季度</option>
+                </select>
+        </div>
+    <div class ="buttons">
+            <a href="" ng-click="show(fff)">确定</a>
+            <a href="" ng-click="put(fff)">取消</a>
+    </div>
+</div>
+</body>
+</html>

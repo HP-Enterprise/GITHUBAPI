@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html ng-app="indexApp">
+<html ng-app="addIssuesApp">
 <head>
     <!-- Date:2016.03.07 lyx-->
     <meta http-equiv="X-UA-Compatible" content="IE=7"/>
     <META http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>五星红旗</title>
+    <title>增加Issues</title>
     <META content="" name="keywords">
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
@@ -218,80 +218,37 @@
     <script src="/lib/angular-resource/angular-resource.js"></script>
     <script src="/scripts/indexCtrl.js"></script>
     <script language="javascript">
-//        function doclick()
-//        {
-//            var td = event.srcElement; // 通过event.srcElement 获取激活事件的对象 td
-//            var a=td.parentElement.rowIndex;
-////            alert("行号：" + (td.parentElement.rowIndex) + "，列号：" + td.(cellIndex+1));
-////            var aa=document.getElementById("table").rows[a].cells[1].innerHTML;
-////            alert(aa);
-//           // alert(document.getElementById("1").innerHTML);
-//        }
     </script>
 
 </head>
-<body ng-controller="indexCtrl">
-<div class="fr">
-    <div class=" home">
-        <!--<input type="button" value="导出数据" onclick="DownloadExcel()"/>-->
-        <a href="" ng-click="DownloadExcel('flag')">导出EXCEL</a>
-        <a href="repository.html" ng-click="">创建仓库</a>
-    </div>
-</div>
+<body ng-controller="addIssuesCtrl">
 
 <div class="inner">
     <div class="gitlogo">
         <img src="images/logo.png" alt=""/>
     </div>
-    <div class="buttons">
-        <div class="fl">
-            <span>姓名：</span>
-            <input type="text" ng-model="worKeSelect.realname"/>
-            <span>用户名：</span>
-            <input type="text" ng-model="worKeSelect.username"/>
-            <span>时间(周数)：</span>
-            <div class="selectkuang">
-                <input type="text" ng-model="worKeSelect.weekNum"/>
-                <!--<select ng-model="worKeSelect.weekNum">
-                    <option value="01">第1周</option>
-                    <option value="01">第2周</option>
-                    <option value="01">第3周</option>
-                    <option value="14">第4周</option>
-                </select>-->
-            </div>
-            <a href="" ng-click="getAllGitHubWork('flag')">查询</a>
-            <a href="index-detail.html" ng-click="getAllGitHubWork('flag')">详细查询</a>
-        </div>
-    </div>
 
-    <table id="table" onclick="doclick()">
+    <table id="table">
         <thead>
         <tr>
-            <th>用户名</th>
-            <th>姓名</th>
-            <th>已完成工作时长（小时）</th>
-            <th>未完成工作时长（小时）</th>
-            <th>工作时长（小时）</th>
-            <th>周</th>
+            <th>仓库名</th>
             <th>操作</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="aw in allWork">
-            <td ng-bind="aw.username"></td>
-            <td ng-bind="aw.realname"></td>
-            <td ng-bind="aw.finishedWork"></td>
-            <td ng-bind="aw.unfinishedWork"></td>
-            <td ng-bind="aw.workHours"></td>
-            <td ng-bind="aw.weekInYear"></td>
-            <td><a ng-click="goHtml(aw)">查看详情</a></td>
+            <td ng-bind="aw.name"></td>
+            <!--<td><a ng-click="goHtml(aw)">增加Issues</a></td>-->
+            <!--<td><a href="addIssuesDetail.html" ng-click="">增加Issues</a></td>-->
+            <td><a href="issuesDetail.html" ng-click="">增加Issues</a></td>
         </tr>
         </tbody>
     </table>
     <div class="page fr">
         <a href="" ng-click="upPageClick(workPageObject,workPageObject.currentPage)"><</a>
         <span ng-repeat="page in workPageObject.pages" >
-            <a href="" ng-click="showCurrentPageContent(workPageObject,page)"><span ng-class="{true:'active',false:'inactive'}[workPageObject.currentPage == page]" ng-bind="page"></span></a>
+            <a href="" ng-click="showCurrentPageContent(workPageObject,page)">
+                <span ng-class="{true:'active',false:'inactive'}[workPageObject.currentPage == page]" ng-bind="page"></span></a>
         </span>
         <a href="" ng-click="downPageClick(workPageObject,workPageObject.currentPage)">></a>
     </div>

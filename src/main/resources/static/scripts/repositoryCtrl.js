@@ -2,15 +2,15 @@ var app = angular.module('repositoryApp',['ngResource'])
 
 app.controller("repositoryCtrl", function($scope,$http,$rootScope, $location, $resource){
     $scope.master={};
-    $scope.show=function(Repository){
-        //console.log('owner:',$scope.get.owner);
+    $scope.show=function(repository){
+        //console.log('owner:'+ $scope.repository.owner);
         //console.log('仓库名:',$scope.get.repository);
         //console.log('描述:',$scope.get.describe);
-        $scope.master=angular.copy(Repository);
+        $scope.master=angular.copy(repository);
 
         console.log($scope.master);
 
-        $http.post("/api/addRepository",$scope.master).success(function(data,status,headers){
+        $http.post("http://localhost:8080/api/addRepository",$scope.master).success(function(data,status,headers){
                 console.log(data);
         }).error(function(data){
             alert("失败" );
