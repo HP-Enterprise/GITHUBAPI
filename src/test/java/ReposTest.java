@@ -71,5 +71,22 @@ public class ReposTest {
         myMilestoneService.addAllMilestone("HP-Enterprise", "MyProject", 2016);
 
     }
+    @Test
+    public void testRepository()throws  IOException{
+   List<Repository>  repository=   repoService.getRepository();
+       Repository repository1=   repository.get(2);
+        System.out.println(repository1.getId());
+        System.out.println(repository1.getName());
+        System.out.println(repository1.getOwner());
+    }
+    @Test
+    public void testEditRepository()throws IOException{
+        Repository repository=new Repository();
+        repository.setName("Myproject");
+        repository.setDescription("这是接口测试");
+
+        repoService.editRepository("HP-Enterprise","MyProject",repository);
+
+    }
 
 }

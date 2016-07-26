@@ -34,8 +34,8 @@ public class RepoController {
     /**
      * 创建组织仓库
      *
-     * @param organization
-     * @param repository
+     * @param organization 组织名
+     * @param repository 仓库名
      * @return
      * @throws IOException
      */
@@ -48,7 +48,7 @@ public class RepoController {
     /**
      * 查看组织所有仓库
      *
-     * @param organization
+     * @param organization 组织名
      * @return
      * @throws IOException
      */
@@ -56,6 +56,36 @@ public class RepoController {
     public ObjectResult getAllRepository(@RequestParam(value = "organization", required = true) String organization) throws IOException {
         List<Repository> repositoryList = repoService.getAllRepository(organization);
         return new ObjectResult("true", repositoryList);
+    }
+
+    /**
+     * 更新仓库
+     * @param organization 组织名
+     * @param repo  更新的仓库名
+     * @param repository 仓库对象
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value = "/updateOrgRepository",method = RequestMethod.POST)
+    public  ObjectResult updateOrgRepository(@RequestParam(value = "organization", required = true) String organization,
+                                             @RequestParam(value = "repo", required = true) String repo,
+                                             @RequestBody Repository repository)throws IOException{
+          Repository repository1= repoService.editRepository(organization, repo, repository);
+        return new ObjectResult("true",repository1);
+    }
+
+    /**
+     * 删除仓库
+     * @param organization 组织名
+     * @param repository 仓库名
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value = "/deleteOrgRepository")
+    public  ObjectResult deleteOrgRepository(@RequestParam(value = "organization", required = true) String organization,
+                                             @RequestParam(value = "repository", required = true) String repository)throws IOException{
+         repoService.deleteRepository(organization,repository);
+        return new ObjectResult("true","删除成功！");
     }
 
 }

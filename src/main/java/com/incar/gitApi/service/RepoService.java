@@ -2,6 +2,9 @@ package com.incar.gitApi.service;
 
 import com.incar.gitApi.GithubClientConfig;
 import org.eclipse.egit.github.core.Repository;
+import org.eclipse.egit.github.core.client.GitHubClient;
+import org.eclipse.egit.github.core.service.GistService;
+import org.eclipse.egit.github.core.service.GitHubService;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +60,53 @@ public class RepoService {
         RepositoryService repositoryService = new RepositoryService(githubClientConfig.getGitHubClient());
         Repository repository2 = repositoryService.createRepository(organization, repository);
         return repository2;
+    }
+
+    /**
+     * 查询个人仓库
+     * @return
+     * @throws IOException
+     */
+    public List<Repository> getRepository() throws IOException {
+        RepositoryService repositoryService = new RepositoryService(githubClientConfig.getGitHubClient());
+        List<Repository> repositoryList = repositoryService.getRepositories(githubClientConfig.getUsername());
+        return repositoryList;
+    }
+
+    /**
+     * 根据仓库名称更改仓库信息
+     * @param organization
+     * @param repo
+     * @param repository
+     * @return
+     * @throws IOException
+     */
+    public Repository editRepository(String organization,String repo,Repository repository) throws IOException {
+        GitHubService gitHubService=new GistService(githubClientConfig.getGitHubClient());
+        if(repository == null) {
+            throw new IllegalArgumentException("Repository cannot be null");
+        } else {
+            StringBuilder uri = new StringBuilder("/repos");
+            uri.append('/').append(organization).append('/').append(repo);
+            return (Repository)gitHubService.getClient().post(uri.toString(),repository,Repository.class);
+        }
+    }
+
+    /**
+     * 删除仓库
+     * @param organization
+     * @param repository
+     * @throws IOException
+     */
+    public void  deleteRepository(String organization,String  repository) throws IOException {
+        GitHubService gitHubService=new GistService(githubClientConfig.getGitHubClient());
+        if(repository == null) {
+            throw new IllegalArgumentException("Repository cannot be null");
+        } else {
+            StringBuilder uri = new StringBuilder("/repos");
+            uri.append('/').append(organization).append('/').append(repository);
+            gitHubService.getClient().delete(uri.toString());
+        }
     }
 
 }
