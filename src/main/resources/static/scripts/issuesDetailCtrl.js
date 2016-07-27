@@ -1,6 +1,7 @@
-var app = angular.module('addIssuesDetailApp',['ngResource'])
+var app = angular.module('issuesDetailApp',['ngResource'])
 
-app.controller("addIssuesDetailCtrl", function($scope,$http,$rootScope, $location, $resource){
+app.controller("issuesDetailCtrl", function($scope,$http,$rootScope, $location, $resource){
+    var oneWork =10;
     $scope.engineer = {
         name: "Dani",
         currentActivity: {
@@ -9,7 +10,6 @@ app.controller("addIssuesDetailCtrl", function($scope,$http,$rootScope, $locatio
             name: "Fixing bugs"
         }
     };
-    var abc=1111111111;
     $scope.activities =
         [
             { id: 1, type: "Work" , name: "Writing code" },
@@ -17,28 +17,18 @@ app.controller("addIssuesDetailCtrl", function($scope,$http,$rootScope, $locatio
             { id: 3, type: "Work" , name: "Fixing bugs" },
             { id: 4, type: "Play" , name: "Dancing" }
         ];
-    console.log($scope.engineer.currentActivity)
 
     $scope.master={};
-    //$scope.show=function(fff){
-    //    //console.log('owner:'+ $scope.repository.owner);
-    //    //console.log('仓库名:',$scope.get.repository);
-    //    //console.log('描述:',$scope.get.describe);
-    //    $scope.master=angular.copy(fff);
-    //
-    //    console.log($scope.master);
-    //};
 
-    $scope.show=function(www){
+    $scope.show=function(){
         //console.log('owner:'+ $scope.repository.owner);
         //console.log('仓库名:',$scope.get.repository);
         //console.log('描述:',$scope.get.describe);
         //$scope.master=angular.copy(fff);
-        console.log(444444);
+        console.log(666);
     };
-
-
-    $scope.put=function(eee){
+    console.log(3333333);
+    $scope.put=function(fff){
         //console.log('owner:'+ $scope.repository.owner);
         //console.log('仓库名:',$scope.get.repository);
         //console.log('描述:',$scope.get.describe);

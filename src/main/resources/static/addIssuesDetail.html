@@ -11,15 +11,15 @@
     <meta http-equiv="expires" content="0">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="dist/css/bootstrap-select.css">
 
     <style>
 
     </style>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
     <script src="dist/js/bootstrap-select.js"></script>
     <style type="text/css">
 
@@ -105,7 +105,7 @@
         .fl{
             border-bottom:1px solid #e5e5e5;
         }
-        
+
         .fl span {
             padding-left: 35%;
             height: 34px;
@@ -192,69 +192,31 @@
             <div class="">
                 <input aria-label="Title" autofocus="autofocus"  id="issue_title" name="issue[title]" placeholder="Title" required="required" size="30" tabindex="1" type="text">
             </div>
-            <div>
+            <br>
                 <select
                         ng-model = "fff.aaa"
-                        class=""
                         ng-options = "a.name +' (' + a.type + ')' for a in activities"
                         ng-value="a.id for a in activities"
-                        checkboxes="true">>
-                </select >
-            </div>
-            <nav class="navbar navbar-default" role="navigation">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="#">Issues</a>
-                    </div>
-                    <form class="navbar-form navbar-left" role="search">
-                        <div class="form-group">
-                            <select class="selectpicker" multiple data-live-search="true" data-live-search-placeholder="1111" data-actions-box="true">
-                                <optgroup label="filter1">
-                                    <option>option1</option>
-                                    <option>option2</option>
-                                    <option>option3</option>
-                                    <option>option4</option>
-                                </optgroup>
-                                <optgroup label="filter2">
-                                    <option>option1</option>
-                                    <option>option2</option>
-                                    <option>option3</option>
-                                    <option>option4</option>
-                                </optgroup>
-                                <optgroup label="filter3">
-                                    <option>option1</option>
-                                    <option>option2</option>
-                                    <option>option3</option>
-                                    <option>option4</option>
-                                </optgroup>
-                            </select>
-                        </div>
-
-                        <!--<div class="input-group">-->
-                        <!--<input type="text" class="form-control" placeholder="222" name="q">-->
-                        <!--<div class="input-group-btn">-->
-                        <!--<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--<button type="submit" class="btn btn-default">Search</button>-->
-                    </form>
-                </div>
-            </nav>
-
-
-
-                <select multiple="multiple"
-                        ng-model="worKeSelect.quarter">
-                    <option selected = ""></option>
-                    <option value="1">第一季度</option>
-                    <option value="2">第二季度</option>
-                    <option value="3">第三季度</option>
-                    <option value="4">第四季度</option>
+                        checkboxes="true">
                 </select>
+            <br></br>
+            <br></br><br></br><br></br><br></br><br></br>
+
+            <select
+                    ng-model="ssss"
+                    multiple data-live-search="true"
+                    data-live-search-placeholder="label"
+                    ng-options = "a.name +' (' + a.type + ')' for a in activities"
+                    ng-value="a.id for a in activities"
+                    data-actions-box="true">
+                    <optgroup ng-repeat="a in activities" label="请选择">
+                </optgroup>
+            </select>
+            </div>
         </div>
     <div class ="buttons">
-            <a href="" ng-click="show(fff)">确定</a>
-            <a href="" ng-click="put(fff)">取消</a>
+            <a href="" ng-click="show(www)">确定</a>
+            <a href="" ng-click="put(eee)">取消</a>
     </div>
 </div>
 </body>

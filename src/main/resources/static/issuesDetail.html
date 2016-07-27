@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="issuesDetailApp">
 <head>
   <title>xiu</title>
 
@@ -37,15 +37,37 @@
   <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="/lib/angular-resource/angular-resource.js"></script>
   <script src="/lib/bootstrap-select-1.10.0/dist/js/bootstrap-select.js"></script>
+  <script src="/scripts/issuesDetailCtrl.js"></script>
+  <script>
+    $(document).ready(function () {
+      var mySelect = $('#first-disabled2');
+
+      $('#special').on('click', function () {
+        mySelect.find('option:selected').prop('disabled', true);
+        mySelect.selectpicker('refresh');
+      });
+
+      $('#special2').on('click', function () {
+        mySelect.find('option:disabled').prop('disabled', false);
+        mySelect.selectpicker('refresh');
+      });
+
+      $('#basic2').selectpicker({
+        liveSearch: true,
+        maxOptions: 1
+      });
+    });
+  </script>
+
 </head>
-<body>
+<body ng-controller="issuesDetailCtrl">
 <div class="title">
   <b>增加Issues</b>
   <hr>
 </div>
 <div class="name">
   <span>仓库名：</span>
-  <span ng-bind>{{engineer.name}}</span><br>
+  <span ng-bind>{{activities.name}}</span><br>
   <hr>
   <span>描述：</span>
   <span ng-bind>{{oneWork.userName}}</span>
@@ -55,28 +77,18 @@
   <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand">Labels::</a>
+        <a class="navbar-brand">Labels:</a>
       </div>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
-          <select class="selectpicker" multiple data-live-search="true" data-live-search-placeholder="label" data-actions-box="true">
-            <optgroup label="filter1">
-              <option>option1</option>
-              <option>option2</option>
-              <option>option3</option>
-              <option>option4</option>
-            </optgroup>
-            <optgroup label="filter2">
-              <option>option1</option>
-              <option>option2</option>
-              <option>option3</option>
-              <option>option4</option>
-            </optgroup>
-            <optgroup label="filter3">
-              <option>option1</option>
-              <option>option2</option>
-              <option>option3</option>
-              <option>option4</option>
+          <select class="selectpicker"
+                  multiple data-live-search="true"
+                  data-live-search-placeholder="label"
+                  ng-model="aaa"
+                  ng-options = "a.name +' (' + a.type + ')' for a in activities"
+                  ng-value="a.id for a in activities"
+                  data-actions-box="true">
+            <optgroup ng-repeat="a in activities" label="请选择">
             </optgroup>
           </select>
         </div>
@@ -112,29 +124,9 @@
 </div>
 
 <div class="buttons">
-  <input type="button" value="确定" onclick="gogo(sss)"/>
-  <input type="button" value="取消" onclick="gogo(sss)"/>
+  <input type="button" value="确定" ng-click="show()"/>
+  <input type="button" value="取消" ng-click="gogo(sss)"/>
 </div>
 
-<script>
-  $(document).ready(function () {
-    var mySelect = $('#first-disabled2');
-
-    $('#special').on('click', function () {
-      mySelect.find('option:selected').prop('disabled', true);
-      mySelect.selectpicker('refresh');
-    });
-
-    $('#special2').on('click', function () {
-      mySelect.find('option:disabled').prop('disabled', false);
-      mySelect.selectpicker('refresh');
-    });
-
-    $('#basic2').selectpicker({
-      liveSearch: true,
-      maxOptions: 1
-    });
-  });
-</script>
 </body>
 </html>
