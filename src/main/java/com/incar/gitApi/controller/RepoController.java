@@ -34,57 +34,51 @@ public class RepoController {
     /**
      * 创建组织仓库
      *
-     * @param organization 组织名
      * @param repository 仓库名
      * @return
      * @throws IOException
      */
     @RequestMapping(value = "/addOrgRepository", method = RequestMethod.POST)
-    public ObjectResult addOrgRepository(@RequestParam String organization, @RequestBody Repository repository) throws IOException {
-        Repository repos = repoService.addOrgRepository(organization, repository);
+    public ObjectResult addOrgRepository(@RequestBody Repository repository) throws IOException {
+        Repository repos = repoService.addOrgRepository("HP-Enterprise", repository);
         return new ObjectResult("true", repos);
     }
 
     /**
      * 查看组织所有仓库
      *
-     * @param organization 组织名
      * @return
      * @throws IOException
      */
     @RequestMapping(value = "/repositoryList", method = RequestMethod.GET)
-    public ObjectResult getAllRepository(@RequestParam(value = "organization", required = true) String organization) throws IOException {
-        List<Repository> repositoryList = repoService.getAllRepository(organization);
+    public ObjectResult getAllRepository() throws IOException {
+        List<Repository> repositoryList = repoService.getAllRepository("HP-Enterprise");
         return new ObjectResult("true", repositoryList);
     }
 
     /**
      * 更新仓库
-     * @param organization 组织名
-     * @param repo  更新的仓库名
      * @param repository 仓库对象
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/updateOrgRepository",method = RequestMethod.POST)
-    public  ObjectResult updateOrgRepository(@RequestParam(value = "organization", required = true) String organization,
-                                             @RequestParam(value = "repo", required = true) String repo,
+    @RequestMapping(value = "/updateOrgRepository/{name}",method = RequestMethod.POST)
+    public  ObjectResult updateOrgRepository(@PathVariable("name")String name,
                                              @RequestBody Repository repository)throws IOException{
-          Repository repository1= repoService.editRepository(organization, repo, repository);
+          Repository repository1= repoService.editRepository("HP-Enterprise", name, repository);
         return new ObjectResult("true",repository1);
     }
 
     /**
      * 删除仓库
-     * @param organization 组织名
      * @param repository 仓库名
      * @return
      * @throws IOException
      */
     @RequestMapping(value = "/deleteOrgRepository")
-    public  ObjectResult deleteOrgRepository(@RequestParam(value = "organization", required = true) String organization,
+    public  ObjectResult deleteOrgRepository(//@RequestParam(value = "organization", required = true) String organization,
                                              @RequestParam(value = "repository", required = true) String repository)throws IOException{
-         repoService.deleteRepository(organization,repository);
+         repoService.deleteRepository("HP-Enterprise",repository);
         return new ObjectResult("true","删除成功！");
     }
 

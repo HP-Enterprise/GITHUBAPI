@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html ng-app="indexApp">
+<html ng-app="myApp">
 <head>
     <!-- Date:2016.03.07 lyx-->
     <meta http-equiv="X-UA-Compatible" content="IE=7"/>
     <META http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>五星红旗</title>
+    <title>组织仓库列表</title>
     <META content="" name="keywords">
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
@@ -16,7 +16,7 @@
             font-family: 'Microsoft YaHei';
             font-weight: normal;
             font-size: 16px;
-            color: #282828;
+            color: #000000;
             background: #f5f5f5;
             line-height: 24px;
         }
@@ -28,11 +28,23 @@
         }
 
         .fl {
-            float: left;
+            padding-left: 7%;
+            width: 100%;
         }
 
         .fr {
-            float: right
+            padding-left: 88%;
+            width: 100%;
+        }
+
+        #u1 {
+            z-index: 2;
+            color: white;
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin: 19px 0 5px 0;
+            padding: 0 96px 0 0;
         }
 
         .clearfix {
@@ -40,8 +52,22 @@
             overflow: hidden;
         }
 
+        .fr .home {
+            padding-right: 20%;
+            width: 200px;
+        }
+
+        .fh {
+            float: right padding : 0 6 px;
+            line-height: 50px;
+            border: 0;
+            width: 100%;
+            min-width: 100px;
+            color: #666;
+        }
+
         .inner {
-            width: 80%;
+            widt: 80%;
             min-width: 1000px;
             margin: 0 auto;
         }
@@ -56,14 +82,21 @@
             width: 100%;
             height: 34px;
         }
-        .fr .home{
-            padding-right: 1%;
-            width: 100%;
-        }
+
         .buttons .fl span {
             width: 150px;
             height: 34px;
             line-height: 34px;
+            float: left;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .buttons .fl body {
+            width: 150px;
+            height: 34px;
+            line-height: 34px;
+            background: #fff;
             float: left;
             text-align: center;
             font-size: 16px;
@@ -90,6 +123,7 @@
             overflow: hidden;
         }
 
+        /*时间周数*/
         .buttons .fl .selectkuang select {
             width: 220px;
             height: 34px;
@@ -111,7 +145,7 @@
             line-height: 34px;
             text-align: center;
             text-decoration: none;
-            background: #000;
+            background: #ffffff;
             color: #fff;
             margin-left: 50px;
             font-size: 18px;
@@ -120,9 +154,7 @@
             -webkit-border-radius: 2px;
             -o-border-radius: 2px;
         }
-        input.ng-invalid {
-            background-color: lightblue;
-        }
+
         .buttons a.btn {
             display: block;
             float: left;
@@ -149,7 +181,7 @@
         }
 
         table {
-            width: 100%;
+            width: 90%;
             margin: 30px auto;
             background: #fff;
             text-align: center;
@@ -160,7 +192,7 @@
             padding: 0 6px;
             line-height: 50px;
             border: 0;
-            width: 20%;
+            width: 15%;
             min-width: 100px;
             color: #666;
         }
@@ -206,8 +238,9 @@
             display: block;
             margin: 0 2px;
         }
-        .active{
-            color:red;
+
+        .active {
+            color: red;
         }
     </style>
 
@@ -216,87 +249,71 @@
     <script src="/lib/angular/angular.min.js"></script>
     <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/lib/angular-resource/angular-resource.js"></script>
-    <script src="/scripts/indexCtrl.js"></script>
-    <script language="javascript">
-//        function doclick()
-//        {
-//            var td = event.srcElement; // 通过event.srcElement 获取激活事件的对象 td
-//            var a=td.parentElement.rowIndex;
-////            alert("行号：" + (td.parentElement.rowIndex) + "，列号：" + td.(cellIndex+1));
-////            var aa=document.getElementById("table").rows[a].cells[1].innerHTML;
-////            alert(aa);
-//           // alert(document.getElementById("1").innerHTML);
-//        }
-    </script>
+    <script src="/scripts/repositoryList.js"></script>
 
 </head>
-<body ng-controller="indexCtrl">
-<div class="fr">
-    <div class=" home">
-        <!--<input type="button" value="导出数据" onclick="DownloadExcel()"/>-->
-        <a href="" ng-click="DownloadExcel('flag')">导出EXCEL</a></br>
-        <a href="index-marg.html" ng-click="">后台</a></br>
-
-    </div>
-</div>
-
-<div class="inner">
-    <div class="gitlogo">
-        <img src="images/logo.png" alt=""/>
-    </div>
-    <div class="buttons">
-        <div class="fl">
-            <span>姓名：</span>
-            <input type="text" ng-model="worKeSelect.realname"/>
-            <span>用户名：</span>
-            <input type="text" ng-model="worKeSelect.username"/>
-            <span>时间(周数)：</span>
-            <div class="selectkuang">
-                <input type="text" ng-model="worKeSelect.weekNum"/>
-                <!--<select ng-model="worKeSelect.weekNum">
-                    <option value="01">第1周</option>
-                    <option value="01">第2周</option>
-                    <option value="01">第3周</option>
-                    <option value="14">第4周</option>
-                </select>-->
-            </div>
-            <a href="" ng-click="getAllGitHubWork('flag')">查询</a>
-            <a href="index-detail.html" ng-click="getAllGitHubWork('flag')">详细查询</a>
-        </div>
-    </div>
-
-    <table id="table" onclick="doclick()">
+<body ng-controller="repositoryList">
+<div  ng-hide="myVar1">
+    <p style="text-align:center;font-size:25px;">仓库列表:</p>
+    <table id="targetTable">
         <thead>
         <tr>
-            <th>用户名</th>
-            <th>姓名</th>
-            <th>已完成工作时长（小时）</th>
-            <th>未完成工作时长（小时）</th>
-            <th>工作时长（小时）</th>
-            <th>周</th>
+            <th>序号</th>
+            <th>名称</th>
+            <th>描述</th>
+            <th>开启的问题</th>
             <th>操作</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="aw in allWork">
-            <td ng-bind="aw.username"></td>
-            <td ng-bind="aw.realname"></td>
-            <td ng-bind="aw.finishedWork"></td>
-            <td ng-bind="aw.unfinishedWork"></td>
-            <td ng-bind="aw.workHours"></td>
-            <td ng-bind="aw.weekInYear"></td>
-            <td><a ng-click="goHtml(aw)">查看详情</a></td>
+
+        <tr ng-repeat="aw in repository">
+            <td ng-bind="$index + 1"></td>
+            <td ng-bind="aw.name"></td>
+            <td ng-bind="aw.description"></td>
+            <td ng-bind="aw.openIssues"></td>
+            <td><a ng-click="deleteRepository(aw.name)">删除</a>|<a ng-click="updateRepository(aw)">修改</a></td>
         </tr>
+
         </tbody>
     </table>
-    <div class="page fr">
-        <a href="" ng-click="upPageClick(workPageObject,workPageObject.currentPage)"><</a>
-        <span ng-repeat="page in workPageObject.pages" >
-            <a href="" ng-click="showCurrentPageContent(workPageObject,page)"><span ng-class="{true:'active',false:'inactive'}[workPageObject.currentPage == page]" ng-bind="page"></span></a>
-        </span>
-        <a href="" ng-click="downPageClick(workPageObject,workPageObject.currentPage)">></a>
-    </div>
-    <!---->
 </div>
+
+<div  ng-hide="myVar2">
+    <p style="text-align:center;font-size:25px;">修改仓库</p>
+
+    <form novalidate>
+        <table class="table table-striped">
+            <tr>
+                <td>仓库名称:</td>
+                <td><input type="text" ng-model="updateRep.name">
+                </td>
+            </tr>
+            <tr>
+                <td>描述:</td>
+                <td><input type="text" ng-model="updateRep.description">
+                </td>
+            </tr>
+            <tr>
+                <td>性质:</td>
+                <td><input type="radio" value="false" ng-model="updateRep.isPrivate"/>public
+                    <input type="radio" value="true" ng-model="updateRep.isPrivate"/>privategulp
+                </td>
+            <tr>
+                <td>标题:</td>
+                <td><input type="radio" checked="checked" value="true" ng-model="updateRep.hasIssues"/>有Issue
+                    <input type="radio" ng-checked="false" value="false" ng-model="updateRep.hasIssues"/>无Issue
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button value="modifyRepository" ng-click="modifyRepository(updateRep)">确定</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
 </body>
 </html>

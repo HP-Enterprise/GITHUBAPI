@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=7"/>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>addRepository</title>
+    <META content="" name="keywords">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+    <style>
+        table, th, td {
+            border: 1px solid grey;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        table tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+    </style>
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/angular/angular.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/lib/angular-resource/angular-resource.js"></script>
+    <script src="/scripts/label.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="formCtrl">
+<p ng-click="bt()">状态切换</p>
+
+<div ng-hide="myMiles1">
+    <h2 style="text-align:center;font-size:25px;">添加单个标签:</h2>
+    <form role="form">
+        <table class="table table-bordered">
+            <tr>
+                <td>仓库名称:</td>
+                <td>  <select ng-model="repository" ng-options="item.name for item in repository1" ></select>
+                </td>
+            </tr>
+            <tr>
+                <td>标签名称：</td>
+                <td><input  type="text" ng-model="label.name">
+                </td>
+            </tr>
+            <tr>
+                <td>颜色</td>
+                <td><input  type="color" name="" ng-model="label.color">
+                </td>
+            </tr>
+
+                <td></td>
+                <td>
+                    <button class="btn btn-default" value="submit1"  ng-click="submit1(repository.name,label)">添加</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+
+<div ng-hide="myMiles2">
+    <h2 style="text-align:center;font-size:25px;">添加常用标签:</h2>
+    <form role="form">
+        <table class="table table-bordered">
+            <tr>
+                <td>仓库名称:</td>
+                <td>  <select ng-model="repository" ng-options="item.name for item in repository1" ></select>
+                </td>
+            </tr>
+            <td></td>
+            <td>
+                <button class="btn btn-default" value="submit2"  ng-click="submit2(repository)">添加</button>
+            </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>

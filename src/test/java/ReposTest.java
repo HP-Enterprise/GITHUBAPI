@@ -34,6 +34,8 @@ public class ReposTest {
     @Autowired
     private MyMilestoneService myMilestoneService;
     @Autowired
+    private MyOrgService myOrgService;
+    @Autowired
     private GithubClientConfig githubClientConfig;
 
     @Test
@@ -85,8 +87,9 @@ public class ReposTest {
         repository.setName("Myproject");
         repository.setDescription("这是接口测试");
 
-        repoService.editRepository("HP-Enterprise","MyProject",repository);
+        repoService.editRepository("HP-Enterprise", "MyProject", repository);
 
     }
+
 
 }
