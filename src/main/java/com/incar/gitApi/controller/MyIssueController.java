@@ -20,7 +20,12 @@ public class MyIssueController {
     @Autowired
     private MyIssueService myIssueService;
 
-
+    /**
+     * 添加issue
+     * @param addIssue
+     * @return
+     * @throws IOException
+     */
 
     @RequestMapping(value = "/addIssue", method = RequestMethod.POST)
     public ObjectResult addIssue(@RequestBody AddIssue addIssue) throws IOException {

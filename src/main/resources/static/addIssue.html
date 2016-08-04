@@ -11,8 +11,7 @@
     <meta http-equiv="expires" content="0">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/lib/bootstrap-select-1.10.0/dist/css/bootstrap-select.css">
-    <link rel="stylesheet" href="/lib/bootstrap-select-1.10.0/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="/lib/select2-4.0.1/dist/css/select2.css">
     <style>
         table, th, td {
             border: 1px solid grey;
@@ -29,12 +28,15 @@
         }
 
     </style>
+    <script src="/lib/jquery/dist/jquery.js"></script>
     <script src="/lib/jquery/dist/jquery.min.js"></script>
-    <script src="/lib/angular/angular.min.js"></script>
-    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/lib/select2-4.0.1/dist/js/select2.js"></script>
+    <script  src="/lib/angular/angular.min.js"></script>
+    <script  src="/lib/angular/angular.js"></script>
     <script src="/lib/angular-resource/angular-resource.js"></script>
-    <script src="/lib/bootstrap-select-1.10.0/dist/js/bootstrap-select.js"></script>
+    <script src="/lib/ui-select2-master/src/select2.js"></script>
     <script src="/scripts/addIssueCtrl.js"></script>
+
 </head>
 <body ng-app="myApp" ng-controller="myCtrl as mc">
 <h2>添加新的Issue</h2>
@@ -66,65 +68,23 @@
             <tr>
                 <td>标签:</td>
                 <td>
+                    <select class="form-control" ui-select2="{ allowClear: true}" multiple="multiple" ng-model="addIssue.issue.labels" ng-options="x.name for x in labels1" >
 
-<div class="container">
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand">Labels:</a>
-            </div>
-            <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                <select class="selectpicker"
-                            multiple data-live-search="true"
-                            data-live-search-placeholder="label"
-                            ng-model="aaa"
-                            ng-options = "a.name for a in labels1"
-                            ng-value="a.id for a in labels1"
-                            data-actions-box="true" >
-                        <optgroup ng-repeat="a in labels1" label="请选择">
-                        </optgroup>
                     </select>
-                </div>
-            </form>
-        </div>
-    </nav>
-                    <!--<select class="multiselect" multiple="multiple" ng-model="addIssue.issue.labels">-->
-                        <!--<option ng-repeat="a in labels1" value="{{a.name}}">{{a.name}}</option>-->
 
-                        <!--&lt;!&ndash;<option value="cheese">Cheese</option>&ndash;&gt;-->
-
-                        <!--&lt;!&ndash;<option value="tomatoes">Tomatoes</option>&ndash;&gt;-->
-                    <!--</select>-->
-
-                    <!--<div class="container">-->
-                        <!--<nav class="navbar navbar-default" role="navigation">-->
-                            <!--<div class="container-fluid">-->
-                                <!--<form class="navbar-form navbar-left" role="search">-->
-                                    <!--<div class="form-group">-->
-                                        <!--<select class="selectpicker"-->
-                                                <!--multiple data-live-search="true"-->
-                                                <!--ng-model="addIssue.issue.labels"-->
-                                                <!--value="a.name for a in labels1"-->
-                                                <!--ng-options = "a.name  for a in labels1"-->
-                                                <!--data-actions-box="true" >-->
-                                        <!--</select>-->
-                                    <!--</div>-->
-                                <!--</form>-->
-                            <!--</div>-->
-                        <!--</nav>-->
-                      <!--</div>-->
                 </td>
             </tr>
 
                 <tr>
                     <td>里程碑:</td>
                     <td>
-                        <select ng-model="addIssue.issue.milestone" ng-options="x.title for x in milestone">
-                        </select>
+                        <select ng-model="addIssue.issue.milestone"  ng-options="x.title for x in milestone">
+
+                            </select>
 
                     </td>
                 </tr>
+
                 <tr>
                     <td>执行人:</td>
                     <td>
@@ -142,6 +102,5 @@
         </table>
     </form>
 </div>
-
 </body>
 </html>

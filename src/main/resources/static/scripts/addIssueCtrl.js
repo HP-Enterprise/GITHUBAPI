@@ -9,7 +9,7 @@ App.controller('myCtrl', function ($scope,$timeout, $http) {
             alert("error");
         })
     };
-    $scope.labels1=[];
+   $scope.labels1=[];
 
     $scope.show = function (a) {
 
@@ -21,13 +21,11 @@ App.controller('myCtrl', function ($scope,$timeout, $http) {
         $http.get("/api/labelList", $scope.ade).success(function (data) {
             $scope.labels1 =data.message;
             console.log($scope.labels1);
-            //console.log($scope.labels1);
         }).error(function (err) {
             console.log(err);
         });
         $http.get("/api/milestoneList", $scope.ade).success(function (data) {
             $scope.milestone = data.message;
-            console.log($scope.milestone);
         }).error(function (err) {
             console.log(err);
         });
@@ -47,19 +45,4 @@ App.controller('myCtrl', function ($scope,$timeout, $http) {
         console.log(err);
     });
 
-    $scope.name = 'hello';
-
-    var watch = $scope.$watch('name',function(newValue,oldValue, scope){
-
-        console.log(newValue);
-
-        console.log(oldValue);
-
-    });
-
-    $timeout(function(){
-
-        $scope.name = "world";
-
-    },1000);
 });

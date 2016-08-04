@@ -22,7 +22,7 @@ public class MyOrgController {
     private MyOrgService myOrgService;
 
     /**
-     * 查找组织的所有成员
+     * 鏌ヨ璇ョ粍缁囩殑鎴愬憳
      * @return
      * @throws IOException
      */
@@ -34,7 +34,7 @@ public class MyOrgController {
     }
 
     /**
-     * 查找用户拥有的组织
+     * 鏌ヨ璇ョ敤鎴风殑鎵�鏈夌粍缁囧悕
      * @return
      * @throws IOException
      */

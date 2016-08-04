@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html ng-app="indexApp">
+<head>
+    <!-- Date:2016.03.07 lyx-->
+    <meta http-equiv="X-UA-Compatible" content="IE=7"/>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>周查询</title>
+    <META content="" name="keywords">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <style type="text/css">
+        body {
+            font-family: 'Microsoft YaHei';
+            font-weight: normal;
+            font-size: 16px;
+            color: #282828;
+            background: #f5f5f5;
+            line-height: 24px;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+
+        .fl {
+            float: left;
+        }
+
+        .fr {
+            float: right
+        }
+
+        .clearfix {
+            zoom: 1;
+            overflow: hidden;
+        }
+
+        .inner {
+            width: 80%;
+            min-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .gitlogo {
+            width: 430px;
+            height: 68px;
+            margin: 50px auto 60px;
+        }
+
+        .buttons {
+            width: 100%;
+            height: 34px;
+        }
+        .fr .home{
+            padding-right: 1%;
+            width: 100%;
+        }
+        .buttons .fl span {
+            width: 150px;
+            height: 34px;
+            line-height: 34px;
+            float: left;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .buttons .fl input {
+            width: 200px;
+            height: 24px;
+            padding: 5px 6px;
+            border: 0;
+            background: #fff;
+            float: left;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .buttons .fl .selectkuang {
+            width: 200px;
+            height: 34px;
+            border: 0;
+            background: #fff;
+            float: left;
+            font-size: 16px;
+            overflow: hidden;
+        }
+
+        .buttons .fl .selectkuang select {
+            width: 220px;
+            height: 34px;
+            padding: 5px 6px;
+            border: 0;
+            background: #fff;
+            float: left;
+            font-size: 16px;
+            border: 0;
+            line-height: 34px;
+            color: #666;
+        }
+
+        .buttons .fl a {
+            display: block;
+            float: left;
+            width: 100px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            text-decoration: none;
+            background: #000;
+            color: #fff;
+            margin-left: 50px;
+            font-size: 18px;
+            border-radius: 2px;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            -o-border-radius: 2px;
+        }
+        input.ng-invalid {
+            background-color: lightblue;
+        }
+        .buttons a.btn {
+            display: block;
+            float: left;
+            width: 120px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            text-decoration: none;
+            background: #000;
+            color: #fff;
+            margin-left: 50px;
+            font-size: 18px;
+            border-radius: 2px;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            -o-border-radius: 2px;
+        }
+
+        .buttons .fl a:hover, .buttons a.btn:hover {
+            filter: alpha(opacity=60);
+            -moz-opacity: 0.6;
+            -khtml-opacity: 0.6;
+            opacity: 0.6;
+        }
+
+        table {
+            width: 100%;
+            margin: 30px auto;
+            background: #fff;
+            text-align: center;
+            border-collapse: collapse; /* 边框合并属性  */
+        }
+
+        table tr td {
+            padding: 0 6px;
+            line-height: 50px;
+            border: 0;
+            width: 20%;
+            min-width: 100px;
+            color: #666;
+        }
+
+        table thead {
+            height: 60px;
+            line-height: 60px;
+            border-bottom: 1px #e4e0e0 solid;
+            color: #666; /* background:#e4e0e0; */
+        }
+
+        table tbody tr:hover {
+            cursor: pointer;
+            background: #faf8f8;
+        }
+
+        table tbody tr:hover td {
+            color: #333;
+        }
+
+        .page {
+            height: 30px;
+            line-height: 25px;
+        }
+
+        .page a {
+            display: block;
+            width: 20px;
+            line-height: 20px;
+            height: 20px;
+            color: #666;
+            background: #f5f5f5;
+            border: 1px #ccc solid;
+            text-align: center;
+            text-decoration: none;
+            float: left;
+            font-size: 14px;
+            margin: 0 2px;
+        }
+
+        .page span {
+            float: left;
+            display: block;
+            margin: 0 2px;
+        }
+        .active{
+            color:red;
+        }
+    </style>
+
+    <!--==========我是JS的分隔线~=====================================================================-->
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/angular/angular.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/lib/angular-resource/angular-resource.js"></script>
+    <script src="/scripts/indexCtrl.js"></script>
+    <script language="javascript">
+//        function doclick()
+//        {
+//            var td = event.srcElement; // 通过event.srcElement 获取激活事件的对象 td
+//            var a=td.parentElement.rowIndex;
+////            alert("行号：" + (td.parentElement.rowIndex) + "，列号：" + td.(cellIndex+1));
+////            var aa=document.getElementById("table").rows[a].cells[1].innerHTML;
+////            alert(aa);
+//           // alert(document.getElementById("1").innerHTML);
+//        }
+    </script>
+
+</head>
+<body ng-controller="indexCtrl">
+<div class="fr">
+    <div class=" home">
+        <!--<input type="button" value="导出数据" onclick="DownloadExcel()"/>-->
+        <a href="" ng-click="DownloadExcel('flag')">导出EXCEL</a>
+
+    </div>
+</div>
+
+<div class="inner">
+    <div class="gitlogo">
+        <img src="images/logo.png" alt=""/>
+    </div>
+    <div class="buttons">
+        <div class="fl">
+            <span>姓名：</span>
+            <input type="text" ng-model="worKeSelect.realname"/>
+            <span>用户名：</span>
+            <input type="text" ng-model="worKeSelect.username"/>
+            <span>时间(周数)：</span>
+            <div class="selectkuang">
+                <input type="text" ng-model="worKeSelect.weekNum"/>
+                <!--<select ng-model="worKeSelect.weekNum">
+                    <option value="01">第1周</option>
+                    <option value="01">第2周</option>
+                    <option value="01">第3周</option>
+                    <option value="14">第4周</option>
+                </select>-->
+            </div>
+            <a href="" ng-click="getAllGitHubWork('flag')">查询</a>
+        </div>
+    </div>
+
+    <table id="table" onclick="doclick()">
+        <thead>
+        <tr>
+            <th>用户名</th>
+            <th>姓名</th>
+            <th>已完成工作时长（小时）</th>
+            <th>未完成工作时长（小时）</th>
+            <th>工作时长（小时）</th>
+            <th>周</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="aw in allWork">
+            <td ng-bind="aw.username"></td>
+            <td ng-bind="aw.realname"></td>
+            <td ng-bind="aw.finishedWork"></td>
+            <td ng-bind="aw.unfinishedWork"></td>
+            <td ng-bind="aw.workHours"></td>
+            <td ng-bind="aw.weekInYear"></td>
+            <td><a ng-click="goHtml(aw)">查看详情</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="page fr">
+        <a href="" ng-click="upPageClick(workPageObject,workPageObject.currentPage)"><</a>
+        <span ng-repeat="page in workPageObject.pages" >
+            <a href="" ng-click="showCurrentPageContent(workPageObject,page)"><span ng-class="{true:'active',false:'inactive'}[workPageObject.currentPage == page]" ng-bind="page"></span></a>
+        </span>
+        <a href="" ng-click="downPageClick(workPageObject,workPageObject.currentPage)">></a>
+    </div>
+    <!---->
+</div>
+</body>
+</html>
