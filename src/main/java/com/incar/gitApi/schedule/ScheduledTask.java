@@ -38,14 +38,14 @@ public class ScheduledTask {
 
 
 
-    @Scheduled(cron = "0 0 15 * * ?")
+    @Scheduled(cron = "0 40 18 * * ?")
 
     public void scheduledQuery(){
         logger.info(">>>>>>>>>>> saving gitResult >>>>>>>>>>>>");
         gitResultService.saveGitResult();
     }
 
-    @Scheduled(cron = "0 5 15 * * ?")
+    @Scheduled(cron = "0 0 19 * * ?")
 
     public void gitRetDetail(){
         logger.info(">>>>>>>>>>> deleting workDetailInfo >>>>>>>>>>>>");
@@ -54,7 +54,7 @@ public class ScheduledTask {
         workDetailService.saveWorkDetailInfo();
     }
 //    @Scheduled(cron = "0 */1 * * * ?")
-    @Scheduled(cron = "0 5 17 * * ?")
+    @Scheduled(cron = "0 0 19 * * ?")
     public void gitRetAlalyse(){
         logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");
         for(int i=1;i<= DateUtil.getWeekInYear();i++) {
