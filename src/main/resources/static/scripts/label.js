@@ -8,13 +8,11 @@ app.controller('formCtrl', function ($scope, $http) {
     };
     $http.get("/api/repositoryList").success(function (data) {
         $scope.repository1 = data.message;
-        console.log($scope.repository1)
     }).error(function (err) {
         console.log(err);
     });
     $scope.submit1 = function (a,label) {
        var url="/api/addLabel/"+a;
-        console.log(label)
         $http.post(url, label).success(function () {
             alert("success");
         }).error(function () {
@@ -28,5 +26,6 @@ app.controller('formCtrl', function ($scope, $http) {
             alert("error");
         })
     }
+
 });
 

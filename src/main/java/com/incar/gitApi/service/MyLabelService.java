@@ -44,7 +44,15 @@ public class MyLabelService {
     public List<Label> getAllLabel(String user, String repository) throws IOException {
         LabelService labelService = new LabelService(githubClientConfig.getGitHubClient());
         List<Label> labelList = labelService.getLabels(user, repository);
-        return labelList;
+        List<Label> labels=new ArrayList<>();
+        for (Label label : labelList) {
+            Label la=new Label();
+            la.setName(label.getName());
+            la.setColor("#" + label.getColor());
+            la.setUrl(label.getUrl());
+            labels.add(la);
+        }
+        return labels;
     }
 
     /**

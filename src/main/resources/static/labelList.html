@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=7"/>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>labelList</title>
+    <META content="" name="keywords">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+    <style>
+        table, th, td {
+            border: 1px solid grey;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        table tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+    </style>
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/angular/angular.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/lib/angular-resource/angular-resource.js"></script>
+    <script src="/scripts/labelList.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="formCtrl">
+<div ng-hide="myVar1">
+<p style="text-align:center;font-size:25px;">{{str}}：label列表</p>
+<table class="table table-bordered" >
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>名称</th>
+        <th>颜色</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="aw in labelList">
+        <td ng-bind="$index + 1"></td>
+        <td ng-bind="aw.name"></td>
+        {{aw.color}}
+        <td bgcolor="{{aw.color}}" ng-bind="aw.color" ></td>
+        <td><a ng-click="">删除</a>|<a ng-click="updateLabel(aw)">修改</a></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+
+<div ng-hide="myVar2">
+    <p style="text-align:center;font-size:25px;">{{str}}：label修改</p>
+    <form role="form">
+        <table class="table table-bordered">
+            <tr>
+                <td>标签名称：</td>
+                <td><input  type="text" ng-model="labels.name">
+                </td>
+            </tr>
+            <tr>
+                <td>颜色</td>
+                <td><input  type="color" name="" ng-model="labels.color">
+                </td>
+            </tr>
+
+            <td></td>
+            <td>
+                <button class="btn btn-default" value="submit1"  ng-click="modifyLabel(labels)">确定</button>
+            </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>

@@ -13,8 +13,14 @@
 
         <!-- add styles -->
         <link href="css/main.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+        <script src="/lib/jquery/dist/jquery.min.js"></script>
+        <script src="/lib/angular/angular.min.js"></script>
+        <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="/lib/angular-resource/angular-resource.js"></script>
+        <script src="/scripts/index.js"></script>
     </head>
-    <body>
+    <body ng-app="myApp" ng-controller="formCtrl">
         <div style="text-align:center;">
             <img src="images/logo.png" alt=""/>
         </div>
@@ -39,11 +45,36 @@
                 <li><a href="#s1">标签</a>
                     <ul class="submenu">
                         <li><a href="label.html">添加标签</a></li>
+                        <li>
+                            <a href="#" ng-click="bt(1)">标签列表</a>
+                            <div ng-show="myLabel">
+                                <ul>
+                                    <li >
+
+                                        <select ng-model="repository" ng-options="item.name for item in repository1" ng-change="modifyDiv(repository.name)">
+                                           <option value="">选择仓库</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </li>
                 <li><a href="#s1">里程碑</a>
                     <ul class="submenu">
                         <li><a href="milestone.html">添加里程碑</a></li>
+                        <li>
+                            <a href="#" ng-click="bt(2)">里程碑列表</a>
+                            <div ng-show="myMilestone">
+                                <ul>
+                                    <li >
+                                        <select ng-model="repository" ng-options="item.name for item in repository1" ng-change="modifyDiv2(repository.name)">
+                                            <option value="">选择仓库</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
 
                     </ul>
 
