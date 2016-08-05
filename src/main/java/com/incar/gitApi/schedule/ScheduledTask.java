@@ -1,9 +1,11 @@
 package com.incar.gitApi.schedule;
 
 import com.incar.gitApi.entity.GitResult;
+import com.incar.gitApi.repository.WorkRepository;
 import com.incar.gitApi.service.GitResultService;
 import com.incar.gitApi.service.WorkDetailService;
 import com.incar.gitApi.service.WorkService;
+import com.incar.gitApi.util.DateUtil;
 import org.eclipse.egit.github.core.Issue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,8 @@ public class ScheduledTask {
     private WorkService workService;
     @Autowired
     private WorkDetailService workDetailService;
+    @Autowired
+    private WorkRepository workRepository;
 
     private Logger logger = LoggerFactory.getLogger(ScheduledTask.class);
 
@@ -50,17 +54,14 @@ public class ScheduledTask {
         workDetailService.saveWorkDetailInfo();
     }
 //    @Scheduled(cron = "0 */1 * * * ?")
-
-
-
     @Scheduled(cron = "0 5 17 * * ?")
-
     public void gitRetAlalyse(){
         logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");
-        workService.deleteWorkInfo();
+        for(int i=1;i<= DateUtil.getWeekInYear();i++) {
+            workRepository.deleteByWeek(i);
+        }
         logger.info(">>>>>>>>>>> saving workInfo >>>>>>>>>>>>");
-        workService.saveWorkInfo();
-        for(int i=1;i<=30;i++){
+        for(int i=1;i<= DateUtil.getWeekInYear();i++){
             workService.saveWorkInfo(i);
         }
     }
