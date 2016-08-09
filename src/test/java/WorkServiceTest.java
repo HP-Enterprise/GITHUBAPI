@@ -56,9 +56,9 @@ public class WorkServiceTest {
 
     @Test
     public void testFindOpenGitRet() throws ParseException {
-        String assgnee = "Septemberwh";
-        List<GitResult> gitResults = workService.getOpenGitRet(assgnee, sdf.parse("2016-03-27 00-00-00"));
-        System.out.println("testFindOpenGitRet()"+gitResults);
+//        String assgnee = "Septemberwh";
+//        List<GitResult> gitResults = workService.getOpenGitRet(assgnee, sdf.parse("2016-03-27 00-00-00"));
+//        System.out.println("testFindOpenGitRet()"+gitResults);
     }
 
     @Test
@@ -106,8 +106,8 @@ public class WorkServiceTest {
     @Test
     public void testGetPeriodsByNow(){
         List<Period> periods = Arrays.asList(PeriodFactory.generatePeriods());
-        List<Period> periods1 = workService.getPeriodsByEnd(new Date(), periods);
-        System.out.println(periods1.size());
+       // List<Period> periods1 = workService.getPeriodsByEnd(new Date(), periods);
+   //     System.out.println(periods1.size());
     }
 
 

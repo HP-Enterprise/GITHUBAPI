@@ -41,7 +41,6 @@ public class MyLabelController {
      */
     @RequestMapping(value = "/addLabel/{repository}", method = RequestMethod.POST)
     public ObjectResult addLabel(@PathVariable("repository") String repository,
-                               //  @RequestParam(value = "user", required = true) String user,
                                  @RequestBody Label label) throws IOException {
         Label label3=new Label();
         label3.setName(label.getName());
@@ -61,5 +60,27 @@ public class MyLabelController {
     public ObjectResult addAllLabels(@RequestBody Repository repository) throws IOException {
         List<Label> list = myLabelService.addAllLabel("HP-Enterprise", repository.getName().toString());
         return new ObjectResult("true", list);
+    }
+
+    /**
+     * 删除标签
+     * @param repository 仓库名
+     * @param name 标签名
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value = "/deleteLabel/{repository}/{name}")
+    public ObjectResult deleteLabel(@PathVariable("repository")String repository,@PathVariable("name")String name)throws IOException{
+        myLabelService.deleteLabel("HP-Enterprise",repository,name);
+        return new ObjectResult("true","删除成功！");
+    }
+    @RequestMapping(value = "/editLabel/{repository}/{name}", method = RequestMethod.POST)
+    public ObjectResult editLabel(@PathVariable("repository") String repository,@PathVariable("name") String name,
+                                 @RequestBody Label label) throws IOException {
+        Label label3=new Label();
+        label3.setName(label.getName());
+        label3.setColor(label.getColor().substring(1, 7).toString());
+        Label label1 = myLabelService.editLabel("HP-Enterprise",repository,name,label3);
+        return new ObjectResult("true", label1);
     }
 }

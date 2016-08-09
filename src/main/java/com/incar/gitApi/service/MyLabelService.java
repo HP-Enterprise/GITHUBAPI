@@ -2,6 +2,8 @@ package com.incar.gitApi.service;
 
 import com.incar.gitApi.GithubClientConfig;
 import org.eclipse.egit.github.core.Label;
+import org.eclipse.egit.github.core.service.GistService;
+import org.eclipse.egit.github.core.service.GitHubService;
 import org.eclipse.egit.github.core.service.LabelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,5 +80,35 @@ public class MyLabelService {
             }
         }
         return labels;
+    }
+
+    /**
+     * 删除仓库的标签
+     * @param user 组织名
+     * @param repository 仓库名
+     * @param name 标签名
+     * @throws IOException
+     */
+    public void deleteLabel(String user,String repository,String name)throws IOException{
+        LabelService labelService = new LabelService(githubClientConfig.getGitHubClient());
+        labelService.deleteLabel(user,repository,name);
+    }
+
+    /**
+     * 更新标签
+     * @param user
+     * @param repository
+     * @param name
+     * @param label
+     * @return
+     * @throws IOException
+     */
+    public Label editLabel(String user,String repository,String name,Label label)throws IOException{
+        GitHubService gitHubService=new GistService(githubClientConfig.getGitHubClient());
+        StringBuilder uri = new StringBuilder("/repos");
+        uri.append('/').append(user).append('/').append(repository);
+        uri.append("/labels");
+        uri.append('/').append(name);
+        return (Label)gitHubService.getClient().post(uri.toString(), label, Label.class);
     }
 }

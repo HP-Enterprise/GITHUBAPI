@@ -2,6 +2,7 @@ package com.incar.gitApi.controller;
 
 import com.incar.gitApi.service.MyMilestoneService;
 import com.incar.gitApi.service.ObjectResult;
+import com.incar.gitApi.util.DateUtil;
 import org.eclipse.egit.github.core.Milestone;
 import org.eclipse.egit.github.core.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,32 @@ public class MyMilestoneController {
                                          @PathVariable("year") Integer year) throws IOException {
         List<Milestone> list = myMilestoneService.addAllMilestone("HP-Enterprise", repository.getName().toString(), year);
         return new ObjectResult("true", list);
+    }
+
+    /**
+     * 删除里程碑
+     * @param repository
+     * @param number
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value = "/deleteMiles/{repository}/{number}")
+    public ObjectResult deleteMiles(@PathVariable("repository")String repository,@PathVariable("number")int number)throws IOException{
+        myMilestoneService.deleteMiles("HP-Enterprise",repository,number);
+        return new ObjectResult("true","删除成功！");
+    }
+
+    /**
+     * 更新里程碑
+     * @param repository 仓库名
+     * @param milestone 里程碑实体
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value = "/editMilestone/{repository}",method = RequestMethod.POST)
+    public ObjectResult editMilestone(@PathVariable("repository")String repository,@RequestBody Milestone milestone)throws IOException{
+      Milestone milestone1=  myMilestoneService.editMilestone("HP-Enterprise", repository, milestone);
+        return new ObjectResult("true",milestone1);
     }
 
 }

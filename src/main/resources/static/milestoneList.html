@@ -33,6 +33,7 @@
     <script src="/scripts/milestoneList.js"></script>
 </head>
 <body ng-app="myApp" ng-controller="formCtrl">
+<div ng-hide="myMiles1">
 <p style="text-align:center;font-size:25px;">{{str}}：milestone列表</p>
 <table class="table table-bordered" >
     <thead>
@@ -51,12 +52,48 @@
         <td ng-bind="aw.title"></td>
         <td ng-bind="aw.description"></td>
         <td ng-bind="aw.state"></td>
-        <td  Date="aw.dueOn" ng-bind="aw.dueOn">dd</td>
-        <td><a ng-click="">删除</a>|<a ng-click="">修改</a></td>
+        <td ng-bind="aw.dueOn | date:'yyyy-MM-dd HH:mm:ss'">dd</td>
+        <td><a ng-click="deleteMiles(aw.number)">删除</a>|<a ng-click="updateMilestone(aw)">修改</a></td>
     </tr>
-
     </tbody>
 </table>
+</div>
+<div  ng-hide="myMiles2">
+    <h2 style="text-align:center;font-size:25px;">修改里程碑:</h2>
+    <form role="form">
+        <table class="table table-bordered">
+            <tr>
+                <td>里程碑标题：</td>
+                <td><input  type="text" ng-model="updateMil.title">
+                </td>
+            </tr>
+            <tr>
+                <td>里程碑状态：</td>
+                <td><input type="radio" name="state" value="open" ng-model="updateMil.state"/>开启
+                    <input type="radio" name="state" value="close" ng-model="updateMil.state"/>关闭
+                </td>
+            </tr>
+            <tr>
+                <td>里程碑描述：</td>
+                <td><input  type="text" ng-model="updateMil.description">
+                </td>
+            </tr>
+            <tr>
+                <td>截止时间：</td>
+                <td>
+                    <input class="form-control" type="date-format" ng-model="updateMil.dueOn" date-format
+                           name="" required width="30%">
+                </td>
+            </tr>
+
+            <td></td>
+            <td>
+                <button class="btn btn-default" value="submit1"  ng-click="modifyMilestone(updateMil)">确定</button>
+            </td>
+            </tr>
+        </table>
+    </form>
+</div>
 
 </body>
 </html>

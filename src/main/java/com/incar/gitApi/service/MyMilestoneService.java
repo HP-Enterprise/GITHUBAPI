@@ -3,6 +3,8 @@ package com.incar.gitApi.service;
 import com.incar.gitApi.GithubClientConfig;
 import com.incar.gitApi.util.DateUtil;
 import org.eclipse.egit.github.core.Milestone;
+import org.eclipse.egit.github.core.service.GistService;
+import org.eclipse.egit.github.core.service.GitHubService;
 import org.eclipse.egit.github.core.service.MilestoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,7 +73,7 @@ public class MyMilestoneService {
      */
     public List<Milestone> getAllMiles(String user,String repository,String state)throws IOException{
         MilestoneService milestoneService=new MilestoneService(githubClientConfig.getGitHubClient());
-        List<Milestone> milestoneList =  milestoneService.getMilestones(user,repository,state);
+        List<Milestone> milestoneList =  milestoneService.getMilestones(user, repository, state);
         return milestoneList;
     }
 
@@ -84,7 +86,27 @@ public class MyMilestoneService {
      */
     public Milestone getOneMiles(String user,String repository,int num)throws IOException{
         MilestoneService milestoneService=new MilestoneService(githubClientConfig.getGitHubClient());
-       Milestone milestone =  milestoneService.getMilestone(user,repository,num);
+       Milestone milestone =  milestoneService.getMilestone(user, repository, num);
         return milestone;
+    }
+
+    /**
+     * 删除里程碑
+     * @param user
+     * @param repository
+     * @param number
+     * @throws IOException
+     */
+    public void deleteMiles(String user,String repository,int number )throws IOException{
+        MilestoneService milestoneService=new MilestoneService(githubClientConfig.getGitHubClient());
+        milestoneService.deleteMilestone(user,repository,number);
+    }
+    public Milestone editMilestone(String user,String repository ,Milestone milestone)throws IOException{
+        GitHubService gitHubService=new GistService(githubClientConfig.getGitHubClient());
+        StringBuilder uri = new StringBuilder("/repos");
+        uri.append('/').append(user).append('/').append(repository);
+        uri.append("/milestones");
+        uri.append('/').append(milestone.getNumber());
+        return (Milestone)gitHubService.getClient().post(uri.toString(), milestone, Milestone.class);
     }
 }

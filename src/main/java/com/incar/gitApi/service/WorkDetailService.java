@@ -92,7 +92,7 @@ public class WorkDetailService {
         if(end==null){
             end= new Date();
         }
-    int actualTime  =  PeriodFactory.getHours( gitResult.getCreatedAt(),end);
+    int actualTime  =  PeriodFactory.getHours(gitResult.getCreatedAt(), end);
         return actualTime;
     }
 
@@ -104,7 +104,11 @@ public class WorkDetailService {
     public int oneIssueWeek(GitResult gitResult){
           dueOn= gitResult.getDueOn();
         if(dueOn==null) {
-            dueOn = gitResult.getCreatedAt();
+            if(gitResult.getState().equals("open")) {
+                dueOn = gitResult.getCreatedAt();
+            }else{
+                dueOn = gitResult.getClosedAt();
+            }
         }
       int week=  DateUtil.getIssueWeek(dueOn);
         return week;
@@ -118,7 +122,11 @@ public class WorkDetailService {
     public int oneIssueMonth(GitResult gitResult){
         dueOn= gitResult.getDueOn();
         if(dueOn==null) {
-            dueOn = gitResult.getCreatedAt();
+            if(gitResult.getState().equals("open")) {
+                dueOn = gitResult.getCreatedAt();
+            }else{
+                dueOn = gitResult.getClosedAt();
+            }
         }
         int month=DateUtil.getIssueMonth(dueOn);
         return month ;
@@ -132,7 +140,11 @@ public class WorkDetailService {
     public int oneIssueYear(GitResult gitResult){
         dueOn= gitResult.getDueOn();
         if(dueOn==null) {
-            dueOn = gitResult.getCreatedAt();
+            if(gitResult.getState().equals("open")) {
+                dueOn = gitResult.getCreatedAt();
+            }else{
+                dueOn = gitResult.getClosedAt();
+            }
         }
         int year=DateUtil.getIssueYear(dueOn);
         return year ;
@@ -146,7 +158,11 @@ public class WorkDetailService {
     public int oneIssueQuarter(GitResult gitResult){
         dueOn= gitResult.getDueOn();
         if(dueOn==null) {
-            dueOn = gitResult.getCreatedAt();
+            if(gitResult.getState().equals("open")) {
+                dueOn = gitResult.getCreatedAt();
+            }else{
+                dueOn = gitResult.getClosedAt();
+            }
         }
         int month=DateUtil.getIssueMonth(dueOn);
         if(month==1||month==2||month==3){

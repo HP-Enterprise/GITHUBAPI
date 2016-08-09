@@ -39,7 +39,6 @@ public class ScheduledTask {
 
 
     @Scheduled(cron = "0 40 18 * * ?")
-
     public void scheduledQuery(){
         logger.info(">>>>>>>>>>> saving gitResult >>>>>>>>>>>>");
         gitResultService.saveGitResult();
@@ -53,8 +52,7 @@ public class ScheduledTask {
         logger.info(">>>>>>>>>>> saving workDetailInfo >>>>>>>>>>>>");
         workDetailService.saveWorkDetailInfo();
     }
-//    @Scheduled(cron = "0 */1 * * * ?")
-    @Scheduled(cron = "0 0 19 * * ?")
+     @Scheduled(cron = "0 0 19 * * ?")
     public void gitRetAlalyse(){
         logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");
         for(int i=1;i<= DateUtil.getWeekInYear();i++) {

@@ -50,7 +50,7 @@
         <td ng-bind="aw.name"></td>
         {{aw.color}}
         <td bgcolor="{{aw.color}}" ng-bind="aw.color" ></td>
-        <td><a ng-click="">删除</a>|<a ng-click="updateLabel(aw)">修改</a></td>
+        <td><a ng-click="deleteLabel(aw.name)">删除</a>|<a ng-click="updateLabel(aw)">修改</a></td>
     </tr>
     </tbody>
 </table>
