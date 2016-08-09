@@ -69,27 +69,11 @@ function showChart(config)
 }
 
 app.controller("highchartCtrl", function($scope,$http, $location, $resource){
-    var name,value;
-    var str=location.href; //取得整个地址栏
-    var num=str.indexOf("?")
-    str=str.substr(num+1); //取得所有参数
-    var values=[];
-    var arr=str.split("&"); //各个参数放到数组里
-    for(var i=0;i < arr.length;i++){
-        num=arr[i].indexOf("=");
-        if(num>0){
-            name=arr[i].substring(0,num);
-            value=arr[i].substr(num+1);
-            values[i] = value;
-        }
-    }
+    $scope.str = $location.url().substring(1);
+
     $scope.workSearch={
         params:{
-            userName:values[0],
-            //week:values[1],
-            //currentPage:$scope.workPageObject.currentPage,
-            //pageSize:$scope.workPageObject.pageSize,
-            //fuzzy:1
+            userName:$scope.str
         }
     };
 

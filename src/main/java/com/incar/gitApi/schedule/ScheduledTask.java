@@ -38,7 +38,8 @@ public class ScheduledTask {
 
 
 
-    @Scheduled(cron = "0 40 18 * * ?")
+    @Scheduled(cron = "0 54 11 * * ?")
+   // @Scheduled(cron = "0 40 18 * * ?")
     public void scheduledQuery(){
         logger.info(">>>>>>>>>>> saving gitResult >>>>>>>>>>>>");
         gitResultService.saveGitResult();

@@ -31,7 +31,18 @@
                     <ul class="submenu">
                         <li><a href="index-week.html">周查询</a></li>
                         <li><a href="index-detail.html">详细查询</a></li>
-
+                        <li>
+                            <a href="#" ng-click="bt(3)">工作曲线图</a>
+                            <div ng-show="myChart">
+                                <ul>
+                                    <li >
+                                        <select ng-model="assignee" ng-options="item.login for item in assignees" ng-change="modifyDiv1(assignee.login)">
+                                            <option value="">选择用户</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </li>
                 </li>
@@ -39,7 +50,6 @@
                     <ul class="submenu">
                         <li><a href="addRepository.html">创建新仓库</a></li>
                         <li><a href="repositoryList.html">查看仓库</a></li>
-
                     </ul>
                 </li>
                 <li><a href="#s1">标签</a>

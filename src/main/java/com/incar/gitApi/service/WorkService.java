@@ -475,7 +475,7 @@ public class WorkService {
         } else {
             if (closedAt == null || isAfterThisWeek(closedAt, periods)) {
                 for (Period period : periods) {
-                    if (isInPeriod(closedAt, period)) {
+                    if (isInPeriod(new Date(), period)) {
                         return period;
                     }
                 }
