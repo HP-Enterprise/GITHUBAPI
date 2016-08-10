@@ -521,7 +521,7 @@ public class WorkService {
         pageSize = (pageSize == null || pageSize <= 0) ? 10 : pageSize;
         boolean isFuzzy = (fuzzy != null && fuzzy == 1) ? true : false;
         username = username == "" ? null : username;
-        Pageable pageRequest = new PageRequest(currentPage - 1, pageSize, new Sort(Sort.Direction.DESC, "weekInYear"));
+        Pageable pageRequest = new PageRequest(currentPage - 1, pageSize, new Sort(Sort.Direction.DESC, "weekInYear").and(new Sort(Sort.Direction.ASC, "username")));
         Page<Work> workPage;
         if (isFuzzy) {
             if (realname != null)
