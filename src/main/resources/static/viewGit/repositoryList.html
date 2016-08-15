@@ -1,0 +1,64 @@
+<div ng-controller="repositoryListCtrl" class="width1140px">
+<div  ng-hide="myVar1">
+    <p style="text-align:center;font-size:25px;">仓库列表:</p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>名称</th>
+            <th>描述</th>
+            <th>开启的问题</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="aw in repository">
+            <td ng-bind="$index + 1"></td>
+            <td ng-bind="aw.name"></td>
+            <td ng-bind="aw.description"></td>
+            <td ng-bind="aw.openIssues"></td>
+            <td><a ng-click="deleteRepository(aw.name)">删除</a>|<a ng-click="updateRepository(aw)">修改</a></td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<div  ng-hide="myVar2">
+    <p style="text-align:center;font-size:25px;">修改仓库</p>
+
+    <form novalidate>
+        <table class="table ">
+            <tr>
+                <td>仓库名称:</td>
+                <td><input type="text" ng-model="updateRep.name">
+                </td>
+            </tr>
+            <tr>
+                <td>描述:</td>
+                <td><input type="text" ng-model="updateRep.description">
+                </td>
+            </tr>
+            <tr>
+                <td>性质:</td>
+                <td><input type="radio" name="private" value="0" ng-model="updateRep.private"/>public
+                    <input type="radio" name="private" value="1" ng-model="updateRep.private"/>private
+                </td>
+            <tr>
+                <td>标题:</td>
+                <td><input type="radio" name="hasIssues"  ng-model="updateRep.hasIssues" value="1"/>有Issue
+                    <input type="radio" name="hasIssues"  ng-model="updateRep.hasIssues" value="0" />无Issue
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button value="modifyRepository" ng-click="modifyRepository(updateRep)">确定</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</div>

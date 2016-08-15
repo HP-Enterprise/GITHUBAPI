@@ -1,32 +1,12 @@
 
-<div ng-controller="indexCtrl-week ">
+<div ng-controller="weekCtrl" class="width1140px">
 
-    <!--==========我是JS的分隔线~=====================================================================-->
-    <script src="/lib/jquery/dist/jquery.min.js"></script>
-    <script src="/lib/angular/angular.min.js"></script>
-    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/lib/angular-resource/angular-resource.js"></script>
-    <script src="/scripts/controller/indexCtrl-week.js"></script>
-    <script language="javascript">
-//        function doclick()
-//        {
-//            var td = event.srcElement; // 通过event.srcElement 获取激活事件的对象 td
-//            var a=td.parentElement.rowIndex;
-////            alert("行号：" + (td.parentElement.rowIndex) + "，列号：" + td.(cellIndex+1));
-////            var aa=document.getElementById("table").rows[a].cells[1].innerHTML;
-////            alert(aa);
-//           // alert(document.getElementById("1").innerHTML);
-//        }
-    </script>
-
-
-<div class="fr">
-    <div class=" home">
-        <!--<input type="button" value="导出数据" onclick="DownloadExcel()"/>-->
-        <a href="" ng-click="DownloadExcel('flag')">导出EXCEL</a>
-
+    <div class="fr">
+        <div class=" home h-home h-float">
+            <a href="" ng-click="DownloadExcel('flag')">导出EXCEL</a>
+        </div>
     </div>
-</div>
+    <div class="clearfix"></div>
     <div class="buttons">
         <div class="fl">
             <span>姓名：</span>
@@ -35,11 +15,12 @@
             <input type="text" ng-model="worKeSelect.username"/>
             <span>时间(周数)：</span>
                 <input type="text" ng-model="worKeSelect.weekNum"/>
-            <a href="" ng-click="getAllGitHubWork('flag')">查询</a>
+            <a href=""  class="btn btn-default" ng-click="getAllGitHubWork('flag')">查询</a>
         </div>
     </div>
 
-    <table id="table" onclick="doclick()">
+
+    <table class="table table-hover">
         <thead>
         <tr>
             <th>用户名</th>
@@ -59,11 +40,13 @@
             <td ng-bind="aw.unfinishedWork"></td>
             <td ng-bind="aw.workHours"></td>
             <td ng-bind="aw.weekInYear"></td>
-            <td><a ng-click="goHtml(aw)">查看详情</a></td>
+            <td><a href="/gitHubApi/week/weekDetail/{{aw.username}}/{{aw.weekInYear}}">查看详情</a></td>
         </tr>
         </tbody>
     </table>
-    <div class="x-pagination fr clearfix">
+
+    <div class="cleatfix"></div>
+    <div class="x-pagination fr h-float">
         <a href="" class="x-page mrright10" ng-click="changePage('prev')" ng-disabled="workPageObject.currentPage==1">上一页</a>
         <a href="" class="x-page mrright10" ng-bind="'第'+workPageObject.currentPage+'页'"
            ng-click="pageSelector.show=true" ng-mouseleave="pageSelector.focus=false" ng-mouseover="pageSelector.focus=true">&nbsp;&nbsp;&nbsp;&nbsp;<b class="x-icons x-icons-tips fr x-pagetips"></b></a>
@@ -80,6 +63,3 @@
 
 </div>
     <!---->
-</div>
-
-</div>

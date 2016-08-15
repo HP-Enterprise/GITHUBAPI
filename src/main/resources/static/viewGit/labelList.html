@@ -1,0 +1,50 @@
+<div ng-controller="labelListCtrl" class="width1140px">
+
+<div ng-hide="myVar1">
+<p style="text-align:center;font-size:25px;">{{str}}：label列表</p>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>名称</th>
+        <th>颜色</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="aw in labelList">
+        <td ng-bind="$index + 1"></td>
+        <td ng-bind="aw.name"></td>
+        {{aw.color}}
+        <td bgcolor="{{aw.color}}" ng-bind="aw.color" ></td>
+        <td><a ng-click="deleteLabel(aw.name)">删除</a>|<a ng-click="updateLabel(aw)">修改</a></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+
+<div ng-hide="myVar2">
+    <p style="text-align:center;font-size:25px;">{{str}}：label修改</p>
+    <form role="form">
+        <table class="table ">
+            <tr>
+                <td>标签名称：</td>
+                <td><input  type="text" ng-model="labels.name">
+                </td>
+            </tr>
+            <tr>
+                <td>颜色</td>
+                <td><input  type="color" name="" ng-model="labels.color">
+                </td>
+            </tr>
+
+            <td></td>
+            <td>
+                <button class="btn btn-default" value="submit1"  ng-click="modifyLabel(labels)">确定</button>
+            </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</div>

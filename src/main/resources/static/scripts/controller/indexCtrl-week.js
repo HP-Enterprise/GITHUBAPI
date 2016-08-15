@@ -1,6 +1,8 @@
-var app = angular.module('indexApp',['ngResource'])
 
-app.controller("indexCtrl", function($scope,$http, $location, $resource){
+
+
+
+routeApp.controller("indexCtrl-week", function($scope,$http, $location, $resource){
     //分页条件
     $scope.workPageObject= {
         currentPage : 1,
@@ -95,9 +97,6 @@ app.controller("indexCtrl", function($scope,$http, $location, $resource){
     };
 
 
-
-
-
     $scope.goHtml = function (obj){
         //console.log(obj);
         window.location.href ="index_personal.html?userName="+obj.username+"&week="+obj.weekInYear;
@@ -135,7 +134,6 @@ app.controller("indexCtrl", function($scope,$http, $location, $resource){
     }
 
 });
-
 
 
 

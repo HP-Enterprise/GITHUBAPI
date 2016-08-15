@@ -1,0 +1,91 @@
+<div ng-controller="detailCtrl " class="width1140px">
+
+    <div class="  home h-home h-float">
+
+        <a href="" ng-click="DownloadExcel('flag')">导出EXCEL</a>
+    </div>
+    <div class="clearfix"></div>
+    <div class="buttons">
+        <div class="fl">
+            <span>用户名：</span>
+            <input class="input-k" type="text" ng-model="worKeSelect.userName"/>
+            <span>项目名：</span>
+            <input class="input-k" type="text" ng-model="worKeSelect.project"/>
+            <span>状态：</span>
+                <select ng-model="worKeSelect.state">
+                    <option value=""></option>
+                    <option value="open">open</option>
+                    <option value="closed">closed</option>
+                </select>
+            <span>年：</span>
+                <select ng-model="worKeSelect.year">
+                    <option value="2014">2014</option>
+                    <option value="2015">2015</option>
+                    <option selected="2016">2016</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                </select>
+            <span>季度：</span>
+                <select ng-model="worKeSelect.quarter">
+                    <option selected=""></option>
+                    <option value="1">第一季度</option>
+                    <option value="2">第二季度</option>
+                    <option value="3">第三季度</option>
+                    <option value="4">第四季度</option>
+                </select>
+            <span>月：</span>
+            <input class="input-k" type="text" ng-model="worKeSelect.month"/>
+            <span>周：</span>
+            <input class="input-k" type="text" ng-model="worKeSelect.week"/>
+            <a href="" class="btn btn-default" ng-click="getAllGitHubWork('flag')">查询</a>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>用户名</th>
+            <th>姓名</th>
+            <th>问题</th>
+            <th>项目名</th>
+            <th>预期工作时长（H）</th>
+            <th>实际工作时长（H）</th>
+            <th>状态</th>
+            <th>工作效率</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="aw in allWork">
+            <td ng-bind="aw.userName"></td>
+            <td ng-bind="aw.realName"></td>
+            <td ng-bind="aw.title"></td>
+            <td ng-bind="aw.project"></td>
+            <td ng-bind="aw.expectedTime"></td>
+            <td ng-bind="aw.actualTime"></td>
+            <td ng-bind="aw.state"></td>
+            <td ng-bind="aw.efficiency"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="cleatfix"></div>
+    <div class="x-pagination fr h-float">
+        <a href="" class="x-page mrright10" ng-click="changePage('prev')"
+           ng-disabled="workPageObject.currentPage==1">上一页</a>
+        <a href="" class="x-page mrright10" ng-bind="'第'+workPageObject.currentPage+'页'"
+           ng-click="pageSelector.show=true" ng-mouseleave="pageSelector.focus=false"
+           ng-mouseover="pageSelector.focus=true">&nbsp;&nbsp;&nbsp;&nbsp;<b
+                class="x-icons x-icons-tips fr x-pagetips"></b></a>
+
+        <div class="x-page-select" ng-show="pageSelector.show" id="selectPage_1"
+             style="position:absolute;overflow-y:scroll">
+            <a href="" ng-repeat="page in workPageObject.pages" ng-bind="'第'+page+'页'"
+               ng-class="{cur:page==workPageObject.currentPage}"
+               ng-click="selectPage(page)"></a>
+        </div>
+        <!--&lt;!&ndash; 到第一页和最后一页的时候不需要的a标签按钮添加class样式"novisibility"隐藏上一页或者下一页按钮 &ndash;&gt;-->
+        <a href="" class="x-page" ng-click="changePage('next')"
+           ng-disabled="workPageObject.currentPage==workPageObject.totalPage">下一页</a>
+
+    </div>
+
+
+</div>

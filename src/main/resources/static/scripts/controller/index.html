@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=7"/>
+        <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>导航条</title>
+        <META content="" name="keywords">
+        <meta http-equiv="pragma" content="no-cache">
+        <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+        <meta http-equiv="expires" content="0">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+        <!-- add styles -->
+        <link href="css/main.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+        <script src="/lib/jquery/dist/jquery.min.js"></script>
+        <script src="/lib/angular/angular.min.js"></script>
+        <script src="/lib/angular-route/angular-route.js"></script>
+        <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="/lib/angular-resource/angular-resource.js"></script>
+        <script src="/scripts/controller/index.js"></script>
+    </head>
+    <body ng-app="routeApp" ng-controller="formCtrl">
+        <div style="text-align:center;">
+            <img src="images/logo.png" alt=""/>
+        </div>
+        <div class="container" id="main" role="main">
+            <ul class="menu">
+                </li>
+                <li><a href="#">GitHub统计</a>
+                    <ul class="submenu">
+                        <li><a href="#/week">周查询</a></li>
+                        <li><a href="index-week.html">详细查询</a></li>
+                        <li>
+                            <a href="#" ng-click="bt(3)">工作曲线图</a>
+                            <div ng-show="myChart">
+                                <ul>
+                                    <li >
+                                        <select ng-model="assignee" ng-options="item.login for item in assignees" ng-change="modifyDiv1(assignee.login)">
+                                            <option value="">选择用户</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                </li>
+                <li class="active"><a href="#s2">仓库</a>
+                    <ul class="submenu">
+                        <li><a href="addRepository.html">创建新仓库</a></li>
+                        <li><a href="repositoryList.html">查看仓库</a></li>
+                    </ul>
+                </li>
+                <li><a href="#s1">标签</a>
+                    <ul class="submenu">
+                        <li><a href="label.html">添加标签</a></li>
+                        <li>
+                            <a href="#" ng-click="bt(1)">标签列表</a>
+                            <div ng-show="myLabel">
+                                <ul>
+                                    <li >
+
+                                        <select ng-model="repository" ng-options="item.name for item in repository1" ng-change="modifyDiv(repository.name)">
+                                           <option value="">选择仓库</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="#s1">里程碑</a>
+                    <ul class="submenu">
+                        <li><a href="milestone.html">添加里程碑</a></li>
+                        <li>
+                            <a href="#" ng-click="bt(2)">里程碑列表</a>
+                            <div ng-show="myMilestone">
+                                <ul>
+                                    <li >
+                                        <select ng-model="repository" ng-options="item.name for item in repository1" ng-change="modifyDiv2(repository.name)">
+                                            <option value="">选择仓库</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                <li><a href="#">Issue</a>
+                    <ul class="submenu">
+                        <li><a href="addIssue.html">添加Issue</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div ng-view></div>
+    </body>
+</html>

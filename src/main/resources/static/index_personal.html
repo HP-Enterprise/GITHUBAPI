@@ -243,7 +243,7 @@
     <script src="/lib/angular/angular.min.js"></script>
     <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/lib/angular-resource/angular-resource.js"></script>
-    <script src="/scripts/indexCtrl_personal.js"></script>
+    <script src="/scripts/controller/indexCtrl_personal.js"></script>
 
 </head>
 <body ng-controller="indexCtrl_personal">
@@ -306,13 +306,7 @@
 
         </tbody>
     </table>
-    <div class="page fr">
-        <a href="" ng-click="upPageClick(workPageObject,workPageObject.currentPage)"><</a>
-        <span ng-repeat="page in workPageObject.pages" >
-            <a href="" ng-click="showCurrentPageContent(workPageObject,page)"><span ng-class="{true:'active',false:'inactive'}[workPageObject.currentPage == page]" ng-bind="page"></span></a>
-        </span>
-        <a href="" ng-click="downPageClick(workPageObject,workPageObject.currentPage)">></a>
-    </div>
+
     <!---->
 </div>
 

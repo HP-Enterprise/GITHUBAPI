@@ -1,0 +1,55 @@
+<div ng-controller="weekDetailCtrl" class="width1140px">
+  <div >
+      <div></div>
+        <span><b>用户名：</b></span>
+        <span ng-bind>{{oneWork.userName}}</span>
+
+        <span><b>姓名：</b></span>
+        <span ng-bind>{{oneWork.realName}}</span>
+
+        <span><b>issue个数：</b></span>
+        <span ng-bind>{{allWork.length}}</span>
+
+        <span><b>时间（周）：</b></span>
+        <span ng-bind>{{oneWork.week}}</span>
+  </div>
+    <table class="table table-hover">
+        <caption>
+
+        </caption>
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>问题</th>
+            <th>项目名</th>
+            <th>预期工作时长（小时）</th>
+            <th>实际工作时长（小时）</th>
+            <th>状态</th>
+            <th>工作效率</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat=" aw in allWork
+            ">
+            <td ng-bind="$index + 1"></td>
+            <td ng-bind="aw.title"></td>
+            <td ng-bind="aw.project"></td>
+            <td ng-bind="aw.expectedTime"></td>
+            <td ng-bind="aw.actualTime"></td>
+            <td ng-bind="aw.state"></td>
+            <td ng-bind="aw.efficiency"></td>
+        </tr>
+
+        </tbody>
+    </table>
+    <div class=" h-float">
+        <a href="" ng-click="upPageClick(workPageObject,workPageObject.currentPage)"><</a>
+        <span ng-repeat="page in workPageObject.pages">
+            <a href="" ng-click="showCurrentPageContent(workPageObject,page)"><span
+                    ng-class="{true:'active',false:'inactive'}[workPageObject.currentPage == page]"
+                    ng-bind="page"></span></a>
+        </span>
+        <a href="" ng-click="downPageClick(workPageObject,workPageObject.currentPage)">></a>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+<div ng-controller="addRepositoryCtrl ">
+    <p>添加仓库：</p>
+    <div class="width1140px">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="firstname" class="col-md-2 control-label">仓库名称:</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="firstname" ng-model="repository.name"
+                           placeholder="请输入仓库名称">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="col-md-2 control-label">描述:</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="lastname" ng-model="repository.description"
+                           placeholder="请输入描述">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="col-md-2 control-label">性质</label>
+                <div class="col-md-10">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="optionsRadiosinline"  value="false" ng-model="repository.isPrivate"> public
+                        </label>
+                        <label>
+                            <input type="radio" name="optionsRadiosinline" value=true" ng-model="repository.isPrivate"> private
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="col-md-2 control-label">标题</label>
+                <div class="col-md-10">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="have"  value="true" ng-model="repository.hasIssues"> 有Issue
+                        </label>
+                        <label>
+                            <input type="radio" name="have" value="false" ng-model="repository.hasIssues"> 无Issue
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-4 col-md-8">
+                    <button class="btn btn-default" value="submit"  ng-click="submit(repository)">添加</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

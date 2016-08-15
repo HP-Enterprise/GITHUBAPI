@@ -30,7 +30,7 @@
     <script src="/lib/angular/angular.min.js"></script>
     <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/lib/angular-resource/angular-resource.js"></script>
-    <script src="/scripts/addRepositoryCtrl.js"></script>
+    <script src="/scripts/controller/addRepositoryCtrl.js"></script>
 </head>
 <body>
 <h2 style="text-align:center;font-size:25px;">添加新的仓库:</h2>
@@ -51,7 +51,7 @@
             <tr>
                 <td>性质:</td>
                 <td><input type="radio" value="false" ng-model="repository.isPrivate"/>public
-                    <input type="radio" value="true" ng-model="repository.isPrivate"/>private
+                    <input type="radio" value=true" ng-model="repository.isPrivate"/>private
                 </td>
             <tr>
                 <td>标题:</td>

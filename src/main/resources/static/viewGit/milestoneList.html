@@ -1,41 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-<head>
-    <meta http-equiv="X-UA-Compatible" content="IE=7"/>
-    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>addRepository</title>
-    <META content="" name="keywords">
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
-    <meta http-equiv="expires" content="0">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
-    <style>
-        table, th, td {
-            border: 1px solid grey;
-            border-collapse: collapse;
-            padding: 5px;
-        }
-
-        table tr:nth-child(odd) {
-            background-color: #f2f2f2;
-        }
-
-        table tr:nth-child(even) {
-            background-color: #ffffff;
-        }
-    </style>
-    <script src="/lib/jquery/dist/jquery.min.js"></script>
-    <script src="/lib/angular/angular.min.js"></script>
-    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/lib/angular-resource/angular-resource.js"></script>
-    <script src="/scripts/controller/milestoneList.js"></script>
-</head>
-<body ng-app="myApp" ng-controller="formCtrl">
+<div ng-controller="milestoneListCtrl" class="width1140px">
 <div ng-hide="myMiles1">
 <p style="text-align:center;font-size:25px;">{{str}}：milestone列表</p>
-<table class="table table-bordered" >
+<table class="table " >
     <thead>
     <tr>
         <th>序号</th>
@@ -61,7 +27,7 @@
 <div  ng-hide="myMiles2">
     <h2 style="text-align:center;font-size:25px;">修改里程碑:</h2>
     <form role="form">
-        <table class="table table-bordered">
+        <table class="table table-hover">
             <tr>
                 <td>里程碑标题：</td>
                 <td><input  type="text" ng-model="updateMil.title">
@@ -95,5 +61,4 @@
     </form>
 </div>
 
-</body>
-</html>
+</div>
