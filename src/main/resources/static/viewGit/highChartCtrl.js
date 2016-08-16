@@ -1,74 +1,75 @@
-define(['../scripts/git','jquery'],function(module,$){
+
+function cloneJSON(para){
+    var rePara = null;
+    var type = Object.prototype.toString.call(para);
+    if(type.indexOf("Object") > -1){
+        rePara = jQuery.extend(true, {}, para);
+    }else if(type.indexOf("Array") > 0){
+        rePara = [];
+        jQuery.each(para, function(index, obj){
+            rePara.push(jQuery.cloneJSON(obj));
+        });
+    }else{
+        rePara = para;
+    }
+    return rePara;
+}
+var config ={
+    title: {
+        text: 'ä¸ªäººå·¥ä½œæ—¶é—´',
+        x: -20 //center
+    },
+    subtitle: {
+        text: 'é¢„æœŸæ—¶é—´ä¸Žå®žé™…å·¥ä½œæ—¶é—´',
+        x: -20
+    },
+    xAxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+    },
+    yAxis: {
+        title: {
+            text: 'å°æ—¶ï¼ˆhï¼‰'
+        },
+        plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+        }]
+    },
+    tooltip: {
+        valueSuffix: 'h'
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle',
+        borderWidth: 0
+    },
+
+    series: [{
+        name: 'Tokyo',
+        data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+    }, {
+        name: 'New York',
+        data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+    }, {
+        name: 'Berlin',
+        data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+    }, {
+        name: 'London',
+        data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+    }]
+}
+
+function showChart(config)
+{
+    $("#container").highcharts(config);
+}
+
+define(['../scripts/git','jquery','highcharts'],function(module,$){
     module.controller("highChartCtrl",function($scope,$http,$routeParams){
-        function cloneJSON(para){
-            var rePara = null;
-            var type = Object.prototype.toString.call(para);
-            if(type.indexOf("Object") > -1){
-                rePara = jQuery.extend(true, {}, para);
-            }else if(type.indexOf("Array") > 0){
-                rePara = [];
-                jQuery.each(para, function(index, obj){
-                    rePara.push(jQuery.cloneJSON(obj));
-                });
-            }else{
-                rePara = para;
-            }
-            return rePara;
-        }
-        var config ={
-            title: {
-                text: '¸öÈË¹¤×÷Ê±¼ä',
-                x: -20 //center
-            },
-            subtitle: {
-                text: 'Ô¤ÆÚÊ±¼äÓëÊµ¼Ê¹¤×÷Ê±¼ä',
-                x: -20
-            },
-            xAxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-            },
-            yAxis: {
-                title: {
-                    text: 'Ê±¼ä£¨h£©'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                valueSuffix: 'h'
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle',
-                borderWidth: 0
-            },
-
-            series: [{
-                name: 'Tokyo',
-                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-            }, {
-                name: 'New York',
-                data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-            }, {
-                name: 'Berlin',
-                data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-            }, {
-                name: 'London',
-                data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-            }]
-        }
-
-        function showChart(config)
-        {
-            $("#container").highcharts(config);
-        }
-
-
         $scope.str = $routeParams.username;
 
         $scope.workSearch={
@@ -76,7 +77,6 @@ define(['../scripts/git','jquery'],function(module,$){
                 userName:$scope.str
             }
         };
-
         $http.get("/api/json",$scope.workSearch).success(function(data,status,headers){
             $scope.fff = data.message;
             $scope.actual = data.message.actual_data;
@@ -89,8 +89,8 @@ define(['../scripts/git','jquery'],function(module,$){
             newConfig.xAxis={
                 categories: $scope.fff.category
             };
-            newConfig.series=[{name:"Ô¤ÆÚ¹¤×÷Ê±³¤",data:$scope.fff.expect_data,color:'red'},{name:"Êµ¼Ê¹¤×÷Ê±³¤",data:$scope.fff.actual_data,color:'blue'}];
-            newConfig.title = {text:"¸öÈË¹¤×÷Ê±³¤"};
+            newConfig.series=[{name:"é¢„æœŸå·¥ä½œæ—¶é•¿",data:$scope.fff.expect_data,color:'red'},{name:"å®žé™…å·¥ä½œæ—¶é•¿",data:$scope.fff.actual_data,color:'blue'}];
+            newConfig.title = {text:$routeParams.username+"ï¼šæ‰€æœ‰Issueé¢„æœŸä¸Žå®žé™…å·¥ä½œæ—¶é•¿æŠ˜çº¿å›¾"};
             showChart(newConfig);
         }).error(function(err){
             console.log(err);
