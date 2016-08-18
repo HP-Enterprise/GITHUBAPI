@@ -1,5 +1,45 @@
 define(['../scripts/git','jquery'],function(module,$){
-    module.controller("indexGitCtrl",function($scope,$http,$resource,$location){
+    module.controller("indexGitCtrl",function($scope,$http,$resource,$location,$route) {
+
+        var getCookie = function(name){
+            var arr = document.cookie.split("; ");
+            for(var i=0,len=arr.length;i<len;i++){
+                var item = arr[i].split("=");
+                if(item[0]==name){
+                    return item[1]
+                }
+            }
+            return "";
+        };
+        var deleteCookie = function(name){
+            var exp = new Date();
+            exp.setTime(exp.getTime() - 1000);
+            var cval=getCookie(name);
+            if(cval!=null){
+                document.cookie= name+"="+cval+";expires="+exp.toUTCString()+"; path=/";
+            }
+        };
+
+        $scope.deletecookie=function(){
+          deleteCookie('token');
+            $scope.myLogin =false ;
+            $location.path("/gitHubApi/login");
+        }
+
+        var loginCookie = getCookie('token');
+        $scope.myLogin =true ;
+        console.log(loginCookie);
+        if (loginCookie=='') {
+            $scope.myLogin =false ;
+            $location.path("/gitHubApi/login");
+    }
+
+       var as="/api/getLoginInfo/"+loginCookie;
+        $http.get(as).success(function (data) {
+            $scope.user = data.message;
+        }).error(function (err) {
+            console.log(err);
+        });
 
         $scope.myLabel = false;
         $scope.myMilestone = false;
@@ -48,4 +88,5 @@ define(['../scripts/git','jquery'],function(module,$){
             $location.path( $scope.url);
         }
     });
+
 });

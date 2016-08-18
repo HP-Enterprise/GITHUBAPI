@@ -1,10 +1,10 @@
 define([], function () {
     return {
-        //defaultRoutePath: '/gitHubApi/',
+        //defaultRoutePath: '/gitHubApi',
         routes: {
-            '/gitHubApi/indexGit1': {
-                templateUrl: '/viewGit/indexGit1.html',
-                dependencies: ['../viewGit/indexGit1Ctrl']
+            '/gitHubApi/login': {
+                templateUrl: '/viewGit/login.html',
+                dependencies: ['../viewGit/loginCtrl']
             },
             '/gitHubApi/week': {
                 templateUrl: '/viewGit/week.html',

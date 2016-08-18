@@ -9,16 +9,16 @@
     <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
     <meta http-equiv="expires" content="0">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <link href="/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="/css/main.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="/css/mycss.css"/>
     <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
-    <base href="/index.html" />
+    <base href="/index.html"/>
 </head>
 <body ng-controller="indexGitCtrl as ic" class="ng-cloak">
-
-<div style="text-align:center;">
+<div ng-show="myLogin">
+  <div style="text-align:center;">
     <img src="images/logo.png" alt=""/>
-</div>
+  </div>
 <div class="container" id="main" role="main">
     <ul class="menu">
 
@@ -28,10 +28,12 @@
                 <li><a href="/gitHubApi/detail">详细查询</a></li>
                 <li>
                     <a href="#" ng-click="bt(3)">工作曲线图</a>
+
                     <div ng-show="myChart">
                         <ul>
-                            <li >
-                                <select ng-model="assignee" ng-options="item.login for item in assignees" ng-change="modifyDiv1(assignee.login)">
+                            <li>
+                                <select ng-model="assignee" ng-options="item.login for item in assignees"
+                                        ng-change="modifyDiv1(assignee.login)">
                                     <option value="">选择用户</option>
                                 </select>
                             </li>
@@ -52,10 +54,12 @@
                 <li><a href="/gitHubApi/label/addLabel">添加标签</a></li>
                 <li>
                     <a href="#" ng-click="bt(1)">标签列表</a>
+
                     <div ng-show="myLabel">
                         <ul>
-                            <li >
-                                <select ng-model="repository" ng-options="item.name for item in repository1" ng-change="modifyDiv(repository.name)">
+                            <li>
+                                <select ng-model="repository" ng-options="item.name for item in repository1"
+                                        ng-change="modifyDiv(repository.name)">
                                     <option value="">选择仓库</option>
                                 </select>
                             </li>
@@ -69,35 +73,43 @@
                 <li><a href="/gitHubApi/addMilestone">添加里程碑</a></li>
                 <li>
                     <a href="#" ng-click="bt(2)">里程碑列表</a>
+
                     <div ng-show="myMilestone">
                         <ul>
-                            <li >
-                                <select ng-model="repository" ng-options="item.name for item in repository1" ng-change="modifyDiv2(repository.name)">
+                            <li>
+                                <select ng-model="repository" ng-options="item.name for item in repository1"
+                                        ng-change="modifyDiv2(repository.name)">
                                     <option value="">选择仓库</option>
                                 </select>
                             </li>
                         </ul>
                     </div>
                 </li>
-
             </ul>
 
         <li><a href="#">Issue</a>
             <ul class="submenu">
                 <li><a href="/gitHubApi/addIssue">添加Issue</a></li>
+                <li><a ng-click="deletecookie()">dengchu</a></li>
             </ul>
         </li>
+
+        <li><a style="font-size:15px" href="#">用户：{{user.username }}</a>
+            <ul class="submenu">
+                <li><a ng-click="deletecookie()">退出</a></li>
+            </ul>
+        </li>
+
+
     </ul>
-    <div ng-view></div>
+
 </div>
-
-
-
+</div>
+<div ng-view></div>
 </body>
 <!--==========我是JS的分隔线~=====================================================================-->
 
 <script data-main="/scripts/appGit.js" src="/lib/requirejs/require.min.js"></script>
-
 
 
 </html>
