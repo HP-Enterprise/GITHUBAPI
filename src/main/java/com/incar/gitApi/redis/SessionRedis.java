@@ -27,9 +27,6 @@ public class SessionRedis {
     ValueOperations<String,String> valOpts = null;
     ValueOperations<String,Object> valObjOpts = null;
 
-    /**
-     *设置对象存储默认序列化对象
-     */
     private void setRedisTemplatePro(){
         this.objectRedisTemplate.setKeySerializer(this.objectRedisTemplate.getStringSerializer());
         this.objectRedisTemplate.setValueSerializer(this.objectRedisTemplate.getDefaultSerializer());
@@ -46,12 +43,6 @@ public class SessionRedis {
         return expire;
     }
 
-    /**
-     * 存储STRING类型数据
-     * @param sessionId 键
-     * @param sessionValue 值
-     * @param expireSeconds 该键值的过期时间，单位秒
-     */
     public void saveSessionOfVal(String sessionId,String sessionValue,long ... expireSeconds){
 
         sessionKey = setPreOfKey(1, sessionId);
@@ -69,11 +60,6 @@ public class SessionRedis {
 
     }
 
-    /**
-     * 获取键对应的值
-     * @param sessionId 键
-     * @return 键对应的值
-     */
     public String getSessionOfVal(String sessionId){
         sessionKey = setPreOfKey(1,sessionId);
         this.valOpts = this.stringRedisTemplate.opsForValue();
@@ -84,11 +70,6 @@ public class SessionRedis {
 
     }
 
-    /**
-     * 更新已存在的键所对应的值
-     * @param sessionId 键
-     * @param sessionValue 更新的值
-     */
     public void updateSessionOfVal(String sessionId,String sessionValue){
 
         sessionKey = setPreOfKey(1, sessionId);
@@ -98,11 +79,6 @@ public class SessionRedis {
 
     }
 
-    /**
-     * 删除指定键值
-     * @param sessionId 键
-     * @return 是否成功，true，成功；false，失败
-     */
     public boolean delSessionOfVal(String sessionId){
         sessionKey = setPreOfKey(1, sessionId);
         boolean ret = true;
@@ -117,12 +93,6 @@ public class SessionRedis {
     }
 
 
-    /**
-     * 存储对象类型数据
-     * @param sessionId 键
-     * @param sessionValue 值
-     * @param expireSeconds 该键值的过期时间，单位秒
-     */
     public void saveSessionOfList(String sessionId,Object sessionValue,long ... expireSeconds){
 
         sessionKey = setPreOfKey(0,sessionId);
@@ -142,11 +112,6 @@ public class SessionRedis {
 
     }
 
-    /**
-     * 获取指定对象
-     * @param sessionId 键
-     * @return 指定键对应的对象
-     */
     public Object getSessionOfList(String sessionId){
         sessionKey = setPreOfKey(0,sessionId);
         this.setRedisTemplatePro();
@@ -157,10 +122,6 @@ public class SessionRedis {
         return this.valObjOpts.get(sessionKey);
     }
 
-    /**
-     * 获取全部session值
-     * @return session对象列表
-     */
     public List<Object> getSessionOfList(){
 
         this.setRedisTemplatePro();
@@ -171,11 +132,6 @@ public class SessionRedis {
         return this.valObjOpts.multiGet(setKey);
     }
 
-    /**
-     * 更新已存在的键多对于的值
-     * @param sessionId 键
-     * @param sessionValue 更新的值
-     */
     public void updateSessionOfList(String sessionId,Object sessionValue){
         sessionKey = setPreOfKey(0,sessionId);
         long expireSeconds = this.objectRedisTemplate.getExpire(sessionKey);
@@ -183,12 +139,6 @@ public class SessionRedis {
         this.saveSessionOfList(sessionId,sessionValue,expireSeconds);
     }
 
-
-    /**
-     * 删除指定对象
-     * @param sessionId 键
-     * @return 是否成功，true，成功；false，失败
-     */
     public boolean delSessionAllOfList(String sessionId){
         sessionKey = setPreOfKey(0,sessionId);
         boolean ret = true;

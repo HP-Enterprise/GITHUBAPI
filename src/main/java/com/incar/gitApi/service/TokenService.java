@@ -16,44 +16,26 @@ public class TokenService {
     @Autowired
     private SessionRedis sessionRedis = null;
 
-    /**
-     * 通过userName 生成一个唯一的token
-     * @param userName 用户名
-     * @return 加密后的唯一码
-     */
+
     public String generateToken(String userName) {
 
         String token = MD5Util.getMD5ofStr(userName + System.currentTimeMillis() + this.getRandom(4));
         return token;
     }
 
-    /**
-     * 通过token 解析 loginInfo
-     * @param token 登陆令牌
-     * @return loginInfo对象
-     */
 
     public UserAccount loadToken(String token) {
         UserAccount userAccount = (UserAccount)sessionRedis.getSessionOfList(token);
         return userAccount;
     }
 
-    /**
-     * 保存token 及登陆信息
-     * @param token         登陆令牌
-     * @param expireSeconds 保存时间
-     * @return 状态码 0 成功  1 失败
-     */
+
     public int saveToken(String token, UserAccount userAccount, long expireSeconds) {
         sessionRedis.saveSessionOfList(token, userAccount, expireSeconds);
         return 0;
     }
 
-    /**
-     * 销毁token
-     * @param token 登陆令牌
-     * @return 状态码  0 成功  1 失败
-     */
+
     public int eraseToken(String token) {
         boolean res = sessionRedis.delSessionAllOfList(token);
         if(res){
@@ -62,12 +44,6 @@ public class TokenService {
         return 1;
     }
 
-
-    /**
-     * 生成随机数
-     * @param length 随机数长度
-     * @return 随机数
-     */
     public String getRandom(int length){
 
         StringBuffer buffer = new StringBuffer("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
