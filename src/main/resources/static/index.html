@@ -18,6 +18,10 @@
 <div ng-show="myLogin">
   <div style="text-align:center;">
     <img src="images/logo.png" alt=""/>
+      <div class="h-float" style="margin-right: 30px;margin-top: 20px;">
+     <a style="margin-right: 30px;">{{user.username }} </a>
+      <a  ng-click="deletecookie()">退出</a>
+      </div>
   </div>
 <div class="container" id="main" role="main">
     <ul class="menu">
@@ -90,16 +94,8 @@
         <li><a href="#">Issue</a>
             <ul class="submenu">
                 <li><a href="/gitHubApi/addIssue">添加Issue</a></li>
-                <li><a ng-click="deletecookie()">dengchu</a></li>
             </ul>
         </li>
-
-        <li><a style="font-size:15px" href="#">用户：{{user.username }}</a>
-            <ul class="submenu">
-                <li><a ng-click="deletecookie()">退出</a></li>
-            </ul>
-        </li>
-
 
     </ul>
 

@@ -19,14 +19,19 @@ define(['../scripts/git','jquery'],function(module,$){
                 document.cookie= name+"="+cval+";expires="+exp.toUTCString()+"; path=/";
             }
         };
-
-        $scope.deletecookie=function(){
-          deleteCookie('token');
-            $scope.myLogin =false ;
-            $location.path("/gitHubApi/login");
-        }
-
         var loginCookie = getCookie('token');
+        $scope.deletecookie=function(){
+            var url="/api/loginOut/"+ loginCookie;
+            $http.delete(url).success(function () {
+                deleteCookie('token');
+                $scope.myLogin =false ;
+                $location.path("/gitHubApi/login");
+            }).error(function (err) {
+                console.log(err);
+            });
+        };
+
+
         $scope.myLogin =true ;
         console.log(loginCookie);
         if (loginCookie=='') {

@@ -65,4 +65,15 @@ public class LoginController {
       UserAccount userAccount=  tokenService.loadToken(token);
         return new ObjectResult("true",userAccount);
     }
+
+    /**
+     * 注销并清除缓存
+     * @param token
+     * @return
+     */
+    @RequestMapping(value = "/loginOut/{token}")
+    public ObjectResult loginOut(@PathVariable("token")String token){
+      int a=  tokenService.eraseToken(token);
+        return new ObjectResult("true",a);
+    }
 }
