@@ -15,6 +15,12 @@ define(['../scripts/git','jquery'],function(module,$){
         }).error(function (err) {
             console.log(err);
         });
+
+
+        $scope.returnMilestone=function(){
+            $scope.myMiles1=!$scope.myMiles1;
+            $scope.myMiles2=!$scope.myMiles2;
+        };
         $scope.deleteMiles=function(number){
             var url="/api/deleteMiles/"+ $scope.str+"/"+number;
             $http.delete(url).success(function (data) {

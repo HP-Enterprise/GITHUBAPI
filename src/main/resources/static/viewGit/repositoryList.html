@@ -1,6 +1,8 @@
 <div ng-controller="repositoryListCtrl" class="width1140px">
 <div  ng-hide="myVar1">
-    <p style="text-align:center;font-size:25px;">仓库列表:</p>
+    <div>
+        当前位置: > 仓库 > 仓库列表
+        </div>
     <table class="table">
         <thead>
         <tr>
@@ -26,8 +28,9 @@
 </div>
 
 <div  ng-hide="myVar2">
-    <p style="text-align:center;font-size:25px;">修改仓库</p>
-
+    <div>
+        当前位置: > 仓库 > <a style="cursor:pointer;" ng-click="returnRepository()"> 仓库列表</a> > 修改仓库
+    </div>
     <form novalidate>
         <table class="table ">
             <tr>

@@ -1,19 +1,21 @@
 <div ng-controller="weekDetailCtrl" class="width1140px">
-  <div >
-      <div></div>
+    <div>
+        当前位置: > GITHUB统计 > <a style="cursor:pointer;" ng-click="returnWeek()"> 周查询 </a> >  周详情
+    </div>
+  <div style="margin-top: 10px">
         <span><b>用户名：</b></span>
         <span ng-bind>{{oneWork.userName}}</span>
 
-        <span><b>姓名：</b></span>
+        <span style="margin-left: 50px"><b>姓名：</b></span>
         <span ng-bind>{{oneWork.realName}}</span>
 
-        <span><b>issue个数：</b></span>
+        <span style="margin-left: 50px"><b>issue个数：</b></span>
         <span ng-bind>{{allWork.length}}</span>
 
-        <span><b>时间（周）：</b></span>
+        <span style="margin-left: 50px"><b>时间（周）：</b></span>
         <span ng-bind>{{oneWork.week}}</span>
   </div>
-    <table class="table table-hover">
+    <table class="table table-hover" style="margin-top: 10px">
         <caption>
 
         </caption>

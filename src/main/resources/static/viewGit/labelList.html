@@ -1,7 +1,9 @@
 <div ng-controller="labelListCtrl" class="width1140px">
 
 <div ng-hide="myVar1">
-<p style="text-align:center;font-size:25px;">{{str}}：label列表</p>
+    <div>
+        当前位置: > 标签 > 标签列表
+    </div>
 <table class="table table-hover">
     <thead>
     <tr>
@@ -24,7 +26,9 @@
 </div>
 
 <div ng-hide="myVar2">
-    <p style="text-align:center;font-size:25px;">{{str}}：label修改</p>
+    <div>
+        当前位置: > 标签 > <a style="cursor:pointer;" ng-click="returnLabel()"> 标签列表</a> > 修改标签
+    </div>
     <form role="form">
         <table class="table ">
             <tr>
@@ -40,7 +44,7 @@
 
             <td></td>
             <td>
-                <button class="btn btn-default" value="submit1"  ng-click="modifyLabel(labels)">确定</button>
+                <button class="btn btn-default" value="submit1"  ng-click="modifyLabel(labels)">修改</button>
             </td>
             </tr>
         </table>

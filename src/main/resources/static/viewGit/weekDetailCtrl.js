@@ -1,5 +1,5 @@
 define(['../scripts/git','jquery'],function(module,$){
-    module.controller("weekDetailCtrl",function($scope,$http,$routeParams){
+    module.controller("weekDetailCtrl",function($scope,$http,$routeParams,$location){
 
         //·ÖÒ³
         $scope.workPageObject = {
@@ -103,7 +103,9 @@ define(['../scripts/git','jquery'],function(module,$){
                     fuzzy:1
                 }
             };
-
+         $scope.returnWeek=function(){
+             $location.path("/gitHubApi/week");
+         };
 
             $http.get("/api/personalWorkDetail",$scope.workSearch).success(function(data,status,headers){
                 $scope.workPageObject.totalPage = headers('Page-Count'); //×ÜÒ³Êý

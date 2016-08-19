@@ -25,6 +25,10 @@ define(['../scripts/git','jquery'],function(module,$){
             })
 
         };
+        $scope.returnLabel=function(){
+            $scope.myVar1 = !$scope.myVar1;
+            $scope.myVar2 = !$scope.myVar2;
+        }
         $scope.updateLabel = function (aa) {
             $scope.labels = aa;
             $scope.myVar1 = !$scope.myVar1;

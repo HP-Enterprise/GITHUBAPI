@@ -1,8 +1,11 @@
 <div ng-controller="addLabelCtrl " class="width1140px">
-<button type="submit" class="btn btn-default" ng-click="bt()">常用/单个</button>
+<button type="submit" class="btn btn-default h-float" ng-click="bt()">常用/单个</button>
 
 <div ng-hide="myMiles1">
-    <h2 style="text-align:center;font-size:25px;">添加单个标签:</h2>
+
+        <div>
+            当前位置: > 标签 > 添加标签
+        </div>
     <form class="form-horizontal" role="form">
         <div class="form-group">
             <label for="firstname" class="col-sm-2 control-label">仓库名称：</label>
@@ -33,7 +36,9 @@
 
 
 <div ng-hide="myMiles2">
-    <h2 style="text-align:center;font-size:25px;">添加常用标签:</h2>
+    <div>
+        当前位置: > 标签 > 一键添加常用标签
+    </div>
     <form class="form-horizontal" role="form">
         <div class="form-group">
             <label for="repository" class="col-sm-2 control-label">仓库名称：</label>

@@ -1,5 +1,7 @@
 <div ng-controller="detailCtrl " class="width1140px">
-
+    <div>
+        当前位置: > GITHUB统计 > 详细查询
+    </div>
     <div class="  home h-home h-float">
 
         <a href="" ng-click="DownloadExcel('flag')">导出EXCEL</a>
@@ -12,27 +14,27 @@
             <span>项目名：</span>
             <input class="input-k" type="text" ng-model="worKeSelect.project"/>
             <span>状态：</span>
-                <select ng-model="worKeSelect.state">
-                    <option value=""></option>
-                    <option value="open">open</option>
-                    <option value="closed">closed</option>
-                </select>
+            <select ng-model="worKeSelect.state">
+                <option value=""></option>
+                <option value="open">open</option>
+                <option value="closed">closed</option>
+            </select>
             <span>年：</span>
-                <select ng-model="worKeSelect.year">
-                    <option value="2014">2014</option>
-                    <option value="2015">2015</option>
-                    <option selected="2016">2016</option>
-                    <option value="2017">2017</option>
-                    <option value="2018">2018</option>
-                </select>
+            <select ng-model="worKeSelect.year">
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+                <option selected="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+            </select>
             <span>季度：</span>
-                <select ng-model="worKeSelect.quarter">
-                    <option selected=""></option>
-                    <option value="1">第一季度</option>
-                    <option value="2">第二季度</option>
-                    <option value="3">第三季度</option>
-                    <option value="4">第四季度</option>
-                </select>
+            <select ng-model="worKeSelect.quarter">
+                <option selected=""></option>
+                <option value="1">第一季度</option>
+                <option value="2">第二季度</option>
+                <option value="3">第三季度</option>
+                <option value="4">第四季度</option>
+            </select>
             <span>月：</span>
             <input class="input-k" type="text" ng-model="worKeSelect.month"/>
             <span>周：</span>

@@ -1,6 +1,6 @@
 define(['../scripts/git','jquery'],function(module,$){
     module.controller("indexGitCtrl",function($scope,$http,$resource,$location,$route) {
-
+        $scope.myLogin =true ;
         var getCookie = function(name){
             var arr = document.cookie.split("; ");
             for(var i=0,len=arr.length;i<len;i++){
@@ -24,28 +24,22 @@ define(['../scripts/git','jquery'],function(module,$){
             var url="/api/loginOut/"+ loginCookie;
             $http.delete(url).success(function () {
                 deleteCookie('token');
-                $scope.myLogin =false ;
-                $location.path("/gitHubApi/login");
+                $scope.myLogin =true ;
+                window.location.href="/";
             }).error(function (err) {
                 console.log(err);
             });
         };
-
-
-        $scope.myLogin =true ;
-        console.log(loginCookie);
         if (loginCookie=='') {
-            $scope.myLogin =false ;
-            $location.path("/gitHubApi/login");
+            window.location.href="/";
     }else{
-
+            $scope.myLogin =false ;
             var as="/api/getLoginInfo/"+loginCookie;
             $http.get(as).success(function (data) {
                 $scope.user = data.message;
             }).error(function (err) {
                 console.log(err);
             });
-
             $scope.myLabel = false;
             $scope.myMilestone = false;
             $scope.myChart = false;
