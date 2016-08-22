@@ -19,7 +19,7 @@ define(['../scripts/git','jquery'],function(module,$){
         };
 
 
-        $scope.returnMilestone=function(){
+        $scope.returnRepository=function(){
             $scope.myVar1 = !$scope.myVar1;
             $scope.myVar2 = !$scope.myVar2;
         };

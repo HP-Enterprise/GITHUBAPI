@@ -1,5 +1,5 @@
 define(['../scripts/git','jquery'],function(module,$){
-    module.controller("milestoneListCtrl",function($scope,$http,$routeParams){
+    module.controller("milestoneListCtrl",function($scope,$http,$routeParams,$filter){
         $scope.myMiles1=false;
         $scope.myMiles2=true;
         $scope.str = $routeParams.repository;
@@ -29,9 +29,10 @@ define(['../scripts/git','jquery'],function(module,$){
                 console.log(err);
             });
         };
+
         $scope.updateMilestone=function(a){
-            console.log(a)
-            $scope.updateMil=a;
+            $scope.ab=$filter('date')(a.dueOn,'yyyy/MM/dd');
+            $scope.updateMil={"title": a.title,"state": a.state,"description": a.description,"dueOn":$scope.ab}
             $scope.myMiles1=!$scope.myMiles1;
             $scope.myMiles2=!$scope.myMiles2;
         };

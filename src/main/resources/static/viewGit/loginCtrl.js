@@ -15,9 +15,14 @@ app.controller("loginCtrl",function($scope,$http,$location){
     if (loginCookie=='') {
         $scope.loginMgr = function (userAccount) {
             $http.post('/api/loginGit', userAccount).success(function (data, status, headers, config) {
-                window.location.href="/gitHubApi/week";
+                if(data.status=="true"){
+                    window.location.href="/gitHubApi/week";
+                }else{
+                    alert("用户名或密码错误！");
+                }
+
             }).error(function (data, status, headers, config) {
-                console.log(status);
+
                 alert("用户名或密码错误！");
             });
         }

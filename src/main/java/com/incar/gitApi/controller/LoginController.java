@@ -24,6 +24,7 @@ public class LoginController {
     @Autowired
     private TokenService tokenService;
 
+
     /**
      * 用户登录
      * @param userAccount
@@ -35,24 +36,27 @@ public class LoginController {
     public ObjectResult loginGig(@RequestBody UserAccount userAccount,HttpServletResponse response)throws IOException{
         String username=userAccount.getUsername();
         String password=userAccount.getPassword();
-        System.out.println(username);
         GithubClientConfig githubClientConfig=new GithubClientConfig();
         githubClientConfig.setUsername(username);
         githubClientConfig.setPassword(password);
-        RepositoryService repositoryService=new RepositoryService(githubClientConfig.getGitHubClient());
-       List<Repository> userList=repositoryService.getRepositories(githubClientConfig.getUsername());
-        System.out.println(userList.size());
-            String  token=tokenService.generateToken(username);
-            Cookie cookie = new Cookie("token",token);
-            int seconds = 60*60*24;  //1天的秒数
-            cookie.setMaxAge(seconds);  //cookie默认保存1天
-            cookie.setPath("/"); //设置路径，这个路径即该工程下都可以访问该cookie  // 如果不设置路径，那么只有设置该cookie路径及其子路径可以访问
-            response.addCookie(cookie);
-            int a=   tokenService.saveToken(token, userAccount, seconds);
-            UserAccount userAccount1=   tokenService.loadToken(token);
-           githubClientConfig.setUsername(userAccount1.getUsername());
-            githubClientConfig.setPassword(userAccount1.getPassword());
-            return new ObjectResult("true","chenggogn") ;
+        OrganizationService organizationService = new OrganizationService(githubClientConfig.getGitHubClient());
+        List<User> users=  organizationService.getOrganizations();
+        for (User user : users) {
+          if(user.getLogin().equals("HP-Enterprise")){
+              String  token=tokenService.generateToken(username);
+              Cookie cookie = new Cookie("token",token);
+              int seconds = 60*60*24;  //1天的秒数
+              cookie.setMaxAge(seconds);  //cookie默认保存1天
+              cookie.setPath("/"); //设置路径，这个路径即该工程下都可以访问该cookie  // 如果不设置路径，那么只有设置该cookie路径及其子路径可以访问
+              response.addCookie(cookie);
+              tokenService.saveToken(token, userAccount, seconds);
+              UserAccount userAccount1=   tokenService.loadToken(token);
+              githubClientConfig.setUsername(userAccount1.getUsername());
+              githubClientConfig.setPassword(userAccount1.getPassword());
+              return new ObjectResult("true","登录成功") ;
+          }
+        }
+          return new ObjectResult("false","登录失败");
     }
 
     /**
