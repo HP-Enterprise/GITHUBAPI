@@ -73,7 +73,7 @@ public class ScheduledTask {
         logger.info(">>>>>>>>>>> saving workDetailInfo >>>>>>>>>>>>");
         workDetailService.saveWorkDetailInfo();
     }
-     @Scheduled(cron = "0 00 19* * ?")
+     @Scheduled(cron = "0 00 19 * * ?")
     public void gitRetAlalyse(){
         logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");
         for(int i=1;i<= DateUtil.getWeekInYear();i++) {
