@@ -5,6 +5,7 @@ import com.incar.gitApi.entity.UserAccount;
 import com.incar.gitApi.service.*;
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.User;
+import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.OrganizationService;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +34,11 @@ public class LoginController {
      * @throws IOException
      */
     @RequestMapping(value = "/loginGit",method = RequestMethod.POST)
-    public ObjectResult loginGig(@RequestBody UserAccount userAccount,HttpServletResponse response)throws IOException{
+    public ObjectResult loginGig(@RequestBody UserAccount userAccount,HttpServletResponse response)throws Exception{
         String username=userAccount.getUsername();
         String password=userAccount.getPassword();
-        GithubClientConfig githubClientConfig=new GithubClientConfig();
-        githubClientConfig.setUsername(username);
-        githubClientConfig.setPassword(password);
-        OrganizationService organizationService = new OrganizationService(githubClientConfig.getGitHubClient());
+        GitHubClient client=new GitHubClient();
+        OrganizationService organizationService = new OrganizationService(client.setCredentials(username,password));
         List<User> users=  organizationService.getOrganizations();
         for (User user : users) {
           if(user.getLogin().equals("HP-Enterprise")){
@@ -51,8 +50,6 @@ public class LoginController {
               response.addCookie(cookie);
               tokenService.saveToken(token, userAccount, seconds);
               UserAccount userAccount1=   tokenService.loadToken(token);
-              githubClientConfig.setUsername(userAccount1.getUsername());
-              githubClientConfig.setPassword(userAccount1.getPassword());
               return new ObjectResult("true","登录成功") ;
           }
         }

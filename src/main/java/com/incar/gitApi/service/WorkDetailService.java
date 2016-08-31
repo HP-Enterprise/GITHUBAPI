@@ -20,7 +20,7 @@ import java.util.*;
  */
 @Service
 public class WorkDetailService {
-    private Date dueOn;
+    private Date time;
     private Date end;
     @Autowired
     private GitResultRepository gitResultRepository;
@@ -59,24 +59,48 @@ public class WorkDetailService {
       List<GitResult> gitResults1= workService.getGitRetHasLabelHOrD(gitResults);
       List<WorkDetail> workDetails =new ArrayList<>();
         for (GitResult gitResult : gitResults1) {
-         //   Object obj = properties.get(gitResult.getAssignee());
-            if(gitResult.getAssignee()!=null) {//防止插入真实姓名出现空指针异常
-                WorkDetail workDetail = new WorkDetail();
-                workDetail.setState(gitResult.getState());
-                workDetail.setUserName(gitResult.getAssignee());
-                workDetail.setRealName((String) properties.get(gitResult.getAssignee()));
-                workDetail.setState(gitResult.getState());
-                workDetail.setTitle(gitResult.getTitle());
-                workDetail.setProject(gitResult.getProject());
-                workDetail.setActualTime(this.oneIssueActuWork(gitResult));
-                workDetail.setExpectedTime(workService.oneIssueWork(gitResult));
-                workDetail.setEfficiency(this.oneIssueEffic(gitResult));
-                workDetail.setWeek(this.oneIssueWeek(gitResult));
-                workDetail.setMonth(this.oneIssueMonth(gitResult));
-                workDetail.setQuarter(this.oneIssueQuarter(gitResult));
-                workDetail.setYear(this.oneIssueYear(gitResult));
-                workDetails.add(workDetail);
-            }
+          if(gitResult.getState().equals("closed")){
+              if(gitResult.getAssignee()!=null) {//防止插入真实姓名出现空指针异常
+                  WorkDetail workDetail = new WorkDetail();
+                  workDetail.setState(gitResult.getState());
+                  workDetail.setUserName(gitResult.getAssignee());
+                  workDetail.setRealName((String) properties.get(gitResult.getAssignee()));
+                  workDetail.setState(gitResult.getState());
+                  workDetail.setTitle(gitResult.getTitle());
+                  workDetail.setProject(gitResult.getProject());
+                  workDetail.setActualTime(this.oneIssueActuWork(gitResult));
+                  workDetail.setExpectedTime(this.oneIssueEffic(gitResult));
+                  workDetail.setEfficiency(this.oneIssueEffic(gitResult));
+                  workDetail.setWeek(this.oneIssueWeek(gitResult));
+                  workDetail.setMonth(this.oneIssueMonth(gitResult));
+                  workDetail.setQuarter(this.oneIssueQuarter(gitResult));
+                  workDetail.setYear(this.oneIssueYear(gitResult));
+                  workDetails.add(workDetail);
+              }
+          }else {
+              int k;
+              for ( k=DateUtil.getIssueWeek(gitResult.getCreatedAt());k<= DateUtil.getIssueWeek(new Date());k++ ){
+                  if(gitResult.getAssignee()!=null) {//防止插入真实姓名出现空指针异常
+                      WorkDetail workDetail = new WorkDetail();
+                      workDetail.setState(gitResult.getState());
+                      workDetail.setUserName(gitResult.getAssignee());
+                      workDetail.setRealName((String) properties.get(gitResult.getAssignee()));
+                      workDetail.setState(gitResult.getState());
+                      workDetail.setTitle(gitResult.getTitle());
+                      workDetail.setProject(gitResult.getProject());
+                      workDetail.setActualTime(this.oneIssueActuWork(gitResult));
+                      workDetail.setExpectedTime(this.oneIssueEffic(gitResult));
+                      workDetail.setEfficiency(this.oneIssueEffic(gitResult));
+                      workDetail.setWeek(k);
+                      workDetail.setMonth(this.oneIssueMonth(gitResult));
+                      workDetail.setQuarter(this.oneIssueQuarter(gitResult));
+                      workDetail.setYear(this.oneIssueYear(gitResult));
+                      workDetails.add(workDetail);
+                  }
+              }
+          }
+
+
         }
         return workDetails;
     }
@@ -102,15 +126,11 @@ public class WorkDetailService {
      * @return
      */
     public int oneIssueWeek(GitResult gitResult){
-          dueOn= gitResult.getDueOn();
-        if(dueOn==null) {
-            if(gitResult.getState().equals("open")) {
-                dueOn = gitResult.getCreatedAt();
-            }else{
-                dueOn = gitResult.getClosedAt();
-            }
+        time= gitResult.getClosedAt();
+        if(time==null) {
+                time = gitResult.getCreatedAt();
         }
-      int week=  DateUtil.getIssueWeek(dueOn);
+      int week=  DateUtil.getIssueWeek(time);
         return week;
     }
 
@@ -120,15 +140,15 @@ public class WorkDetailService {
      * @return
      */
     public int oneIssueMonth(GitResult gitResult){
-        dueOn= gitResult.getDueOn();
-        if(dueOn==null) {
+        time= gitResult.getDueOn();
+        if(time==null) {
             if(gitResult.getState().equals("open")) {
-                dueOn = gitResult.getCreatedAt();
+                time = gitResult.getCreatedAt();
             }else{
-                dueOn = gitResult.getClosedAt();
+                time = gitResult.getClosedAt();
             }
         }
-        int month=DateUtil.getIssueMonth(dueOn);
+        int month=DateUtil.getIssueMonth(time);
         return month ;
     }
 
@@ -138,15 +158,15 @@ public class WorkDetailService {
      * @return
      */
     public int oneIssueYear(GitResult gitResult){
-        dueOn= gitResult.getDueOn();
-        if(dueOn==null) {
+        time= gitResult.getDueOn();
+        if(time==null) {
             if(gitResult.getState().equals("open")) {
-                dueOn = gitResult.getCreatedAt();
+                time = gitResult.getCreatedAt();
             }else{
-                dueOn = gitResult.getClosedAt();
+                time = gitResult.getClosedAt();
             }
         }
-        int year=DateUtil.getIssueYear(dueOn);
+        int year=DateUtil.getIssueYear(time);
         return year ;
     }
 
@@ -156,15 +176,15 @@ public class WorkDetailService {
      * @return
      */
     public int oneIssueQuarter(GitResult gitResult){
-        dueOn= gitResult.getDueOn();
-        if(dueOn==null) {
+        time= gitResult.getDueOn();
+        if(time==null) {
             if(gitResult.getState().equals("open")) {
-                dueOn = gitResult.getCreatedAt();
+                time = gitResult.getCreatedAt();
             }else{
-                dueOn = gitResult.getClosedAt();
+                time = gitResult.getClosedAt();
             }
         }
-        int month=DateUtil.getIssueMonth(dueOn);
+        int month=DateUtil.getIssueMonth(time);
         if(month==1||month==2||month==3){
             return 1;
         }else if(month==4||month==5||month==6){

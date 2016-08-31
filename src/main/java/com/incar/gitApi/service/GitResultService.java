@@ -2,8 +2,6 @@ package com.incar.gitApi.service;
 
 import com.incar.gitApi.entity.GitResult;
 import com.incar.gitApi.repository.GitResultRepository;
-import com.incar.gitApi.schedule.ScheduledTask;
-import com.incar.gitApi.util.DateUtil;
 import com.incar.gitApi.util.GitRetUtil;
 import com.incar.gitApi.GithubClientConfig;
 import org.eclipse.egit.github.core.Issue;
@@ -11,6 +9,7 @@ import org.eclipse.egit.github.core.service.IssueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -79,6 +78,14 @@ public class GitResultService {
 
     public List<GitResult> getGitResult(List<Issue> issues){
         return GitRetUtil.issuesToGitresults(issues);
+    }
+
+    public Page<GitResult> findPageOfGiTesult(String project,String state,Integer currentPage,Integer pageSize){
+        currentPage=(currentPage==null||currentPage<=0)?1:currentPage;
+        pageSize=(pageSize==null||pageSize<=0)?10:pageSize;
+        Pageable pageable = new PageRequest(currentPage-1,pageSize,new Sort(Sort.Direction.DESC,"state"));
+        Page<GitResult> workDetailPage= gitResultRepository.findPage(project, state, pageable);
+        return new PageImpl<GitResult>(workDetailPage.getContent(),pageable,workDetailPage.getTotalElements());
     }
 
 }

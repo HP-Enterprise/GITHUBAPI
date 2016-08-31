@@ -51,7 +51,12 @@ public class WorkService {
         this.workRepository = workRepository;
     }
 
-
+    /**
+     * 生成某年某周的时间片
+     * @param year
+     * @param weekOfYear
+     * @return
+     */
     public static List<Period> getPeriods(int year, int weekOfYear) {
         if (weekOfYear != previousVal || periods == null) {
             periods = Arrays.asList(PeriodFactory.generatePeriods(year, weekOfYear));
@@ -473,13 +478,13 @@ public class WorkService {
                 }
             }
         } else {
-            if (closedAt == null || isAfterThisWeek(closedAt, periods)) {
+            if (closedAt == null||isAfterThisWeek(closedAt, periods) ) {
                 for (Period period : periods) {
                     if (isInPeriod(new Date(), period)) {
                         return period;
                     }
                 }
-            } else {
+            }else{
                 for (Period period : periods) {
                     if (isInPeriod(closedAt, period)) {
                         return period;

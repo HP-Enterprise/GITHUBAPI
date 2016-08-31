@@ -25,9 +25,9 @@ public class MyLabelController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/labelList", method = RequestMethod.GET)
-    public ObjectResult getAllLabel(@RequestParam(value = "repository", required = false) String repository) throws IOException {
-        List<Label> labelList = myLabelService.getAllLabel("HP-Enterprise", repository);
+    @RequestMapping(value = "/labelList/{token}", method = RequestMethod.GET)
+    public ObjectResult getAllLabel(@RequestParam(value = "repository", required = false) String repository,  @PathVariable("token")String token) throws IOException {
+        List<Label> labelList = myLabelService.getAllLabel("HP-Enterprise", repository,token);
         return new ObjectResult("true", labelList);
     }
 
@@ -56,9 +56,9 @@ public class MyLabelController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/addAllLabels", method = RequestMethod.POST)
-    public ObjectResult addAllLabels(@RequestBody Repository repository) throws IOException {
-        List<Label> list = myLabelService.addAllLabel("HP-Enterprise", repository.getName().toString());
+    @RequestMapping(value = "/addAllLabels/{token}", method = RequestMethod.POST)
+    public ObjectResult addAllLabels(@RequestBody Repository repository,  @PathVariable("token")String token) throws IOException {
+        List<Label> list = myLabelService.addAllLabel("HP-Enterprise", repository.getName().toString(),token);
         return new ObjectResult("true", list);
     }
 

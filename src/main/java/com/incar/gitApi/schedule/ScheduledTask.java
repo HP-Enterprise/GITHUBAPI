@@ -1,10 +1,9 @@
 package com.incar.gitApi.schedule;
 
 import com.incar.gitApi.entity.GitResult;
+import com.incar.gitApi.repository.TaskRepository;
 import com.incar.gitApi.repository.WorkRepository;
-import com.incar.gitApi.service.GitResultService;
-import com.incar.gitApi.service.WorkDetailService;
-import com.incar.gitApi.service.WorkService;
+import com.incar.gitApi.service.*;
 import com.incar.gitApi.util.DateUtil;
 import org.eclipse.egit.github.core.Issue;
 import org.slf4j.Logger;
@@ -15,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -33,27 +33,47 @@ public class ScheduledTask {
     private WorkDetailService workDetailService;
     @Autowired
     private WorkRepository workRepository;
-
+    @Autowired
+    private ProjectService projectService;
+    @Autowired
+    private TaskStatService taskStatService;
+    @Autowired
+    private TaskRepository taskRepository;
     private Logger logger = LoggerFactory.getLogger(ScheduledTask.class);
 
 
 
-    @Scheduled(cron = "0 54 11 * * ?")
+    @Scheduled(cron = "0 40 18 * * ?")
    // @Scheduled(cron = "0 40 18 * * ?")
     public void scheduledQuery(){
         logger.info(">>>>>>>>>>> saving gitResult >>>>>>>>>>>>");
         gitResultService.saveGitResult();
     }
 
-    @Scheduled(cron = "0 0 19 * * ?")
-
+    @Scheduled(cron = "0 00 19 * * ?")
+    // @Scheduled(cron = "0 40 18 * * ?")
+    public void saveTaskStatusInfo()throws IOException{
+        logger.info(">>>>>>>>>>> delete taskStatusInfo >>>>>>>>>>>>");
+        taskRepository.deleteByWeek(DateUtil.getYear(),DateUtil.getWeekInYear());
+        logger.info(">>>>>>>>>>> save  taskStatusInfo >>>>>>>>>>>>");
+        taskStatService.saveTaskInfo();
+    }
+    @Scheduled(cron = "0 00 19 * * ?")
+    // @Scheduled(cron = "0 40 18 * * ?")
+    public void saveProjectInfo()throws IOException{
+        logger.info(">>>>>>>>>>> delete  ProjectInfo >>>>>>>>>>>>");
+        projectService.deleteProject();
+        logger.info(">>>>>>>>>>> save  ProjectInfo >>>>>>>>>>>>");
+        projectService.saveProject();
+    }
+    @Scheduled(cron = "0 00 19 * * ?")
     public void gitRetDetail(){
         logger.info(">>>>>>>>>>> deleting workDetailInfo >>>>>>>>>>>>");
         workDetailService.deleteWorkDetailInfo();
         logger.info(">>>>>>>>>>> saving workDetailInfo >>>>>>>>>>>>");
         workDetailService.saveWorkDetailInfo();
     }
-     @Scheduled(cron = "0 0 19 * * ?")
+     @Scheduled(cron = "0 00 19* * ?")
     public void gitRetAlalyse(){
         logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");
         for(int i=1;i<= DateUtil.getWeekInYear();i++) {

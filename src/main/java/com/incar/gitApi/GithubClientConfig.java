@@ -1,12 +1,13 @@
 package com.incar.gitApi;
 
+
+
+import com.incar.gitApi.entity.UserAccount;
+import com.incar.gitApi.service.TokenService;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,8 @@ import java.util.List;
 @Component
 @ConfigurationProperties(prefix = "github")
 public class GithubClientConfig {
-
+    @Autowired
+    private TokenService tokenService;
     private String username;
 
     private String password;
@@ -47,5 +49,13 @@ public class GithubClientConfig {
 
     public GitHubClient getGitHubClient(){
         return gitHubClient.setCredentials(username,password);
+    }
+    public  GitHubClient getClient(String token){
+        UserAccount   userAccount= tokenService.loadToken(token);
+        return gitHubClient.setCredentials(userAccount.getUsername(),userAccount.getPassword());
+    }
+    public  String getClientName(String token){
+        UserAccount   userAccount= tokenService.loadToken(token);
+        return userAccount.getUsername();
     }
 }

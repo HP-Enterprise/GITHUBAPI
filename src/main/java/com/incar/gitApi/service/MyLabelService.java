@@ -43,8 +43,8 @@ public class MyLabelService {
      * @return
      * @throws IOException
      */
-    public List<Label> getAllLabel(String user, String repository) throws IOException {
-        LabelService labelService = new LabelService(githubClientConfig.getGitHubClient());
+    public List<Label> getAllLabel(String user, String repository,String token) throws IOException {
+        LabelService labelService = new LabelService(githubClientConfig.getClient(token));
         List<Label> labelList = labelService.getLabels(user, repository);
         List<Label> labels=new ArrayList<>();
         for (Label label : labelList) {
@@ -65,11 +65,11 @@ public class MyLabelService {
      * @return
      * @throws IOException
      */
-    public List<Label> addAllLabel(String user, String repository) throws IOException {
+    public List<Label> addAllLabel(String user, String repository,String token) throws IOException {
         Object[] str1 = new Object[]{"H1", "H2", "H4", "H6", "H8", "D1", "D2", "D3", "D4", "D5", "Medium", "High", "Fixed", "Backlog", "Feature", "wontfix", "low"};
         Object[] str2 = new Object[]{"EEE9E9", "E0E0E0", "FFBBFF", "FF0000", "FF00FF", "D1EEEE", "32CD32", "282828", "1C86EE", "00F5FF", "008B00", "CD0000", "CAE1FF", "CCCCCC", "ADFF2F", "A8A8A8", "FFFFE0"};
         List<Label> labels = new ArrayList<>();
-        List<Label> list = this.getAllLabel(user, repository);
+        List<Label> list = this.getAllLabel(user, repository ,token);
         for (int i = 0; i < str1.length; i++) {
             if (!list.toString().contains(str1[i].toString())) {
                 Label label = new Label();

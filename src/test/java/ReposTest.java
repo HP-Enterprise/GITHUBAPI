@@ -1,5 +1,6 @@
 import com.incar.gitApi.Application;
 import com.incar.gitApi.GithubClientConfig;
+import com.incar.gitApi.entity.Status;
 import com.incar.gitApi.service.*;
 import com.incar.gitApi.util.DateUtil;
 import org.eclipse.egit.github.core.*;
@@ -37,6 +38,8 @@ public class ReposTest {
     private MyOrgService myOrgService;
     @Autowired
     private GithubClientConfig githubClientConfig;
+    @Autowired
+    private MyStatisticsService myStatisticsService;
 
     @Test
     public void testRepositoryService() {
@@ -51,13 +54,13 @@ public class ReposTest {
         System.out.println(se);
     }
 
-    @Test
-    public void testLabel() throws IOException {
-
-        String rep = "RentalBA";
-        myLabelService.getAllLabel("HP-Enterprise", rep);
-        System.out.println(myLabelService.getAllLabel("HP-Enterprise", rep).toString());
-    }
+//    @Test
+//    public void testLabel() throws IOException {
+//
+//        String rep = "RentalBA";
+//        myLabelService.getAllLabel("HP-Enterprise", rep);
+//        System.out.println(myLabelService.getAllLabel("HP-Enterprise", rep).toString());
+//    }
 
     @Test
     public void testMilestone() throws IOException {
@@ -83,11 +86,8 @@ public class ReposTest {
     }
     @Test
     public void testEditRepository()throws IOException{
-        Repository repository=new Repository();
-        repository.setName("Myproject");
-        repository.setDescription("这是接口测试");
-
-        repoService.editRepository("HP-Enterprise", "MyProject", repository);
+      List<Status> list=  myStatisticsService.getPunchCards("HP-Enterprise", "RentalBA");
+        System.out.println(list.size());
 
     }
 

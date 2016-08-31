@@ -1,23 +1,34 @@
 define(['../scripts/git','jquery'],function(module,$){
     module.controller("labelListCtrl",function($scope,$http,$routeParams){
 
-        $scope.myVar1 = false;
-        $scope.myVar2 = true;
-        $scope.str = $routeParams.repository;
-        console.log($scope.str)
+        var getCookie = function(name){
+            var arr = document.cookie.split("; ");
+            for(var i=0,len=arr.length;i<len;i++){
+                var item = arr[i].split("=");
+                if(item[0]==name){
+                    return item[1]
+                }
+            }
+            return "";
+        };
+        var loginCookie = getCookie('token');
+       $scope.labelTemplate="labelList";
+
+        $scope.repository = $routeParams.repository;
         $scope.ade = {
             params: {
-                repository:  $scope.str
+                repository:  $scope.repository
             }
         };
-        $http.get("/api/labelList", $scope.ade).success(function (data) {
+        var url1="/api/labelList/"+loginCookie;
+        $http.get(url1, $scope.ade).success(function (data) {
             $scope.labelList =data.message;
 
         }).error(function (err) {
             console.log(err);
         });
         $scope.deleteLabel=function(name){
-            var url="/api/deleteLabel/"+$scope.str+"/"+name;
+            var url="/api/deleteLabel/"+$scope.repository+"/"+name;
             $http.delete(url).success(function () {
                 alert("success");
             }).error(function (err) {
@@ -25,26 +36,35 @@ define(['../scripts/git','jquery'],function(module,$){
             })
 
         };
-        $scope.returnLabel=function(){
-            $scope.myVar1 = !$scope.myVar1;
-            $scope.myVar2 = !$scope.myVar2;
+        $scope.addLabel=function(){
+            $scope.labelTemplate="labelAdd";
+        };
+        $scope.cancel=function(){
+            $scope.labelTemplate="labelList";
         }
         $scope.updateLabel = function (aa) {
             $scope.labels = aa;
-            $scope.myVar1 = !$scope.myVar1;
-            $scope.myVar2 = !$scope.myVar2;
+            $scope.labelTemplate="labelModify";
         };
         $scope.modifyLabel = function (label) {
-            var url="/api/editLabel/"+$scope.str+"/"+$scope.labels.name;
+            var url="/api/editLabel/"+$scope.repository+"/"+$scope.labels.name;
             $http.post(url, label).success(function () {
                 alert("success");
+                $scope.labelTemplate="labelList";
             }).error(function () {
                 alert("error");
             });
-            $scope.myVar1 = !$scope.myVar1;
-            $scope.myVar2 = !$scope.myVar2;
-        };
 
+        };
+        $scope.submit1 = function (label) {
+            var url="/api/addLabel/"+ $scope.repository;
+            $http.post(url, label).success(function () {
+                alert("success");
+                $scope.labelTemplate="labelList";
+            }).error(function () {
+                alert("error");
+            })
+        }
 
     });
 });

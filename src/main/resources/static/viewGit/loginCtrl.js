@@ -16,7 +16,7 @@ app.controller("loginCtrl",function($scope,$http,$location){
         $scope.loginMgr = function (userAccount) {
             $http.post('/api/loginGit', userAccount).success(function (data, status, headers, config) {
                 if(data.status=="true"){
-                    window.location.href="/gitHubApi/week";
+                    window.location.href="/gitHubApi/repositoryList";
                 }else{
                     alert("用户名或密码错误！");
                 }
@@ -27,7 +27,7 @@ app.controller("loginCtrl",function($scope,$http,$location){
             });
         }
     }else{
-        window.location.href="/gitHubApi/week";
+        window.location.href="/gitHubApi/repositoryList";
     }
 
     });

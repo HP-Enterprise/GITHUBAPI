@@ -56,18 +56,18 @@ define(['../scripts/git','jquery'],function(module,$){
                         break;
                 }
             };
-            $http.get("/api/repositoryList").success(function (data) {
-                $scope.repository1 = data.message;
-                console.log($scope.repository1)
-            }).error(function (err) {
-                console.log(err);
-            });
-            $http.get("/api/orgMembers").success(function (data) {
-                $scope.assignees = data.message;
-                console.log($scope.assignees);
-            }).error(function (err) {
-                console.log(err);
-            });
+            //$http.get("/api/repositoryList").success(function (data) {
+            //    $scope.repository1 = data.message;
+            //    console.log($scope.repository1)
+            //}).error(function (err) {
+            //    console.log(err);
+            //});
+            //$http.get("/api/orgMembers").success(function (data) {
+            //    $scope.assignees = data.message;
+            //    console.log($scope.assignees);
+            //}).error(function (err) {
+            //    console.log(err);
+            //});
 
             $scope.modifyDiv = function (a) {
                 $scope.myLabel = !$scope.myLabel;

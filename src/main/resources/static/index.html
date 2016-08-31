@@ -26,76 +26,67 @@
 <div class="container" id="main" role="main">
     <ul class="menu">
 
-        <li><a href="#">GitHub统计</a>
-            <ul class="submenu">
-                <li><a href="/gitHubApi/week">周查询</a></li>
-                <li><a href="/gitHubApi/detail">详细查询</a></li>
-                <li>
-                    <a href="#" ng-click="bt(3)">工作曲线图</a>
 
-                    <div ng-show="myChart">
-                        <ul>
-                            <li>
-                                <select ng-model="assignee" ng-options="item.login for item in assignees"
-                                        ng-change="modifyDiv1(assignee.login)">
-                                    <option value="">选择用户</option>
-                                </select>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+
+        <li class="active"><a href="#">项目</a>
+            <ul class="submenu">
+                <li><a href="/gitHubApi/repositoryList">所有项目</a></li>
+                <li><a href="/gitHubApi/addRepository">新建项目</a></li>
+            </ul>
+        </li>
+        <li><a href="#">统计分析</a>
+            <ul class="submenu">
+                <li><a href="/gitHubApi/week">统计——周粒度</a></li>
+                <li><a href="/gitHubApi/detail">统计——月粒度</a></li>
+                <li><a href="">统计——季粒度</a></li>
+                <li><a href="">统计——年粒度</a></li>
             </ul>
         </li>
 
-        <li class="active"><a href="#">仓库</a>
-            <ul class="submenu">
-                <li><a href="/gitHubApi/addRepository">创建新仓库</a></li>
-                <li><a href="/gitHubApi/repositoryList">查看仓库</a></li>
-            </ul>
-        </li>
-        <li><a href="#">标签</a>
-            <ul class="submenu">
-                <li><a href="/gitHubApi/label/addLabel">添加标签</a></li>
-                <li>
-                    <a href="#" ng-click="bt(1)">标签列表</a>
+        <li><a href="#">帮助</a></li>
+        <!--<li><a href="#">标签</a>-->
+            <!--<ul class="submenu">-->
+                <!--<li><a href="/gitHubApi/label/addLabel">添加标签</a></li>-->
+                <!--<li>-->
+                    <!--<a href="#" ng-click="bt(1)">标签列表</a>-->
 
-                    <div ng-show="myLabel">
-                        <ul>
-                            <li>
-                                <select ng-model="repository" ng-options="item.name for item in repository1"
-                                        ng-change="modifyDiv(repository.name)">
-                                    <option value="">选择仓库</option>
-                                </select>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-        </li>
-        <li><a href="#">里程碑</a>
-            <ul class="submenu">
-                <li><a href="/gitHubApi/addMilestone">添加里程碑</a></li>
-                <li>
-                    <a href="#" ng-click="bt(2)">里程碑列表</a>
+                    <!--<div ng-show="myLabel">-->
+                        <!--<ul>-->
+                            <!--<li>-->
+                                <!--<select ng-model="repository" ng-options="item.name for item in repository1"-->
+                                        <!--ng-change="modifyDiv(repository.name)">-->
+                                    <!--<option value="">选择仓库</option>-->
+                                <!--</select>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</li>-->
+        <!--<li><a href="#">里程碑</a>-->
+            <!--<ul class="submenu">-->
+                <!--<li><a href="/gitHubApi/addMilestone">添加里程碑</a></li>-->
+                <!--<li>-->
+                    <!--<a href="#" ng-click="bt(2)">里程碑列表</a>-->
 
-                    <div ng-show="myMilestone">
-                        <ul>
-                            <li>
-                                <select ng-model="repository" ng-options="item.name for item in repository1"
-                                        ng-change="modifyDiv2(repository.name)">
-                                    <option value="">选择仓库</option>
-                                </select>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
+                    <!--<div ng-show="myMilestone">-->
+                        <!--<ul>-->
+                            <!--<li>-->
+                                <!--<select ng-model="repository" ng-options="item.name for item in repository1"-->
+                                        <!--ng-change="modifyDiv2(repository.name)">-->
+                                    <!--<option value="">选择仓库</option>-->
+                                <!--</select>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                <!--</li>-->
+            <!--</ul>-->
 
-        <li><a href="#">Issue</a>
-            <ul class="submenu">
-                <li><a href="/gitHubApi/addIssue">添加Issue</a></li>
-            </ul>
-        </li>
+        <!--<li><a href="#">Issue</a>-->
+            <!--<ul class="submenu">-->
+                <!--<li><a href="/gitHubApi/addIssue">添加Issue</a></li>-->
+            <!--</ul>-->
+        <!--</li>-->
 
     </ul>
 

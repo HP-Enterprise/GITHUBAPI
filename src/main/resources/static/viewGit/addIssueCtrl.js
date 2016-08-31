@@ -1,9 +1,19 @@
 define(['../scripts/git','jquery'],function(module,$){
     module.controller("addIssueCtrl",function($scope,$http){
-
+        var getCookie = function(name){
+            var arr = document.cookie.split("; ");
+            for(var i=0,len=arr.length;i<len;i++){
+                var item = arr[i].split("=");
+                if(item[0]==name){
+                    return item[1]
+                }
+            }
+            return "";
+        };
+        var loginCookie = getCookie('token');
         $scope.submit = function (addIssue) {
-            console.log(addIssue);
-            $http.post("api/addIssue", addIssue).success(function () {
+           var url="api/addIssue/"+loginCookie;
+            $http.post(url,addIssue).success(function () {
                 alert("success");
             }).error(function () {
                 alert("error");
