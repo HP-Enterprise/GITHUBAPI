@@ -44,11 +44,11 @@ public class MyMilestoneController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/addMilestone/{repository}", method = RequestMethod.POST)
+    @RequestMapping(value = "/addMilestone/{repository}/{token}", method = RequestMethod.POST)
     public ObjectResult addMilestone(@PathVariable("repository") String repository,
-                                    // @RequestParam(value = "user", required = true) String user,
+                                    @PathVariable("token")String token,
                                      @RequestBody Milestone milestone) throws IOException {
-        Milestone milestone1 = myMilestoneService.addMilestone("HP-Enterprise", repository, milestone);
+        Milestone milestone1 = myMilestoneService.addMilestone("HP-Enterprise", repository, milestone,token);
         return new ObjectResult("true", milestone1);
     }
 
@@ -56,15 +56,14 @@ public class MyMilestoneController {
      * 按年添加52周的milestone
      *
      * @param repository
-     * @param year
+     * @param token
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/addAllMilestones/{year}", method = RequestMethod.POST)
+    @RequestMapping(value = "/addAllMilestones/{token}", method = RequestMethod.POST)
     public ObjectResult addAllMilestones(@RequestBody Repository repository,
-                                       //  @RequestParam(value = "user", required = true) String user,
-                                         @PathVariable("year") Integer year) throws IOException {
-        List<Milestone> list = myMilestoneService.addAllMilestone("HP-Enterprise", repository.getName().toString(), year);
+                                         @PathVariable("token")String token) throws IOException {
+        List<Milestone> list = myMilestoneService.addAllMilestone("HP-Enterprise", repository.getName().toString(),token);
         return new ObjectResult("true", list);
     }
 
@@ -75,9 +74,11 @@ public class MyMilestoneController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/deleteMiles/{repository}/{number}")
-    public ObjectResult deleteMiles(@PathVariable("repository")String repository,@PathVariable("number")int number)throws IOException{
-        myMilestoneService.deleteMiles("HP-Enterprise",repository,number);
+    @RequestMapping(value = "/deleteMiles/{repository}/{number}/{token}")
+    public ObjectResult deleteMiles(@PathVariable("repository")String repository,
+                                    @PathVariable("number")int number,
+                                    @PathVariable("token")String token)throws IOException{
+        myMilestoneService.deleteMiles("HP-Enterprise",repository,number,token);
         return new ObjectResult("true","删除成功！");
     }
 
@@ -88,9 +89,11 @@ public class MyMilestoneController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/editMilestone/{repository}",method = RequestMethod.POST)
-    public ObjectResult editMilestone(@PathVariable("repository")String repository,@RequestBody Milestone milestone)throws IOException{
-      Milestone milestone1=  myMilestoneService.editMilestone("HP-Enterprise", repository, milestone);
+    @RequestMapping(value = "/editMilestone/{repository}/{token}",method = RequestMethod.POST)
+    public ObjectResult editMilestone(@PathVariable("repository")String repository,
+                                      @RequestBody Milestone milestone,
+                                      @PathVariable("token")String token)throws IOException{
+      Milestone milestone1=  myMilestoneService.editMilestone("HP-Enterprise", repository, milestone,token);
         return new ObjectResult("true",milestone1);
     }
 

@@ -58,7 +58,7 @@ public class ScheduledTask {
         logger.info(">>>>>>>>>>> save  taskStatusInfo >>>>>>>>>>>>");
         taskStatService.saveTaskInfo();
     }
-    @Scheduled(cron = "0 00 19 * * ?")
+    @Scheduled(cron = "0 0 19 * * ?")
     // @Scheduled(cron = "0 40 18 * * ?")
     public void saveProjectInfo()throws IOException{
         logger.info(">>>>>>>>>>> delete  ProjectInfo >>>>>>>>>>>>");
@@ -66,7 +66,7 @@ public class ScheduledTask {
         logger.info(">>>>>>>>>>> save  ProjectInfo >>>>>>>>>>>>");
         projectService.saveProject();
     }
-    @Scheduled(cron = "0 00 19 * * ?")
+    @Scheduled(cron = "0 0 19 * * ?")
     public void gitRetDetail(){
         logger.info(">>>>>>>>>>> deleting workDetailInfo >>>>>>>>>>>>");
         workDetailService.deleteWorkDetailInfo();

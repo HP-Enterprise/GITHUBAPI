@@ -1,6 +1,6 @@
 define(['../scripts/git','jquery'],function(module,$){
     module.controller("taskStatCtrl",function($scope,$http,$routeParams){
-
+     $scope.projectTemplate="taskList";
         $scope.repository = $routeParams.repository;
         //·ÖÒ³Ìõ¼þ
         $scope.workPageObject = {
@@ -97,5 +97,31 @@ define(['../scripts/git','jquery'],function(module,$){
         $scope.selectPage = function (page) {
             $scope.workPageObject.currentPage = page;
         };
+        $scope.cancel=function(){
+            $scope.projectTemplate="taskList";
+        }
+        $scope.projectDetail=function(a){
+            $scope.projectTemplate="projectDetailList";
+            $scope.ProjectSearch = {
+                params: {
+                    project:$scope.repository,
+                    userName: a.username,
+                    week: a.weekInYear,
+                    year:a.year,
+                    currentPage: $scope.workPageObject.currentPage,
+                    pageSize: $scope.workPageObject.pageSize,
+                }
+            };
+
+
+            $http.get("/api/projectWorkDetail", $scope.ProjectSearch).success(function (data, status, headers) {
+                $scope.projectWorkDetail = data.message;
+                $scope.oneProject=data.message[0];
+                console.log($scope.oneProject);
+                console.log($scope.projectWorkDetail )
+            }).error(function (err) {
+                console.log(err);
+            })
+        }
     });
 });

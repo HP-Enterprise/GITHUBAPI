@@ -5,7 +5,8 @@ requirejs.config({
         angularResource: "/lib/angular-resource/angular-resource.min",
         angularRoute:"/lib/angular-route/angular-route.min",
         bootstrap:"/lib/bootstrap/dist/js/bootstrap.min",
-        highcharts:"/lib/Highcharts/js/highcharts"
+        highcharts:"/lib/Highcharts/js/highcharts",
+        highchartsMore:"/lib/Highcharts/js/highcharts-more",
     },
     shim:{
         jquery: { exports: '$' },
@@ -13,7 +14,8 @@ requirejs.config({
         angular: { exports: 'angular',deps:['jquery']},
         angularResource: ['angular'],
         angularRoute:['angular'],
-        highcharts: ['jquery']
+        highcharts: ['jquery'],
+        highchartsMore: ['jquery']
     }
 });
 

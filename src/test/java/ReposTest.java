@@ -70,12 +70,12 @@ public class ReposTest {
 
     }
 
-    @Test
-    public void testAllMilestone() throws IOException {
-
-        myMilestoneService.addAllMilestone("HP-Enterprise", "MyProject", 2016);
-
-    }
+//    @Test
+//    public void testAllMilestone() throws IOException {
+//
+//        myMilestoneService.addAllMilestone("HP-Enterprise", "MyProject", 2016);
+//
+//    }
     @Test
     public void testRepository()throws  IOException{
    List<Repository>  repository=   repoService.getRepository();
@@ -86,8 +86,12 @@ public class ReposTest {
     }
     @Test
     public void testEditRepository()throws IOException{
-      List<Status> list=  myStatisticsService.getPunchCards("HP-Enterprise", "RentalBA");
-        System.out.println(list.size());
+//        Repository repository = new Repository();
+//        repository.setName("MyProject");
+//        repository.setDescription("这是接口测试");
+//        repository.setHasIssues(true);
+//        repoService.editRepository("HP-Enterprise", "MyProject",repository,null);
+//
 
     }
 

@@ -30,7 +30,7 @@ public class MyLabelService {
      * @return
      * @throws IOException
      */
-    public Label addLabel(String user, String repository, Label label) throws IOException {
+    public Label addLabel(String user, String repository, Label label,String token) throws IOException {
         LabelService labelService = new LabelService(githubClientConfig.getGitHubClient());
         Label label1 = labelService.createLabel(user, repository, label);
         return label1;
@@ -75,7 +75,7 @@ public class MyLabelService {
                 Label label = new Label();
                 label.setName(str1[i].toString());
                 label.setColor(str2[i].toString());
-                Label label1 = this.addLabel(user, repository, label);
+                Label label1 = this.addLabel(user, repository, label,token);
                 labels.add(label1);
             }
         }
@@ -89,7 +89,7 @@ public class MyLabelService {
      * @param name 标签名
      * @throws IOException
      */
-    public void deleteLabel(String user,String repository,String name)throws IOException{
+    public void deleteLabel(String user,String repository,String name,String token)throws IOException{
         LabelService labelService = new LabelService(githubClientConfig.getGitHubClient());
         labelService.deleteLabel(user,repository,name);
     }
@@ -103,7 +103,7 @@ public class MyLabelService {
      * @return
      * @throws IOException
      */
-    public Label editLabel(String user,String repository,String name,Label label)throws IOException{
+    public Label editLabel(String user,String repository,String name,Label label,String token)throws IOException{
         GitHubService gitHubService=new GistService(githubClientConfig.getGitHubClient());
         StringBuilder uri = new StringBuilder("/repos");
         uri.append('/').append(user).append('/').append(repository);

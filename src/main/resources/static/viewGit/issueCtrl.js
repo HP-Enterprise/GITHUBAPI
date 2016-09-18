@@ -2,6 +2,18 @@ define(['../scripts/git','jquery'],function(module,$){
     module.controller("issueCtrl",function($scope,$http,$routeParams){
         $scope.repository = $routeParams.repository;
         $scope.issueTemplate="issueList";
+
+        var getCookie = function(name){
+            var arr = document.cookie.split("; ");
+            for(var i=0,len=arr.length;i<len;i++){
+                var item = arr[i].split("=");
+                if(item[0]==name){
+                    return item[1]
+                }
+            }
+            return "";
+        };
+        var loginCookie = getCookie('token');
         //·ÖÒ³Ìõ¼þ
         $scope.workPageObject = {
             currentPage: 1,
@@ -90,19 +102,53 @@ define(['../scripts/git','jquery'],function(module,$){
             $scope.workPageObject.currentPage = page;
         };
 
-      $scope.addIssue=function(){
+
+
+
+      $scope.newIssue=function(){
           $scope.issueTemplate="issueAdd";
       };
         $scope.cancel=function(){
             $scope.issueTemplate="issueList";
         }
         $scope.updateIssue=function(issue){
-            console.log(issue)
             $scope.modifyIssue=issue;
             $scope.issueTemplate="issueModify";
-
         }
 
+        $scope.addIssue=function(issue){
+            var url="api/addIssue/"+loginCookie;
+            $http.post(url,issue).success(function () {
+                alert("success");
+                $scope.issueTemplate="issueList";
+            }).error(function () {
+                alert("error");
+            })
+
+        };
+
+        $scope.ade = {
+            params: {
+                repository: $scope.repository
+            }
+        };
+        $http.get("/api/milestoneList",  $scope.ade).success(function (data) {
+            $scope.milestone = data.message;
+        }).error(function (err) {
+            console.log(err);
+        });
+
+        $http.get("/api/orgMembers").success(function (data) {
+            $scope.assignees = data.message;
+        }).error(function (err) {
+            console.log(err);
+        });
+        var url="/api/labelList/"+loginCookie;
+        $http.get(url,$scope.ade).success(function (data) {
+            $scope.labels1 =data.message;
+        }).error(function (err) {
+            console.log(err);
+        });
 
     });
 });

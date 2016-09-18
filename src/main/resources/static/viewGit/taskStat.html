@@ -3,7 +3,7 @@
         当前位置: > 项目 > <a href="/gitHubApi/repositoryList">所有项目</a> >{{repository}}
     </div>
     <div>
-        <ul class="nav nav-tabs">
+        <ul style="background-color: #d9edf7" class="nav nav-tabs">
             <li > <a href="/gitHubApi/repositoryDetail/{{repository}}">项目简要统计</a></li>
             <li class="active"> <a href="/gitHubApi/taskStat/{{repository}}">任务统计</a></li>
             <li> <a href="/gitHubApi/analysisView/{{repository}}">分析视图</a></li>
@@ -13,7 +13,9 @@
             <li> <a href="/gitHubApi/milestoneList/{{repository}}">里程碑</a></li>
         </ul>
     </div>
-
+    <div ng-include="projectTemplate"></div>
+    <!---------------------------- 项目任务列表层------------------------------->
+    <script type="text/ng-template" id="taskList">
     <div class="buttons">
         <div class="fl">
             <span>用户名：</span>
@@ -27,7 +29,6 @@
             <a href="" class="btn btn-default" ng-click="getAllGitHubWork('flag')">查询</a>
         </div>
     </div>
-
 
     <table class="table table-hover">
         <thead>
@@ -51,7 +52,7 @@
             <td ng-bind="aw.workHours"></td>
             <td ng-bind="aw.weekInYear"></td>
             <td ng-bind="aw.year"></td>
-            <td><a href="">查看详情</a></td>
+            <td><a href="" ng-click="projectDetail(aw)">查看详情</a></td>
         </tr>
         </tbody>
     </table>
@@ -74,5 +75,53 @@
         <a href="" class="x-page" ng-click="changePage('next')"
            ng-disabled="workPageObject.currentPage==workPageObject.totalPage">下一页</a>
     </div>
+</script>
+    <!---------------------------- 项目个人详情列表层------------------------------->
+    <script type="text/ng-template" id="projectDetailList">
+        <div style="margin-top: 10px">
+            <span><b>用户名：</b></span>
+            <span ng-bind>{{oneProject.userName}}</span>
 
+            <span style="margin-left: 50px"><b>姓名：</b></span>
+            <span ng-bind>{{oneProject.realName}}</span>
+
+            <span style="margin-left: 50px"><b>issue个数：</b></span>
+            <span ng-bind>{{projectWorkDetail.length}}</span>
+
+            <span style="margin-left: 50px"><b>时间（周）：</b></span>
+            <span ng-bind>{{oneProject.week}}</span>
+            <span style="margin-left: 50px"><b>时间（年）：</b></span>
+            <span ng-bind>{{oneProject.year}}</span>
+            <a href=""  ng-click="cancel()">返回</a>
+        </div>
+        <table class="table table-hover" style="margin-top: 10px">
+            <caption>
+
+            </caption>
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>问题</th>
+                <th>项目名</th>
+                <th>预期工作时长（小时）</th>
+                <th>实际工作时长（小时）</th>
+                <th>状态</th>
+                <th>工作效率</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr ng-repeat=" aw in projectWorkDetail ">
+                <td ng-bind="$index + 1"></td>
+                <td ng-bind="aw.title"></td>
+                <td ng-bind="aw.project"></td>
+                <td ng-bind="aw.expectedTime"></td>
+                <td ng-bind="aw.actualTime"></td>
+                <td ng-bind="aw.state"></td>
+                <td ng-bind="aw.efficiency"></td>
+            </tr>
+
+            </tbody>
+        </table>
+     </script>
 </div>

@@ -11,6 +11,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,11 +24,11 @@ public class ProjectService {
     @Autowired
     private GithubClientConfig githubClientConfig;
 
-    public void saveProject()throws IOException{
+    public void saveProject() throws IOException {
         RepositoryService repositoryService = new RepositoryService(githubClientConfig.getGitHubClient());
-        List<Repository> repositoryList= repositoryService.getOrgRepositories("HP-Enterprise");
+        List<Repository> repositoryList = repositoryService.getOrgRepositories("HP-Enterprise");
         for (Repository repository : repositoryList) {
-            Project project=new Project();
+            Project project = new Project();
             project.setName(repository.getName());
             project.setDescription(repository.getDescription());
             project.setOpenIssue(repository.getOpenIssues());
@@ -39,16 +40,36 @@ public class ProjectService {
 
     }
 
-    public void deleteProject(){
+    public void deleteProject() {
         projectRepository.deleteAll();
 
     }
-    public Page<Project> findPageOfWorkDetail(String name,Integer currentPage,Integer pageSize){
-        currentPage=(currentPage==null||currentPage<=0)?1:currentPage;
-        pageSize=(pageSize==null||pageSize<=0)?10:pageSize;
-        if(name!=null){name="%"+name+"%";}
-        Pageable pageable = new PageRequest(currentPage-1,pageSize,new Sort(Sort.Direction.DESC,"name"));
-        Page<Project> projectPage= projectRepository.findPage(name,pageable);
-        return new PageImpl<Project>(projectPage.getContent(),pageable,projectPage.getTotalElements());
+
+    public Project addProject(Repository repository) {
+        Project p=new Project();
+        p.setCreatedAt(new Date());
+        p.setOpenIssue(0);
+        p.setName(repository.getName());
+        p.setDescription(repository.getDescription());
+        p.setIsPrivate(repository.isPrivate());
+        return  projectRepository.save(p);
+
+    }
+
+    public int editProject(Repository repository, Integer id) {
+        return projectRepository.modifyProject(repository.getName(), repository.getDescription(), repository.isPrivate(), id);
+    }
+     public int deleteProject(String name){
+      return  projectRepository.deletePtoject(name);
+     }
+    public Page<Project> findPageOfWorkDetail(String name, Integer currentPage, Integer pageSize) {
+        currentPage = (currentPage == null || currentPage <= 0) ? 1 : currentPage;
+        pageSize = (pageSize == null || pageSize <= 0) ? 10 : pageSize;
+        if (name != null) {
+            name = "%" + name + "%";
+        }
+        Pageable pageable = new PageRequest(currentPage - 1, pageSize, new Sort(Sort.Direction.DESC, "name"));
+        Page<Project> projectPage = projectRepository.findPage(name, pageable);
+        return new PageImpl<Project>(projectPage.getContent(), pageable, projectPage.getTotalElements());
     }
 }

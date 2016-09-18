@@ -110,9 +110,15 @@ define(['../scripts/git','jquery'],function(module,$){
             };
             var url1="/api/deleteOrgRepository/" +loginCookie;
             $http.delete(url1,$scope.ade).success(function () {
-                alert("success");
-            }).error(function (err) {
-                console.log(err);
+                alert("GitHub delete success");
+                var urlDelete="/api/deleteProject/"+aw;
+                $http.delete(urlDelete).success(function () {
+                    alert("location delete success");
+                }).error(function (err) {
+                    alert("location delete error");
+                })
+            }).error(function () {
+                alert("location delete error");
             })
 
         };
@@ -122,20 +128,27 @@ define(['../scripts/git','jquery'],function(module,$){
             $scope.myVar1 = !$scope.myVar1;
             $scope.myVar2 = !$scope.myVar2;
         };
+        $scope.updateRep={};
         $scope.updateRepository = function (aa) {
             $scope.updateRep = aa;
+            console.log($scope.updateRep)
             $scope.myVar1 = !$scope.myVar1;
             $scope.myVar2 = !$scope.myVar2;
 
         };
         $scope.modifyRepository = function (a) {
-
+            console.log(a);
             var url="/api/updateOrgRepository/"+$scope.updateRep.name+"/"+loginCookie;
-
             $http.post(url, a).success(function () {
-                alert("success");
+                alert("GitHub modify success");
+                var ur3="/api/updateProject/"+$scope.updateRep.id;
+                $http.post(ur3, a).success(function () {
+                    alert("location modify success");
+                }).error(function () {
+                    alert("location modify error");
+                })
             }).error(function () {
-                alert("error");
+                alert("GitHub modify error");
             })
             $scope.myVar1 = !$scope.myVar1;
             $scope.myVar2 = !$scope.myVar2;

@@ -39,13 +39,14 @@ public class MyLabelController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/addLabel/{repository}", method = RequestMethod.POST)
+    @RequestMapping(value = "/addLabel/{repository}/{token}", method = RequestMethod.POST)
     public ObjectResult addLabel(@PathVariable("repository") String repository,
-                                 @RequestBody Label label) throws IOException {
+                                 @RequestBody Label label,
+                                 @PathVariable("token")String token) throws IOException {
         Label label3=new Label();
         label3.setName(label.getName());
         label3.setColor(label.getColor().substring(1,7).toString());
-        Label label1 = myLabelService.addLabel("HP-Enterprise", repository, label3);
+        Label label1 = myLabelService.addLabel("HP-Enterprise", repository, label3,token);
         return new ObjectResult("true", label1);
     }
 
@@ -69,18 +70,31 @@ public class MyLabelController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/deleteLabel/{repository}/{name}")
-    public ObjectResult deleteLabel(@PathVariable("repository")String repository,@PathVariable("name")String name)throws IOException{
-        myLabelService.deleteLabel("HP-Enterprise",repository,name);
+    @RequestMapping(value = "/deleteLabel/{repository}/{name}/{token}")
+    public ObjectResult deleteLabel(@PathVariable("repository")String repository,@PathVariable("name")String name,
+                                    @PathVariable("token")String token)throws IOException{
+        myLabelService.deleteLabel("HP-Enterprise",repository,name,token);
         return new ObjectResult("true","删除成功！");
     }
-    @RequestMapping(value = "/editLabel/{repository}/{name}", method = RequestMethod.POST)
-    public ObjectResult editLabel(@PathVariable("repository") String repository,@PathVariable("name") String name,
-                                 @RequestBody Label label) throws IOException {
+
+    /**
+     * 修改标签
+     * @param repository
+     * @param name
+     * @param label
+     * @param token
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value = "/editLabel/{repository}/{name}/{token}", method = RequestMethod.POST)
+    public ObjectResult editLabel(@PathVariable("repository") String repository,
+                                  @PathVariable("name") String name,
+                                 @RequestBody Label label,
+                                  @PathVariable("token")String token) throws IOException {
         Label label3=new Label();
         label3.setName(label.getName());
         label3.setColor(label.getColor().substring(1, 7).toString());
-        Label label1 = myLabelService.editLabel("HP-Enterprise",repository,name,label3);
+        Label label1 = myLabelService.editLabel("HP-Enterprise",repository,name,label3,token);
         return new ObjectResult("true", label1);
     }
 }

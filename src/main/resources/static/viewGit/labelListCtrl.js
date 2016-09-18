@@ -28,7 +28,7 @@ define(['../scripts/git','jquery'],function(module,$){
             console.log(err);
         });
         $scope.deleteLabel=function(name){
-            var url="/api/deleteLabel/"+$scope.repository+"/"+name;
+            var url="/api/deleteLabel/"+$scope.repository+"/"+name+"/"+loginCookie;
             $http.delete(url).success(function () {
                 alert("success");
             }).error(function (err) {
@@ -47,7 +47,7 @@ define(['../scripts/git','jquery'],function(module,$){
             $scope.labelTemplate="labelModify";
         };
         $scope.modifyLabel = function (label) {
-            var url="/api/editLabel/"+$scope.repository+"/"+$scope.labels.name;
+            var url="/api/editLabel/"+$scope.repository+"/"+$scope.labels.name+"/"+loginCookie;
             $http.post(url, label).success(function () {
                 alert("success");
                 $scope.labelTemplate="labelList";
@@ -57,7 +57,7 @@ define(['../scripts/git','jquery'],function(module,$){
 
         };
         $scope.submit1 = function (label) {
-            var url="/api/addLabel/"+ $scope.repository;
+            var url="/api/addLabel/"+ $scope.repository+"/"+loginCookie;
             $http.post(url, label).success(function () {
                 alert("success");
                 $scope.labelTemplate="labelList";

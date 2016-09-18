@@ -17,6 +17,10 @@ import java.util.List;
 public interface WorkDetailRepository extends CrudRepository<WorkDetail,Integer> {
     @Query("select w from WorkDetail w where w.userName like ?1 and w.week= ?2 and w.year=?3")
     Page<WorkDetail> findPage(String userName,Integer week,Integer year,Pageable pageable);
+
+    @Query("select w from WorkDetail w where w.project=?1 and  w.userName = ?2 and w.week= ?3 and w.year=?4")
+    Page<WorkDetail> findProjectPage(String project,String userName,Integer week,Integer year,Pageable pageable);
+
    @Query("select w from WorkDetail w where (?1 is null or w.userName like ?1)and" +
            "(?2 is null or w.project like ?2)and " +
            "(?3 is null or w.state like ?3) and " +
@@ -25,6 +29,7 @@ public interface WorkDetailRepository extends CrudRepository<WorkDetail,Integer>
            "(?6 is null or w.quarter = ?6)and "+
            "(?7 is null or w.year = ?7)")
    Page<WorkDetail> findPage(String userName,String project,String state,Integer week,Integer month,Integer quarter,Integer year,Pageable pageable);
+
     @Query("select w from WorkDetail w  where (?1 is null or w.userName like ?1)and" +
             "(?2 is null or w.project like ?2)and " +
             "(?3 is null or w.state like ?3) and " +
@@ -33,6 +38,7 @@ public interface WorkDetailRepository extends CrudRepository<WorkDetail,Integer>
             "(?6 is null or w.quarter = ?6)and "+
             "(?7 is null or w.year = ?7)order by w.year asc")
     List<WorkDetail> findExcel(String userName,String project,String state,Integer week,Integer month,Integer quarter,Integer year);
+
     @Query("select w from WorkDetail w where w.userName=?1")
     List<WorkDetail> findAll(String userName);
 }

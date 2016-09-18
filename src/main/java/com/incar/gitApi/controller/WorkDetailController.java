@@ -70,9 +70,33 @@ public class WorkDetailController {
         return new ObjectResult("true",workDetailList);
     }
 
+    /**
+     * 项目中的个人详情
+     * @param project
+     * @param userName
+     * @param week
+     * @param year
+     * @param currentPage
+     * @param pageSize
+     * @param response
+     * @return
+     */
 
-
-
+    @RequestMapping(value = "/projectWorkDetail" ,method = RequestMethod.GET)
+    public ObjectResult projectWorkDetailPage(
+             @RequestParam(value = "project",required = false)String project,
+            @RequestParam(value = "userName",required = true)String userName,
+            @RequestParam(value = "week",required = true)Integer week,
+            @RequestParam(value = "year",required = false)Integer year,
+            @RequestParam(value = "currentPage",required = false )Integer currentPage,
+            @RequestParam(value = "pageSize",required = false)Integer pageSize,
+            HttpServletResponse response){
+        Page<WorkDetail> projectWorkDetailPage= workDetailService.findWorkDetailOfProject(project, userName, week, year, currentPage, pageSize);
+        List<WorkDetail> projectWorkDetailList=  projectWorkDetailPage.getContent();
+        response.addHeader("Page",String.valueOf(projectWorkDetailPage.getNumber())+1);
+        response.addHeader("Page-Count",String.valueOf(projectWorkDetailPage.getTotalPages()));
+        return new ObjectResult("true",projectWorkDetailList);
+    }
 
 
     /**

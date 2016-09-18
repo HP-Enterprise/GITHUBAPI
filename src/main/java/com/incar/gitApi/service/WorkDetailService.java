@@ -69,7 +69,7 @@ public class WorkDetailService {
                   workDetail.setTitle(gitResult.getTitle());
                   workDetail.setProject(gitResult.getProject());
                   workDetail.setActualTime(this.oneIssueActuWork(gitResult));
-                  workDetail.setExpectedTime(this.oneIssueEffic(gitResult));
+                  workDetail.setExpectedTime(workService.oneIssueWork(gitResult));
                   workDetail.setEfficiency(this.oneIssueEffic(gitResult));
                   workDetail.setWeek(this.oneIssueWeek(gitResult));
                   workDetail.setMonth(this.oneIssueMonth(gitResult));
@@ -89,7 +89,7 @@ public class WorkDetailService {
                       workDetail.setTitle(gitResult.getTitle());
                       workDetail.setProject(gitResult.getProject());
                       workDetail.setActualTime(this.oneIssueActuWork(gitResult));
-                      workDetail.setExpectedTime(this.oneIssueEffic(gitResult));
+                      workDetail.setExpectedTime(workService.oneIssueWork(gitResult));
                       workDetail.setEfficiency(this.oneIssueEffic(gitResult));
                       workDetail.setWeek(k);
                       workDetail.setMonth(this.oneIssueMonth(gitResult));
@@ -229,6 +229,26 @@ public class WorkDetailService {
         Page<WorkDetail>  workDetailPage =  workDetailRepository.findPage(userName, week, year, pageable);
         return new PageImpl<WorkDetail>(workDetailPage.getContent(),pageable,workDetailPage.getTotalElements());
     }
+
+    /**
+     * 根据项目名、用户名、周和年查询
+     * @param project 项目名
+     * @param userName 用户名
+     * @param week 周
+     * @param year 年
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
+    public Page<WorkDetail> findWorkDetailOfProject(String project,String userName,Integer week,Integer year,Integer currentPage,Integer pageSize){
+        currentPage=(currentPage==null||currentPage<=0)?1:currentPage;
+        pageSize=(pageSize==null||pageSize<=0)?10:pageSize;
+        Pageable pageable = new PageRequest(currentPage-1,pageSize);
+        Page<WorkDetail>  workDetailPage =  workDetailRepository.findProjectPage(project, userName, week, year, pageable);
+        return new PageImpl<WorkDetail>(workDetailPage.getContent(),pageable,workDetailPage.getTotalElements());
+    }
+
+
 
     /**
      * 分页查询详细工作信息

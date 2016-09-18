@@ -91,7 +91,7 @@ public class RepoService {
      * @throws IOException
      */
     public Repository editRepository(String organization, String repo, Repository repository, String token) throws IOException {
-        GitHubService gitHubService = new GistService(githubClientConfig.getClient(token));
+        GitHubService gitHubService = new GistService(githubClientConfig.getGitHubClient());
         if (repository == null) {
             throw new IllegalArgumentException("Repository cannot be null");
         } else {

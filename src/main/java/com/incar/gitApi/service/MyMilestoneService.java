@@ -29,7 +29,7 @@ public class MyMilestoneService {
      * @return
      * @throws IOException
      */
-    public Milestone addMilestone(String user,String repository,Milestone milestone)throws IOException{
+    public Milestone addMilestone(String user,String repository,Milestone milestone,String token)throws IOException{
         MilestoneService milestoneService=new MilestoneService(githubClientConfig.getGitHubClient());
      Milestone milestone1=   milestoneService.createMilestone(user, repository, milestone);
         return milestone1;
@@ -38,11 +38,10 @@ public class MyMilestoneService {
     /**
      * 生成某年52个周的milestone
      * @param repository
-     * @param year
      * @return
      * @throws IOException
      */
-    public List<Milestone> addAllMilestone(String user,String repository,Integer year)throws IOException{
+    public List<Milestone> addAllMilestone(String user,String repository,String token)throws IOException{
         List<Milestone> list=new ArrayList<>();
         List<Milestone> list1=  this.getAllMiles(user, repository, null);
         List<Object> lis=new ArrayList<>();
@@ -56,8 +55,8 @@ public class MyMilestoneService {
                 milestone.setTitle(k);
                 milestone.setState("open");
                 milestone.setNumber(i+1);
-                milestone.setDueOn(DateUtil.getWeekEnd(year,i+1));
-                Milestone milestone1=   this.addMilestone(user,repository,milestone);
+                milestone.setDueOn(DateUtil.getWeekEnd(DateUtil.getYear(),i+1));
+                Milestone milestone1=   this.addMilestone(user,repository,milestone,token);
                 list.add(milestone1);
             }
         }
@@ -97,11 +96,11 @@ public class MyMilestoneService {
      * @param number
      * @throws IOException
      */
-    public void deleteMiles(String user,String repository,int number )throws IOException{
+    public void deleteMiles(String user,String repository,int number ,String token)throws IOException{
         MilestoneService milestoneService=new MilestoneService(githubClientConfig.getGitHubClient());
         milestoneService.deleteMilestone(user,repository,number);
     }
-    public Milestone editMilestone(String user,String repository ,Milestone milestone)throws IOException{
+    public Milestone editMilestone(String user,String repository ,Milestone milestone,String token)throws IOException{
         GitHubService gitHubService=new GistService(githubClientConfig.getGitHubClient());
         StringBuilder uri = new StringBuilder("/repos");
         uri.append('/').append(user).append('/').append(repository);
