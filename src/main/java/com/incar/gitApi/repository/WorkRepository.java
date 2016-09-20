@@ -31,22 +31,22 @@ public interface WorkRepository extends CrudRepository<Work,Integer> {
     Page<Work> fuzzyFindPage(String realname,String username,Integer weekInYear,Integer weekYear,Pageable pageable);
 
     @Query("select distinct w from Work w where w.type=2 " +
-            "and (?1 is null or w.realname=?1)" +
-            " and (?2 is null or w.username=?2)" +
+            "and (?1 is null or w.realname like ?1)" +
+            " and (?2 is null or w.username like ?2)" +
             " and (?3 is null or w.weekInYear=?3)" +
             "and (?4 is null or w.weekYear=?4)")
     Page<Work> findMonthPage(String realname,String username,Integer weekInYear,Integer weekYear,Pageable pageable);
 
     @Query("select distinct w from Work w where w.type=3 " +
-            "and (?1 is null or w.realname=?1)" +
-            " and (?2 is null or w.username=?2) " +
+            "and (?1 is null or w.realname like ?1)" +
+            " and (?2 is null or w.username like ?2) " +
             "and (?3 is null or w.weekInYear=?3) " +
             "and (?4 is null or w.weekYear=?4)")
     Page<Work> findQuarterPage(String realname,String username,Integer weekInYear,Integer weekYear,Pageable pageable);
 
     @Query("select distinct w from Work w where w.type=4 " +
-            "and (?1 is null or w.realname=?1) " +
-            "and (?2 is null or w.username=?2)" +
+            "and (?1 is null or w.realname like ?1) " +
+            "and (?2 is null or w.username like ?2)" +
             " and (?3 is null or w.weekInYear=?3) " +
             "and (?4 is null or w.weekYear=?4)")
     Page<Work> findYearPage(String realname,String username,Integer weekInYear,Integer weekYear,Pageable pageable);

@@ -5,6 +5,7 @@ import com.incar.gitApi.period.Period;
 import com.incar.gitApi.period.PeriodFactory;
 import com.incar.gitApi.repository.WorkRepository;
 import com.incar.gitApi.service.WorkService;
+import com.incar.gitApi.util.DateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.junit.Before;
 import org.junit.Test;
@@ -134,7 +135,7 @@ public class WorkServiceTest {
     }
 @Test
 public void testExcel(){
-      HSSFWorkbook workbook= workService.findWorkToExcel(null, null, null);
+      HSSFWorkbook workbook= workService.findWorkToExcel(null, null, null, DateUtil.getYear());
 
     System.out.println(workbook.getAllEmbeddedObjects().size()+"kkk");
     System.out.println(workbook.getAllEmbeddedObjects()+"lll");

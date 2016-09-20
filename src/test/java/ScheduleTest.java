@@ -68,7 +68,7 @@ public class ScheduleTest {
             Thread.sleep(10000);
             logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");
             for(int i=1;i<= DateUtil.getWeekInYear();i++) {
-                workRepository.deleteByWeek(i);
+                workRepository.deleteByWeek(i,DateUtil.getYear());
             }
             logger.info(">>>>>>>>>>> saving workInfo >>>>>>>>>>>>");
             for(int i=1;i<= DateUtil.getWeekInYear();i++){

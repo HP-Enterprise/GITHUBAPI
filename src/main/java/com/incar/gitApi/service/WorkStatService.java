@@ -146,7 +146,6 @@ public class WorkStatService {
     public Page<Work> findPageOfMonth(String realname, String username, Integer weekInYear,Integer year, Integer currentPage, Integer pageSize, Integer fuzzy, String orderByProperty, Integer ascOrDesc) {
         currentPage = (currentPage == null || currentPage <= 0) ? 1 : currentPage;
         pageSize = (pageSize == null || pageSize <= 0) ? 10 : pageSize;
-        username = username == "" ? null : username;
         Pageable pageRequest = new PageRequest(currentPage - 1, pageSize, new Sort(Sort.Direction.DESC, "weekInYear").and(new Sort(Sort.Direction.ASC, "username")));
             if (realname != null)
                 realname = "%" + realname + "%";
@@ -159,7 +158,6 @@ public class WorkStatService {
     public Page<Work> findPageOfQuarter(String realname, String username, Integer weekInYear,Integer year, Integer currentPage, Integer pageSize, Integer fuzzy, String orderByProperty, Integer ascOrDesc) {
         currentPage = (currentPage == null || currentPage <= 0) ? 1 : currentPage;
         pageSize = (pageSize == null || pageSize <= 0) ? 10 : pageSize;
-        username = username == "" ? null : username;
         Pageable pageRequest = new PageRequest(currentPage - 1, pageSize, new Sort(Sort.Direction.DESC, "weekInYear").and(new Sort(Sort.Direction.ASC, "username")));
         if (realname != null)
             realname = "%" + realname + "%";
@@ -172,7 +170,6 @@ public class WorkStatService {
     public Page<Work> findPageOfYear(String realname, String username, Integer weekInYear,Integer year, Integer currentPage, Integer pageSize, Integer fuzzy, String orderByProperty, Integer ascOrDesc) {
         currentPage = (currentPage == null || currentPage <= 0) ? 1 : currentPage;
         pageSize = (pageSize == null || pageSize <= 0) ? 10 : pageSize;
-        username = username == "" ? null : username;
         Pageable pageRequest = new PageRequest(currentPage - 1, pageSize, new Sort(Sort.Direction.DESC, "weekInYear").and(new Sort(Sort.Direction.ASC, "username")));
         if (realname != null)
             realname = "%" + realname + "%";
