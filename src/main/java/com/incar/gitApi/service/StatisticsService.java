@@ -16,18 +16,17 @@ import java.util.List;
 public class StatisticsService extends GitHubService {
     public StatisticsService(GitHubClient client){super(client);}
 
-    public List<CommitStats> getPunchCard(String org, String repository) throws IOException {
+    public List<String> getPunchCard(String org, String repository) throws IOException {
         StringBuilder uri = new StringBuilder("/repos");
         uri.append('/').append(org);
         uri.append('/').append(repository);
         uri.append("/stats");
         uri.append("/punch_card");
-        PagedRequest<CommitStats> request = this.createPagedRequest();
+        PagedRequest request = this.createPagedRequest();
         request.setType((new TypeToken() {
         }).getType());
         request.setUri(uri);
-        return (List<CommitStats>)this.client.get(request).getBody();
-
+        return this.getAll(request);
     }
 
 }

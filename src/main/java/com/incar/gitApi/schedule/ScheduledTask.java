@@ -45,14 +45,14 @@ public class ScheduledTask {
 
 
 
-    @Scheduled(cron = "0 30 18 * * ?")
+    @Scheduled(cron = "${git.gitResult.cron}")
    // @Scheduled(cron = "0 40 18 * * ?")
     public void scheduledQuery(){
         logger.info(">>>>>>>>>>> saving gitResult >>>>>>>>>>>>");
         gitResultService.saveGitResult();
     }
 
-    @Scheduled(cron = "0 0 19 * * ?")
+    @Scheduled(cron = "${git.taskStatus.cron}")
     // @Scheduled(cron = "0 40 18 * * ?")
     public void saveTaskStatusInfo()throws IOException{
         logger.info(">>>>>>>>>>> delete taskStatusInfo >>>>>>>>>>>>");
@@ -60,7 +60,7 @@ public class ScheduledTask {
         logger.info(">>>>>>>>>>> save  taskStatusInfo >>>>>>>>>>>>");
         taskStatService.saveTaskInfo();
     }
-    @Scheduled(cron = "0 0 19 * * ?")
+    @Scheduled(cron = "${git.projectInfo.cron}")
     // @Scheduled(cron = "0 40 18 * * ?")
     public void saveProjectInfo()throws IOException{
         logger.info(">>>>>>>>>>> delete  ProjectInfo >>>>>>>>>>>>");
@@ -68,14 +68,14 @@ public class ScheduledTask {
         logger.info(">>>>>>>>>>> save  ProjectInfo >>>>>>>>>>>>");
         projectService.saveProject();
     }
-    @Scheduled(cron = "0 0 19 * * ?")
+    @Scheduled(cron = "${git.gitDetail.cron}")
     public void gitRetDetail(){
         logger.info(">>>>>>>>>>> deleting workDetailInfo >>>>>>>>>>>>");
         workDetailService.deleteWorkDetailInfo();
         logger.info(">>>>>>>>>>> saving workDetailInfo >>>>>>>>>>>>");
         workDetailService.saveWorkDetailInfo();
     }
-     @Scheduled(cron = "0 0 19 * * ?")
+     @Scheduled(cron = "${git.gitWeek.cron}")
     public void gitWeek(){
 //        logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");
 //        for(int i=1;i<= DateUtil.getWeekInYear();i++) {
@@ -90,33 +90,52 @@ public class ScheduledTask {
          logger.info(">>>>>>>>>>> saving workInfo >>>>>>>>>>>>");
          workService.saveWorkInfo(DateUtil.getWeekInYear());
     }
-    @Scheduled(cron ="0 0 23 28 * ?")
+    @Scheduled(cron ="${git.gitMonth.cron}")
     public void gitMonth(){
 
 //        for(int i=1;i<= 9;i++){
 //            workStatService.saveStat(DateUtil.getYear(),i);
 //        }
+        if(DateUtil.getMonth()==12){
+            logger.info(">>>>>>>>>>> saving workOfMonth >>>>>>>>>>>>");
+            workStatService.saveStat(DateUtil.getYear()-1, DateUtil.getMonth());
+        }else{
             logger.info(">>>>>>>>>>> saving workOfMonth >>>>>>>>>>>>");
             workStatService.saveStat(DateUtil.getYear(), DateUtil.getMonth());
+        }
+
     }
 
-    @Scheduled(cron ="0 0 23 28 * ?")
+    @Scheduled(cron ="${git.gitQuarter.cron}")
     public void gitQuarter(){
-
+        if(DateUtil.getMonth()==12) {
             logger.info(">>>>>>>>>>> delete  workOfQuarter >>>>>>>>>>>>");
-            workRepository.deleteByQuarter(DateUtil.getQuarter(),DateUtil.getYear());
+            workRepository.deleteByQuarter(DateUtil.getQuarter(), DateUtil.getYear()-1);
 
             logger.info(">>>>>>>>>>> saving workOfQuarter >>>>>>>>>>>>");
-            workStatService.getQuarterWorkStat(DateUtil.getYear(), DateUtil.getMonth());
+            workStatService.getQuarterWorkStat(DateUtil.getYear()-1, DateUtil.getQuarter());
+        }else{
+            logger.info(">>>>>>>>>>> delete  workOfQuarter >>>>>>>>>>>>");
+            workRepository.deleteByQuarter(DateUtil.getQuarter(), DateUtil.getYear());
 
+            logger.info(">>>>>>>>>>> saving workOfQuarter >>>>>>>>>>>>");
+            workStatService.getQuarterWorkStat(DateUtil.getYear(), DateUtil.getQuarter());
+        }
     }
-    @Scheduled(cron ="0 0 23 28 * ?")
+    @Scheduled(cron ="${git.gitYear.cron}")
     public void gitYear(){
+        if(DateUtil.getMonth()==12) {
+            logger.info(">>>>>>>>>>> delete  workOfYear >>>>>>>>>>>>");
+            workRepository.deleteByYear(DateUtil.getYear()-1);
+
+            logger.info(">>>>>>>>>>> saving workOfYear >>>>>>>>>>>>");
+            workStatService.getQuarterWorkStat(DateUtil.getYear()-1, 52);
+        }else{
             logger.info(">>>>>>>>>>> delete  workOfYear >>>>>>>>>>>>");
             workRepository.deleteByYear(DateUtil.getYear());
 
             logger.info(">>>>>>>>>>> saving workOfYear >>>>>>>>>>>>");
-            workStatService.getQuarterWorkStat(DateUtil.getYear(),DateUtil.getWeekInYear());
-
+            workStatService.getQuarterWorkStat(DateUtil.getYear(), DateUtil.getWeekInYear());
+        }
     }
 }

@@ -73,17 +73,21 @@ public class DateUtil {
     public static int getMonth(){
         calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        return calendar.get(Calendar.MONTH);
+        if(calendar.get(Calendar.MONTH)==1){
+           return 12;
+        }else{
+            return calendar.get(Calendar.MONTH)-1;
+        }
     }
     public static int getQuarter(){
         calendar = Calendar.getInstance();
         calendar.setTime(new Date());
 
-      if(calendar.get(Calendar.MONTH)==1||calendar.get(Calendar.MONTH)==2||calendar.get(Calendar.MONTH)==3){
+      if(calendar.get(Calendar.MONTH)-1==1||calendar.get(Calendar.MONTH)-1==2||calendar.get(Calendar.MONTH)-1==3){
           return 1;
-      }else if(calendar.get(Calendar.MONTH)==4||calendar.get(Calendar.MONTH)==5||calendar.get(Calendar.MONTH)==6){
+      }else if(calendar.get(Calendar.MONTH)-1==4||calendar.get(Calendar.MONTH)-1==5||calendar.get(Calendar.MONTH)-1==6){
           return 2;
-      }else if(calendar.get(Calendar.MONTH)==7||calendar.get(Calendar.MONTH)==8||calendar.get(Calendar.MONTH)==9){
+      }else if(calendar.get(Calendar.MONTH)-1==7||calendar.get(Calendar.MONTH)-1==8||calendar.get(Calendar.MONTH)-1==9){
           return 3;
       }else{
           return 4;
