@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Repository
 public interface WorkDetailRepository extends CrudRepository<WorkDetail,Integer> {
-    @Query("select w from WorkDetail w where w.userName like ?1 and w.week= ?2 and w.year=?3")
+    @Query("select w from WorkDetail w where  w.userName like ?1 and w.week= ?2 and w.year=?3")
     Page<WorkDetail> findPage(String userName,Integer week,Integer year,Pageable pageable);
 
     @Query("select w from WorkDetail w where w.project=?1 and  w.userName = ?2 and w.week= ?3 and w.year=?4")

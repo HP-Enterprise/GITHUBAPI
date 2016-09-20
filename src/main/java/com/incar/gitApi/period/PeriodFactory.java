@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Created by Administrator on 2016/3/23 0023.
  */
-public class PeriodFactory {
+public class             PeriodFactory {
 
     public static Period[] generatePeriods(int year,int weekOfYear){
         Period[] periods = new Period[168];//每周168个时间片

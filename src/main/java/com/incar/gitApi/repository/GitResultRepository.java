@@ -26,11 +26,11 @@ public interface GitResultRepository extends JpaRepository<GitResult,Integer>{
     @Query( "select distinct g.project from GitResult g")
     List<String> findAllProject();
 
-    @Query( " select g from GitResult g where g.assignee=?1 and g.state = ?2 and  ( (g.dueOn BETWEEN ?3 AND ?4) OR(g.dueOn  IS NULL AND g.closedAt BETWEEN ?3 AND ?4))")
+    @Query( " select g from GitResult g where g.assignee=?1 and g.state = ?2 and  ( g.closedAt BETWEEN ?3 AND ?4)")
     List<GitResult> findClosedGitRet(String assignee, String state, Date weekStart, Date weekEnd);
 
-    @Query( "select g from GitResult g where g.assignee = ?1 and g.state = ?2 and  ( (g.dueOn BETWEEN ?3 AND ?4) OR(g.dueOn  IS NULL AND g.createdAt BETWEEN ?3 AND ?4)) ")
-    List<GitResult> findOpenGitRet(String assignee, String state,  Date weekStart, Date weekEnd);
+    @Query( "select g from GitResult g where g.assignee = ?1 and g.state = ?2 and   g.createdAt < ?3  ")
+    List<GitResult> findOpenGitRet(String assignee, String state, Date weekEnd);
     @Query( "select g from GitResult g where g.assignee = ?1")
     List<GitResult> findAllGitRet(String assignee);
     @Query("select g from GitResult g where g.project=?1 and (?2 is null or g.state=?2)")

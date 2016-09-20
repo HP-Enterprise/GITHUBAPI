@@ -6,5 +6,7 @@ create table g_work(
   unfinished_work int(6) COMMENT '未完成工作量',
   work_hours int(5) COMMENT '工作时长',
   week_in_year int(2) COMMENT '本周的序号',
+  week_year int(2) COMMENT '本年的序号',
+  type int(2) COMMENT '类型序号',
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='工作量统计表';

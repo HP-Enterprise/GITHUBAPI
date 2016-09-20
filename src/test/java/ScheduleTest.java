@@ -2,10 +2,7 @@ import com.incar.gitApi.Application;
 import com.incar.gitApi.repository.TaskRepository;
 import com.incar.gitApi.repository.WorkRepository;
 import com.incar.gitApi.schedule.ScheduledTask;
-import com.incar.gitApi.service.GitResultService;
-import com.incar.gitApi.service.TaskStatService;
-import com.incar.gitApi.service.WorkDetailService;
-import com.incar.gitApi.service.WorkService;
+import com.incar.gitApi.service.*;
 import com.incar.gitApi.util.DateUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +35,8 @@ public class ScheduleTest {
     private TaskStatService taskStatService;
     @Autowired
     private TaskRepository taskRepository;
+    @Autowired
+    public WorkStatService workStatService;
 
     private Logger logger = LoggerFactory.getLogger(ScheduledTask.class);
 
@@ -102,5 +101,28 @@ public class ScheduleTest {
         for(int i=1;i<= DateUtil.getWeekInYear();i++){
             taskStatService.saveTaskInfo(DateUtil.getYear(),i);
         }
+    }
+    @Test
+    @Rollback(false)
+    public void gitWork(){
+        logger.info(">>>>>>>>>>> saving work >>>>>>>>>>>>");
+        for(int i=1;i<= 7;i++){
+            workStatService.saveStat(DateUtil.getYear(), i);
+        }
+    }
+    @Test
+    @Rollback(false)
+    public void gitWorkQuarter(){
+        logger.info(">>>>>>>>>>> saving work >>>>>>>>>>>>");
+        for(int i=1;i<= 3;i++){
+            workStatService.saveQuarterStat(DateUtil.getYear(), i);
+        }
+    }
+    @Test
+    @Rollback(false)
+    public void gitWorkYear(){
+        logger.info(">>>>>>>>>>> saving work >>>>>>>>>>>>");
+            workStatService.saveYearStat(DateUtil.getYear(), 39);
+
     }
 }

@@ -214,7 +214,7 @@ public class WorkDetailService {
     }
 
     /**
-     * 根据用户名和年、周，分页查询
+     * 根据用户名和年、周，分页查询（周粒度详情）
      * @param userName 用户名
      * @param week  所属周
      * @param year  所属年
@@ -229,6 +229,7 @@ public class WorkDetailService {
         Page<WorkDetail>  workDetailPage =  workDetailRepository.findPage(userName, week, year, pageable);
         return new PageImpl<WorkDetail>(workDetailPage.getContent(),pageable,workDetailPage.getTotalElements());
     }
+
 
     /**
      * 根据项目名、用户名、周和年查询
@@ -247,8 +248,6 @@ public class WorkDetailService {
         Page<WorkDetail>  workDetailPage =  workDetailRepository.findProjectPage(project, userName, week, year, pageable);
         return new PageImpl<WorkDetail>(workDetailPage.getContent(),pageable,workDetailPage.getTotalElements());
     }
-
-
 
     /**
      * 分页查询详细工作信息

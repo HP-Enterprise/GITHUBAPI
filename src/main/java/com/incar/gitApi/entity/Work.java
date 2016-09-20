@@ -30,9 +30,30 @@ public class Work {
     private Integer weekInYear;
 
     @Column
+    private Integer weekYear;
+
+    @Column
+    private Integer type;
+    @Column
     private String realname;
 
     public Work(){}
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getWeekYear() {
+        return weekYear;
+    }
+
+    public void setWeekYear(Integer weekYear) {
+        this.weekYear = weekYear;
+    }
 
     public Integer getId() {
         return id;
@@ -99,7 +120,9 @@ public class Work {
                 ", unfinishedWork=" + unfinishedWork +
                 ", workHours=" + workHours +
                 ", weekInYear=" + weekInYear +
+                ", weekYear=" + weekYear +
                 ", realname='" + realname + '\'' +
                 '}';
     }
+
 }

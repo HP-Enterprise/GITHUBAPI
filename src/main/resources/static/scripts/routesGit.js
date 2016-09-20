@@ -6,6 +6,18 @@ define([], function () {
                 templateUrl: '/viewGit/week.html',
                 dependencies: ['../viewGit/weekCtrl']
             },
+            '/gitHubApi/month': {
+                templateUrl: '/viewGit/month.html',
+                dependencies: ['../viewGit/monthCtrl']
+            },
+            '/gitHubApi/quarter': {
+                templateUrl: '/viewGit/quarter.html',
+                dependencies: ['../viewGit/quarterCtrl']
+            },
+            '/gitHubApi/year': {
+                templateUrl: '/viewGit/year.html',
+                dependencies: ['../viewGit/yearCtrl']
+            },
             '/gitHubApi/week/weekDetail/:username/:weekInYear': {
                 templateUrl: '/viewGit/weekDetail.html',
                 dependencies: ['../viewGit/weekDetailCtrl']

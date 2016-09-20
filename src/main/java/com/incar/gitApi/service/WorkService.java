@@ -122,7 +122,7 @@ public class WorkService {
      */
     public void deleteWorkInfo() {
         int weekInYear = DateUtil.getWeekInYear();
-        workRepository.deleteByWeek(weekInYear);
+        workRepository.deleteByWeek(weekInYear,DateUtil.getYear());
     }
 
 
@@ -161,7 +161,7 @@ public class WorkService {
         initPeriods(getPeriods(weekYear, weekOfYear));//初始化period
         Date start = DateUtil.getWeekStart(weekYear, weekOfYear);
         Date end = DateUtil.getWeekEnd(weekYear, weekOfYear);
-        List<GitResult> openGitRets = this.getOpenGitRet(username, start, end);
+        List<GitResult> openGitRets = this.getOpenGitRet(username,end);
         List<GitResult> closedGitRets = this.getClosedGitRet(username, start, end);
         List<GitResult> gitResultList=gitResultRepository.findAllGitRet(username);
         //获取到目前为止的所有period
@@ -173,11 +173,13 @@ public class WorkService {
         }
         List<Period> periods1 = this.getPeriodsByEnd(time, weekOfYear, periods);
         Work work = new Work();
+        work.setType(1);
         work.setFinishedWork(this.getTotalFinishedWork(closedGitRets));
         work.setUnfinishedWork(this.getTotalUnfinishedWork(openGitRets));
         work.setWorkHours(this.getHoursInWork(this.getGitRetHasLabelHOrD(gitResultList), weekOfYear, periods1));
         work.setWeekInYear(weekOfYear);
         work.setUsername(username);
+        work.setWeekYear(weekYear);
 //        System.out.println("工作信息结果：" + work);
         return work;
     }
@@ -287,11 +289,10 @@ public class WorkService {
      * 查询属于open状态并且截止时间在本周dueOn前的issue
      *
      * @param assignee
-     * @param weekStart
      * @return
      */
-    public List<GitResult> getOpenGitRet(String assignee, Date weekStart, Date weekEnd) {
-        return gitResultRepository.findOpenGitRet(assignee, "open", weekStart, weekEnd);
+    public List<GitResult> getOpenGitRet(String assignee, Date weekEnd) {
+        return gitResultRepository.findOpenGitRet(assignee, "open", weekEnd);
     }
 
 
@@ -521,7 +522,7 @@ public class WorkService {
      * @return
      */
 
-    public Page<Work> findPageOfWork(String realname, String username, Integer weekInYear, Integer currentPage, Integer pageSize, Integer fuzzy, String orderByProperty, Integer ascOrDesc) {
+    public Page<Work> findPageOfWork(String realname, String username, Integer weekInYear,Integer year, Integer currentPage, Integer pageSize, Integer fuzzy, String orderByProperty, Integer ascOrDesc) {
         currentPage = (currentPage == null || currentPage <= 0) ? 1 : currentPage;
         pageSize = (pageSize == null || pageSize <= 0) ? 10 : pageSize;
         boolean isFuzzy = (fuzzy != null && fuzzy == 1) ? true : false;
@@ -533,9 +534,9 @@ public class WorkService {
                 realname = "%" + realname + "%";
             if (username != null)
                 username = "%" + username + "%";
-            workPage = workRepository.fuzzyFindPage(realname, username, weekInYear, pageRequest);
+            workPage = workRepository.fuzzyFindPage(realname, username, weekInYear,year, pageRequest);
         } else {
-            workPage = workRepository.findPage(realname, username, weekInYear, pageRequest);
+            workPage = workRepository.findPage(realname, username, weekInYear,year, pageRequest);
         }
         return new PageImpl<Work>(workPage.getContent(), pageRequest, workPage.getTotalElements());
     }
@@ -548,16 +549,79 @@ public class WorkService {
      * @param weekInYear 周
      * @return
      */
-    public HSSFWorkbook findWorkToExcel(String realname, String username, Integer weekInYear) {
+    public HSSFWorkbook findWorkToExcel(String realname, String username, Integer weekInYear,Integer weekYear) {
         if (realname != null) {
             realname = "%" + realname + "%";
         }
         if (username != null) {
             username = "%" + username + "%";
         }
-        List<Work> workList = workRepository.findExcel(realname, username, weekInYear);
-        String[] tableHeader = {"编号", "用户名", "姓名", "已完成工作时长（小时）", "未完成工作时长（小时）", "工作时长（小时）", "周"};
-        String methods[] = {"getId", "getUsername", "getRealname", "getFinishedWork", "getUnfinishedWork）", "getWorkHours", "getWeekInYear"};
+        List<Work> workList = workRepository.findExcel(realname, username, weekInYear,weekYear);
+        String[] tableHeader = {"编号", "用户名", "姓名", "已完成工作时长（小时）", "未完成工作时长（小时）", "工作时长（小时）", "周","年"};
+        String methods[] = {"getId", "getUsername", "getRealname", "getFinishedWork", "getUnfinishedWork", "getWorkHours", "getWeekInYear","getWeekYear"};
+        return ExportExcelUtil.exprotExcel(tableHeader, methods, workList);
+    }
+
+    /**
+     * 月粒度导出
+     * @param realname
+     * @param username
+     * @param weekInYear
+     * @param weekYear
+     * @return
+     */
+    public HSSFWorkbook findMonthToExcel(String realname, String username, Integer weekInYear,Integer weekYear) {
+        if (realname != null) {
+            realname = "%" + realname + "%";
+        }
+        if (username != null) {
+            username = "%" + username + "%";
+        }
+        List<Work> workList = workRepository.findMonthExcel(realname, username, weekInYear,weekYear);
+        String[] tableHeader = {"编号", "用户名", "姓名", "已完成工作时长（小时）", "未完成工作时长（小时）", "工作时长（小时）", "月","年"};
+        String methods[] = {"getId", "getUsername", "getRealname", "getFinishedWork", "getUnfinishedWork", "getWorkHours", "getWeekInYear","getWeekYear"};
+        return ExportExcelUtil.exprotExcel(tableHeader, methods, workList);
+    }
+
+    /**
+     * 季粒度导出
+     * @param realname
+     * @param username
+     * @param weekInYear
+     * @param weekYear
+     * @return
+     */
+    public HSSFWorkbook findQuarterToExcel(String realname, String username, Integer weekInYear,Integer weekYear) {
+        if (realname != null) {
+            realname = "%" + realname + "%";
+        }
+        if (username != null) {
+            username = "%" + username + "%";
+        }
+        List<Work> workList = workRepository.findQuarterExcel(realname, username, weekInYear,weekYear);
+        String[] tableHeader = {"编号", "用户名", "姓名", "已完成工作时长（小时）", "未完成工作时长（小时）", "工作时长（小时）", "季度","年"};
+        String methods[] = {"getId", "getUsername", "getRealname", "getFinishedWork", "getUnfinishedWork", "getWorkHours", "getWeekInYear","getWeekYear"};
+        return ExportExcelUtil.exprotExcel(tableHeader, methods, workList);
+    }
+
+    /**
+     * 年粒度导出
+     * @param realname
+     * @param username
+     * @param weekInYear
+     * @param weekYear
+     * @return
+     */
+    public HSSFWorkbook findYearToExcel(String realname, String username, Integer weekInYear,Integer weekYear) {
+        if (realname != null) {
+            realname = "%" + realname + "%";
+        }
+        if (username != null) {
+            username = "%" + username + "%";
+        }
+        List<Work> workList = workRepository.findYearExcel(realname, username, weekInYear,weekYear);
+        String[] tableHeader = {"编号", "用户名", "姓名", "已完成工作时长（小时）", "未完成工作时长（小时）", "工作时长（小时）", "年","年"};
+        String methods[] = {"getId", "getUsername", "getRealname", "getFinishedWork", "getUnfinishedWork", "getWorkHours", "getWeekInYear","getWeekYear"};
         return ExportExcelUtil.exprotExcel(tableHeader, methods, workList);
     }
 }

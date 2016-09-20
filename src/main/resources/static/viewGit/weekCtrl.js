@@ -21,19 +21,24 @@ define(['../scripts/git', 'jquery'], function (module, $) {
             if ($scope.worKeSelect.weekNum == '') {
                 $scope.worKeSelect.weekNum = null;
             }
+            if ($scope.worKeSelect.year == '') {
+                $scope.worKeSelect.year = null;
+            }
+
 
             $scope.workSearch = {
                 params: {
                     realname: $scope.worKeSelect.realname,
                     username: $scope.worKeSelect.username,
                     weekNum: $scope.worKeSelect.weekNum,
+                    year: $scope.worKeSelect.year,
                     currentPage: $scope.workPageObject.currentPage,
                     pageSize: $scope.workPageObject.pageSize,
                     fuzzy: 1
                 }
             };
 
-            $http.get("/api/work", $scope.workSearch).success(function (data, status, headers) {
+            $http.get("/api/workOfWeek", $scope.workSearch).success(function (data, status, headers) {
                 $scope.workPageObject.totalPage = headers('Page-Count'); //×ÜÒ³Êý
                 $scope.allWork = data.message;
                 $scope.workPageObject.pages = [];
@@ -118,9 +123,16 @@ define(['../scripts/git', 'jquery'], function (module, $) {
             else {
                 $scope.REALNAME = "realname=" + $scope.worKeSelect.realname;
             }
+            if ($scope.worKeSelect.year == '' || $scope.worKeSelect.year == undefined) {
+                $scope.worKeSelect.year = null;
+                $scope.YEAR = null;
+            }
+            else {
+                $scope.YEAR = "year=" + $scope.worKeSelect.year;
+            }
 
             //$scope.url="http://localhost:7890/api/exportExcel?"+ $scope.USERNAME +"&"+ $scope.WEEKNUM;
-            $scope.url = "http://localhost:8080/api/exportExcel?" + $scope.REALNAME + "&" + $scope.USERNAME + "&" + $scope.WEEKNUM;
+            $scope.url = "http://localhost:8080/api/exportExcel?" + $scope.REALNAME + "&" + $scope.USERNAME + "&" + $scope.WEEKNUM+"&"+$scope.YEAR;
             window.open($scope.url);
             //console.log($scope.url);
         }

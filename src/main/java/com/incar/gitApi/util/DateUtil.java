@@ -70,8 +70,25 @@ public class DateUtil {
         calendar.setTime(new Date());
        return calendar.get(Calendar.YEAR);
     }
+    public static int getMonth(){
+        calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        return calendar.get(Calendar.MONTH);
+    }
+    public static int getQuarter(){
+        calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
 
-
+      if(calendar.get(Calendar.MONTH)==1||calendar.get(Calendar.MONTH)==2||calendar.get(Calendar.MONTH)==3){
+          return 1;
+      }else if(calendar.get(Calendar.MONTH)==4||calendar.get(Calendar.MONTH)==5||calendar.get(Calendar.MONTH)==6){
+          return 2;
+      }else if(calendar.get(Calendar.MONTH)==7||calendar.get(Calendar.MONTH)==8||calendar.get(Calendar.MONTH)==9){
+          return 3;
+      }else{
+          return 4;
+      }
+    }
     public static Date getWeekEnd(){
         calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
@@ -101,5 +118,48 @@ public class DateUtil {
         date2 = calendar.getTime();
         return date1.compareTo(date2);
     }
-
+    public static int getMonthStartWeek(int year,int month){
+        calendar = Calendar.getInstance();
+        calendar.set(year,month,1);
+        return calendar.get(Calendar.WEEK_OF_YEAR);
+    }
+    public static int getMonthEndWeek(int year,int month){
+        calendar = Calendar.getInstance();
+        if(month==1||month==3||month==5||month==7||month==8||month==10||month==12) {
+            calendar.set(year, month, 31);
+        }else if(month==4||month==6||month==9||month==11){
+            calendar.set(year, month, 30);
+        }else {
+            calendar.set(year, month, 28);
+        }
+        return calendar.get(Calendar.WEEK_OF_YEAR);
+    }
+    public static int getQuarterStartWeek(int year,int quarter){
+        calendar = Calendar.getInstance();
+        switch (quarter){
+            case 1:  calendar.set(year,1,1);
+                break;
+            case 2:  calendar.set(year,4,1);
+                break;
+            case 3:  calendar.set(year,7,1);
+                break;
+            case 4:  calendar.set(year,10,1);
+                break;
+        }
+        return calendar.get(Calendar.WEEK_OF_YEAR);
+    }
+    public static int getQuarterEndWeek(int year,int quarter){
+        calendar = Calendar.getInstance();
+        switch (quarter){
+            case 1:  calendar.set(year,3,31);
+                break;
+            case 2:  calendar.set(year,6,30);
+                break;
+            case 3:  calendar.set(year,9,30);
+                break;
+            case 4:  calendar.set(year,12,31);
+                break;
+        }
+        return calendar.get(Calendar.WEEK_OF_YEAR);
+    }
 }
