@@ -33,7 +33,7 @@ public class GitRetUtil {
             }
         }
 
-        gitResult.setIssueId((int)issue.getId());
+        gitResult.setIssueId(issue.getNumber());
         gitResult.setAssignee(issue.getAssignee() == null ? null : issue.getAssignee().getLogin());
         gitResult.setClosedAt(issue.getClosedAt());
         gitResult.setCreatedAt(issue.getCreatedAt());

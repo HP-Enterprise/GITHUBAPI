@@ -31,8 +31,8 @@ public class MyIssueService {
      * @return
      * @throws IOException
      */
-    public Issue addIssue(String user, String repository, Issue issue) throws IOException {
-        IssueService issueService = new IssueService(githubClientConfig.getGitHubClient());
+    public Issue addIssue(String user, String repository, Issue issue,String token) throws IOException {
+        IssueService issueService = new IssueService(githubClientConfig.getClient(token));
         Issue issue1 = issueService.createIssue(user, repository, issue);
         return issue1;
     }
@@ -41,20 +41,13 @@ public class MyIssueService {
      * 更新issue
      * @param user 用户名或组织名
      * @param repository
-     * @param issueShow
+     * @param issue
      * @return
      * @throws IOException
      */
-    public Issue editIssue(String user, String repository,Integer number, IssueShow issueShow) throws IOException{
-
-        GitHubService gitHubService=new GistService(githubClientConfig.getGitHubClient());
-        if(issueShow == null) {
-            throw new IllegalArgumentException("issueShow cannot be null");
-        } else {
-            StringBuilder uri = new StringBuilder("/repos");
-            uri.append('/').append(user).append('/').append(repository).append("/issues").append('/').append(number);
-            return (Issue)gitHubService.getClient().post(String.valueOf(uri),issueShow,Issue.class);
-        }
-
+    public Issue editIssue(String user, String repository, Issue issue,String token) throws IOException{
+        IssueService issueService = new IssueService(githubClientConfig.getClient(token));
+        Issue issue1=   issueService.editIssue(user, repository, issue);
+        return issue1;
     }
 }

@@ -14,7 +14,7 @@
     <div ng-include="milestoneTemplate"></div>
     <!---------------------------- 里程碑列表层------------------------------->
     <script type="text/ng-template" id="milestoneList">
-<a class="h-float" ng-click="addMilestone()">新建里程碑</a>
+<a style="cursor: pointer" class="h-float" ng-click="addMilestone()">新建里程碑</a>
 <table class="table " >
     <thead>
     <tr>
@@ -33,7 +33,7 @@
         <td ng-bind="aw.description"></td>
         <td ng-bind="aw.state"></td>
         <td ng-bind="aw.dueOn | date:'yyyy-MM-dd HH:mm:ss'">dd</td>
-        <td><a ng-click="deleteMiles(aw.number)">删除</a>|<a ng-click="updateMilestone(aw)">修改</a></td>
+        <td><a style="cursor:pointer" ng-click="deleteMiles(aw.number)">删除</a>|<a style="cursor: pointer" ng-click="updateMilestone(aw)">修改</a></td>
     </tr>
     </tbody>
 </table>
@@ -62,7 +62,7 @@
             <tr>
                 <td>截止时间：</td>
                 <td>
-                    <input class="form-control" type="datefmt " ng-model="updateMil.dueOn">
+                    <input class="form-control" type="text " ng-model="updateMil.dueOn ">
                 </td>
             </tr>
 

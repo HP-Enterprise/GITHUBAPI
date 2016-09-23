@@ -44,8 +44,9 @@ define(['../scripts/git','jquery'],function(module,$){
         };
 
         $scope.updateMilestone=function(a){
-            $scope.ab=$filter('date')(a.dueOn,'yyyy/MM/dd');
-            $scope.updateMil={"title": a.title,"state": a.state,"description": a.description,"dueOn":$scope.ab}
+            $scope.ab=$filter('date')(a.dueOn,"yyyy-MM-dd");
+            $scope.updateMil=a;
+            //{"title": a.title,"state": a.state,"description": a.description,"dueOn":$scope.ab}
             $scope.milestoneTemplate="milestoneModify";
         };
         $scope.modifyMilestone = function (milestone) {

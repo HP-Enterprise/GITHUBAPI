@@ -7,6 +7,9 @@ import com.incar.gitApi.service.GitResultService;
 import com.incar.gitApi.service.MyIssueService;
 import com.incar.gitApi.service.ObjectResult;
 import org.eclipse.egit.github.core.Issue;
+import org.eclipse.egit.github.core.Label;
+import org.eclipse.egit.github.core.Milestone;
+import org.eclipse.egit.github.core.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,37 +32,57 @@ public class MyIssueController {
     private GitResultService gitResultService;
 
     /**
-     * 添加issue
-     *
-     * @param addIssue
+     * 新建Issue
+     * @param issue
+     * @param repository
+     * @param token
      * @return
      * @throws IOException
      */
 
-    @RequestMapping(value = "/addIssue", method = RequestMethod.POST)
-    public ObjectResult addIssue(@RequestBody AddIssue addIssue) throws IOException {
-        System.out.println(addIssue.getRepository().getName().toString());
-        System.out.println(addIssue.getIssue());
-        Issue issue1 = myIssueService.addIssue("HP-Enterprise", addIssue.getRepository().getName().toString(), addIssue.getIssue());
+    @RequestMapping(value = "/addIssue/{repository}/{token}", method = RequestMethod.POST)
+    public ObjectResult addIssue(@RequestBody Issue issue,@PathVariable("repository")String repository,@PathVariable("token")String token) throws IOException {
+
+        Issue issue1 = myIssueService.addIssue("HP-Enterprise", repository, issue,token);
         return new ObjectResult("true", issue1);
     }
 
     /**
      * 更新issue
-     *
-     * @param repository
-     * @param user
-     * @param number
-     * @param issueShow
+     * @param gitResult
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/updateIssue", method = RequestMethod.POST)
-    public ObjectResult updateIssue(@RequestParam(value = "repository", required = true) String repository,
-                                    @RequestParam(value = "user", required = true) String user,
-                                    @RequestParam(value = "number", required = true) Integer number,
-                                    @RequestBody IssueShow issueShow) throws IOException {
-        Issue issue1 = myIssueService.editIssue(user, repository, number, issueShow);
+    @RequestMapping(value = "/updateIssue/{token}", method = RequestMethod.POST)
+   public ObjectResult updateIssue(@PathVariable("token") String token,
+                                    @RequestBody GitResult gitResult) throws IOException {
+        Issue issue=new Issue();
+        issue.setNumber(gitResult.getIssueId());
+        issue.setCreatedAt(gitResult.getCreatedAt());
+        issue.setTitle(gitResult.getTitle());
+        issue.setState(gitResult.getState());
+        if(gitResult.getMilestone()!=null){
+            Milestone milestone=new Milestone();
+            milestone.setNumber(gitResult.getMilestone());
+            issue.setMilestone(milestone);
+        }
+       if(gitResult.getLabels()!=null){
+           List<Label> labels=new ArrayList<>();
+           String str[]=gitResult.getLabels().split(",");
+           for(int i=0;i<str.length;i++) {
+               Label label = new Label();
+               label.setName(str[i]);
+               labels.add(label);
+           }
+           issue.setLabels(labels);
+       }
+       if(gitResult.getAssignee()!=null){
+           User user=new User();
+           user.setLogin(gitResult.getAssignee());
+           issue.setAssignee(user);
+       }
+
+        Issue issue1 = myIssueService.editIssue(gitResult.getUser(), gitResult.getProject(),issue,token);
         return new ObjectResult("true", issue1);
     }
 

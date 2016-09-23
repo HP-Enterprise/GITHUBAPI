@@ -25,10 +25,13 @@
         <tr ng-repeat="aw in repository">
             <td ng-bind="$index + 1"></td>
             <td ng-bind="aw.name"></td>
-            <td ng-bind="aw.isPrivate"></td>
+            <td >
+                <i ng-if="aw.isPrivate==true">private</i>
+                <i ng-if="aw.isPrivate==false">public</i>
+            </td>
             <td ng-bind="aw.description"></td>
             <td ng-bind="aw.openIssue"></td>
-            <td><a  href="/gitHubApi/repositoryDetail/{{aw.name}}">详情</a>|<a ng-click="deleteRepository(aw.name)">删除</a>|<a ng-click="updateRepository(aw)">修改</a></td>
+            <td><a  href="/gitHubApi/repositoryDetail/{{aw.name}}">详情</a>|<a style="cursor:pointer" ng-click="deleteRepository(aw.name)">删除</a>|<a style="cursor:pointer" ng-click="updateRepository(aw)">修改</a></td>
         </tr>
 
         </tbody>

@@ -10,16 +10,83 @@ define(['../scripts/git','jquery','highcharts','highchartsMore'],function(module
                 zoomType: 'xy'
             };
             var title = {
-                text: 'Highcharts Bubbles'
+                text: 'Punch card'
             };
             var yAxis = {
+                labels: {
+                    step:1,
+                    formatter:function(){
+                        switch (this.value){
+                            case 0:return "am("+this.value+")";
+                                break;
+                            case 1:return "am("+this.value+")";
+                                break;
+                            case 2:return "am("+this.value+")";
+                                break;
+                            case 3:return "am("+this.value+")";
+                                break;
+                            case 4:return "am("+this.value+")";
+                                break;
+                            case 5:return "am("+this.value+")";
+                                break;
+                            case 6:return "am("+this.value+")";
+                                break;
+                            case 7:return "am("+this.value+")";
+                                break;
+                            case 8:return "am("+this.value+")";
+                                break;
+                            case 9:return "am("+this.value+")";
+                                break;
+                            case 10:return "am("+this.value+")";
+                                break;
+                            case 11:return "am("+this.value+")";
+                                break;
+                            case 12:return "am("+this.value+")";
+                                break;
+                            case 13:return "pm("+this.value+")";
+                                break;
+                            case 14:return "pm("+this.value+")";
+                                break;
+                            case 16:return "pm("+this.value+")";
+                                break;
+                            case 18:return "pm("+this.value+")";
+                                break;
+                            case 20:return "pm("+this.value+")";
+                                break;
+                            case 22:return "pm("+this.value+")";
+                                break;
+                            case 23:return "pm("+this.value+")";
+                                break;
+                        }
+                    }
+                },
                 max:24,
                 min:-1,
                 startOnTick: false,
                 endOnTick: false
             };
             var xAxis = {
-                max:6,
+                    labels: {
+                    step:1,
+                        formatter:function(){
+                        switch (this.value){
+                            case 0:return "Sunday("+this.value+")";
+                            break;
+                                break;
+                            case 2:return "Tuesday("+this.value+")";
+                                break;
+                            case 3:return "Wednesday("+this.value+")";
+                                break;
+                            case 4:return "Thurday ("+this.value+")";
+                                break;
+                            case 5:return "Friday("+this.value+")";
+                                break;
+                            case 6:return "Saturday ("+this.value+")";
+                                break;
+                        }
+                    }
+                },
+                max:7,
                 min:-1,
                 gridLineWidth: 1
             };
@@ -880,7 +947,7 @@ define(['../scripts/git','jquery','highcharts','highchartsMore'],function(module
             json.series = series;
             $timeout(function(){
                 $('#container').highcharts(json);
-            },300);
+            },500);
 
 
         });

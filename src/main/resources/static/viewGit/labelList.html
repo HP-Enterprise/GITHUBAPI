@@ -14,7 +14,7 @@
     <div ng-include="labelTemplate"></div>
     <!---------------------------- label列表层------------------------------->
     <script type="text/ng-template" id="labelList">
-<a class="h-float" ng-click="addLabel()"> 新建标签</a>
+<a style="cursor: pointer" class="h-float" ng-click="addLabel()"> 新建标签</a>
 <table class="table table-hover">
     <thead>
     <tr>
@@ -30,7 +30,7 @@
         <td ng-bind="aw.name"></td>
         {{aw.color}}
         <td bgcolor="{{aw.color}}" ng-bind="aw.color" ></td>
-        <td><a ng-click="deleteLabel(aw.name)">删除</a>|<a ng-click="updateLabel(aw)">修改</a></td>
+        <td><a style="cursor: pointer" ng-click="deleteLabel(aw.name)">删除</a>|<a style="cursor: pointer" ng-click="updateLabel(aw)">修改</a></td>
     </tr>
     </tbody>
 </table>

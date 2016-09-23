@@ -43,7 +43,6 @@ define(['../scripts/git','jquery'],function(module,$){
             $http.get("/api/LIssueList", $scope.workSearch).success(function (data, status, headers) {
                 $scope.workPageObject.totalPage = headers('Page-Count'); //×ÜÒ³Êý
                 $scope.issueList = data.message;
-                console.log( $scope.issueList)
                 $scope.workPageObject.pages = [];
                 for (var i = 1; i <= $scope.workPageObject.totalPage; i++) {
                     $scope.workPageObject.pages.push(i);
@@ -117,7 +116,7 @@ define(['../scripts/git','jquery'],function(module,$){
         }
 
         $scope.addIssue=function(issue){
-            var url="api/addIssue/"+loginCookie;
+            var url="api/addIssue/"+"/"+ $scope.repository+"/"+loginCookie;
             $http.post(url,issue).success(function () {
                 alert("success");
                 $scope.issueTemplate="issueList";
@@ -127,11 +126,22 @@ define(['../scripts/git','jquery'],function(module,$){
 
         };
 
+        $scope.modifyissue=function(issue){
+            var url="api/updateIssue/"+loginCookie;
+            $http.post(url,issue).success(function () {
+                alert("success");
+                $scope.issueTemplate="issueList";
+            }).error(function () {
+                alert("error");
+            })
+
+        };
         $scope.ade = {
             params: {
                 repository: $scope.repository
             }
         };
+
         $http.get("/api/milestoneList",  $scope.ade).success(function (data) {
             $scope.milestone = data.message;
         }).error(function (err) {

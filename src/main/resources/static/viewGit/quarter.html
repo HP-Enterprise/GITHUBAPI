@@ -15,7 +15,13 @@
             <span>用户名：</span>
             <input style="width: 120px" type="text" ng-model="worKeSelect.username"/>
             <span>时间(季度)：</span>
-            <input style="width: 120px"type="text" ng-model="worKeSelect.weekNum"/>
+            <select ng-model="worKeSelect.weekNum">
+                <option selected = ""></option>
+                <option value="1">第一季度</option>
+                <option value="2">第二季度</option>
+                <option value="3">第三季度</option>
+                <option value="4">第四季度</option>
+            </select>
             <span>时间(年)：</span>
             <input style="width: 120px" type="text" ng-model="worKeSelect.year"/>
             <a href="" class="btn btn-default" ng-click="getAllGitHubWork('flag')">查询</a>
