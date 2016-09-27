@@ -1,14 +1,18 @@
-<div ng-controller="repositoryListCtrl" class="width1140px">
+<div ng-controller="repositoryListCtrl" >
 <div  ng-hide="myVar1">
-    <div>
+    <div class="nv-bars">
         当前位置: > 项目 > 所有项目
-        </div>
-    <div class="fl">
+    </div>
+    <div  class="search">
+        <div class="pad-10">
         <span>项目名：</span>
         <input type="text" ng-model="worKeSelect.name"/>
         <a href="" class="btn btn-default" ng-click="getAllGitHubWork('flag')">查询</a>
-        <a class="h-float"  href="/gitHubApi/addRepository">新建项目</a>
+        <img class="t-float" src="/images/icon-1.png" ng-click="addProject()" >
+        <!--<a class="h-float"  href="/gitHubApi/addRepository">新建项目</a>-->
+        </div>
     </div>
+    <div class="clear"></div>
     <table class="table">
         <thead>
         <tr>
@@ -36,8 +40,7 @@
 
         </tbody>
     </table>
-    <div class="cleatfix"></div>
-    <div class="x-pagination fr h-float">
+    <div class="x-pagination fr h-float" style="margin:10px 0;">
         <a href="" class="x-page mrright10" ng-click="changePage('prev')" ng-disabled="workPageObject.currentPage==1">上一页</a>
         <a href="" class="x-page mrright10" ng-bind="'第'+workPageObject.currentPage+'页'"
            ng-click="pageSelector.show=true" ng-mouseleave="pageSelector.focus=false"
@@ -54,10 +57,11 @@
         <a href="" class="x-page" ng-click="changePage('next')"
            ng-disabled="workPageObject.currentPage==workPageObject.totalPage">下一页</a>
     </div>
+    <div class="clear"></div>
 </div>
 
 <div  ng-hide="myVar2">
-    <div>
+    <div class="nv-bars">
         当前位置: > 项目 > <a style="cursor:pointer;" ng-click="returnRepository()"> 所有项目</a> > 修改修改项目
     </div>
 
@@ -108,5 +112,5 @@
         </div>
     </form>
 </div>
-
+    <div class="clear"></div>
 </div>

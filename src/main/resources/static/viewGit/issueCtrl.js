@@ -1,19 +1,19 @@
-define(['../scripts/git','jquery'],function(module,$){
-    module.controller("issueCtrl",function($scope,$http,$routeParams){
+define(['../scripts/git','jquery','../scripts/service/baService'],function(module,$){
+    module.controller("issueCtrl",function($scope,$http,$routeParams,baService){
         $scope.repository = $routeParams.repository;
         $scope.issueTemplate="issueList";
 
-        var getCookie = function(name){
-            var arr = document.cookie.split("; ");
-            for(var i=0,len=arr.length;i<len;i++){
-                var item = arr[i].split("=");
-                if(item[0]==name){
-                    return item[1]
-                }
-            }
-            return "";
-        };
-        var loginCookie = getCookie('token');
+        //var getCookie = function(name){
+        //    var arr = document.cookie.split("; ");
+        //    for(var i=0,len=arr.length;i<len;i++){
+        //        var item = arr[i].split("=");
+        //        if(item[0]==name){
+        //            return item[1]
+        //        }
+        //    }
+        //    return "";
+        //};
+        var loginCookie = baService.getCookie('token');
         //·ÖÒ³Ìõ¼þ
         $scope.workPageObject = {
             currentPage: 1,

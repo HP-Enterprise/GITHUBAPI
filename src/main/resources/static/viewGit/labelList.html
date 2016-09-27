@@ -1,8 +1,9 @@
-<div ng-controller="labelListCtrl" class="width1140px">
-    <div>
+<div ng-controller="labelListCtrl" >
+    <div class="nv-bars">
         当前位置: > 项目 > <a href="/gitHubApi/repositoryList">所有项目</a> >{{repository}}
     </div>
-    <ul style="background-color: #d9edf7" class="nav nav-tabs">
+    <div class="search-page">
+    <ul  class="nav nav-tabs">
         <li > <a href="/gitHubApi/repositoryDetail/{{repository}}">项目简要统计</a></li>
         <li > <a href="/gitHubApi/taskStat/{{repository}}">任务统计</a></li>
         <li> <a href="/gitHubApi/analysisView/{{repository}}">分析视图</a></li>
@@ -11,10 +12,15 @@
         <li class="active"><a href="/gitHubApi/labelList/{{repository}}">标签</a></li>
         <li > <a href="/gitHubApi/milestoneList/{{repository}}">里程碑</a></li>
     </ul>
+    </div>
     <div ng-include="labelTemplate"></div>
     <!---------------------------- label列表层------------------------------->
     <script type="text/ng-template" id="labelList">
-<a style="cursor: pointer" class="h-float" ng-click="addLabel()"> 新建标签</a>
+        <div >
+            <img class="n-float" src="/images/icon-1.png" ng-click="addLabel()">
+        </div>
+        <div class="clear"></div>
+<!--<a style="cursor: pointer" class="h-float" ng-click="addLabel()"> 新建标签</a>-->
 <table class="table table-hover">
     <thead>
     <tr>
@@ -61,7 +67,9 @@
     </script>
     <!---------------------------- label新建层------------------------------->
     <script type="text/ng-template" id="labelAdd">
-
+        <div>
+            <a class="n-float" ng-click="addUsualIssue()">新建常用标签</a>
+        </div>
         <form class="form-horizontal" role="form">
             <div class="form-group">
                 <label for="lastname" class="col-sm-2 control-label">标签名称：</label>

@@ -1,9 +1,9 @@
-<div ng-controller="taskStatCtrl " class="width1140px">
-    <div>
+<div ng-controller="taskStatCtrl " >
+    <div class="nv-bars">
         当前位置: > 项目 > <a href="/gitHubApi/repositoryList">所有项目</a> >{{repository}}
     </div>
-    <div>
-        <ul style="background-color: #d9edf7" class="nav nav-tabs">
+    <div class="search-page">
+        <ul class="nav nav-tabs">
             <li > <a href="/gitHubApi/repositoryDetail/{{repository}}">项目简要统计</a></li>
             <li class="active"> <a href="/gitHubApi/taskStat/{{repository}}">任务统计</a></li>
             <li> <a href="/gitHubApi/analysisView/{{repository}}">分析视图</a></li>
@@ -16,18 +16,16 @@
     <div ng-include="projectTemplate"></div>
     <!---------------------------- 项目任务列表层------------------------------->
     <script type="text/ng-template" id="taskList">
-    <div class="buttons">
-        <div class="fl">
+    <div class="search">
             <span>用户名：</span>
-            <input  style="width: 100px" type="text" ng-model="worKeSelect.username"/>
+            <input class="with-search"type="text" ng-model="worKeSelect.realname"/>
             <span>姓名：</span>
-            <input style="width: 100px" type="text" ng-model="worKeSelect.realname"/>
+            <input  class="with-search" type="text" ng-model="worKeSelect.username"/>
             <span>时间(周数)：</span>
-            <input style="width: 100px" type="text" ng-model="worKeSelect.weekInYear"/>
+            <input class="with-search"  type="text" ng-model="worKeSelect.weekInYear"/>
             <span>时间(年)：</span>
-            <input style="width: 100px"  type="text" ng-model="worKeSelect.year"/>
+            <input class="with-search"  type="text" ng-model="worKeSelect.year"/>
             <a href="" class="btn btn-default" ng-click="getAllGitHubWork('flag')">查询</a>
-        </div>
     </div>
 
     <table class="table table-hover">
@@ -57,7 +55,7 @@
         </tbody>
     </table>
 
-    <div class="cleatfix"></div>
+    <div class="clear"></div>
     <div class="x-pagination fr h-float">
         <a href="" class="x-page mrright10" ng-click="changePage('prev')" ng-disabled="workPageObject.currentPage==1">上一页</a>
         <a href="" class="x-page mrright10" ng-bind="'第'+workPageObject.currentPage+'页'"
@@ -75,6 +73,7 @@
         <a href="" class="x-page" ng-click="changePage('next')"
            ng-disabled="workPageObject.currentPage==workPageObject.totalPage">下一页</a>
     </div>
+    <div class="clear"></div>
 </script>
     <!---------------------------- 项目个人详情列表层------------------------------->
     <script type="text/ng-template" id="projectDetailList">

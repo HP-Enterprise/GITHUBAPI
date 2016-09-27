@@ -1,28 +1,29 @@
-<div ng-controller="weekCtrl" class="width1140px">
-    <div class="col-sm-10">
+<div ng-controller="weekCtrl">
+    <div class="nv-bars">
         当前位置: > 统计分析 > 周粒度
     </div>
-    <div class="col-sm-2 fr">
-        <div class=" home h-home h-float">
-            <a href="" ng-click="DownloadExcel('flag')">导出EXCEL</a>
-        </div>
-    </div>
-    <div class="clearfix"></div>
-    <div class="buttons">
-        <div class="fl">
+    <!--<div class="col-sm-2 fr">-->
+        <!--<div class=" home h-home h-float">-->
+            <!--<a href="" ng-click="DownloadExcel('flag')">导出EXCEL</a>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <div class="search">
+        <div class="pad-10">
             <span>姓名：</span>
-            <input style="width: 120px" type="text" ng-model="worKeSelect.realname"/>
+            <input class="with-search" type="text" ng-model="worKeSelect.realname"/>
             <span>用户名：</span>
-            <input style="width: 120px"type="text" ng-model="worKeSelect.username"/>
+            <input class="with-search"type="text" ng-model="worKeSelect.username"/>
             <span>时间(周)：</span>
-            <input style="width: 120px" type="text" ng-model="worKeSelect.weekNum"/>
+            <input class="with-search" type="text" ng-model="worKeSelect.weekNum"/>
             <span>时间(年)：</span>
-            <input style="width: 120px" type="text" ng-model="worKeSelect.year"/>
+            <input class="with-search" type="text" ng-model="worKeSelect.year"/>
             <a href="" class="btn btn-default" ng-click="getAllGitHubWork('flag')">查询</a>
+            <img class="t-float" src="/images/icon-2.png"  ng-click="DownloadExcel('flag')">
         </div>
     </div>
 
-
+    <div class="clear"></div>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -50,7 +51,6 @@
         </tbody>
     </table>
 
-    <div class="cleatfix"></div>
     <div class="x-pagination fr h-float">
         <a href="" class="x-page mrright10" ng-click="changePage('prev')" ng-disabled="workPageObject.currentPage==1">上一页</a>
         <a href="" class="x-page mrright10" ng-bind="'第'+workPageObject.currentPage+'页'"
@@ -68,8 +68,7 @@
         <a href="" class="x-page" ng-click="changePage('next')"
            ng-disabled="workPageObject.currentPage==workPageObject.totalPage">下一页</a>
     </div>
-
-</div>
+<div class="clear"></div>
 
 </div>
 <!---->

@@ -3,27 +3,30 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=7"/>
     <META http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>导航条</title>
+    <title>inCar PM center</title>
     <META content="" name="keywords">
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
     <meta http-equiv="expires" content="0">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <link href="/css/main.css" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="/css/mycss.css"/>
+    <link rel="stylesheet" href="/css/public.css"/>
+    <link rel="stylesheet" href="/css/newPublic.css"/>
     <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
     <base href="/index.html"/>
 </head>
-<body ng-controller="indexGitCtrl as ic" class="ng-cloak">
-<div ng-hide="myLogin">
-  <div style="text-align:center;">
-    <img src="images/logo.png" alt=""/>
-      <div class="h-float" style="margin-right: 30px;margin-top: 20px;">
-     <a style="margin-right: 30px;">{{user.username }} </a>
-      <img style="cursor:pointer;" src="/images/loginOut.png" alt=""  ng-click="deletecookie()"/>
-      </div>
+<body ng-controller="indexGitCtrl as ic" class="ng-cloak" style="background-color: #F2F6F9;width:100%;overflow-x:hidden;font-size:12px;">
+<div ng-hide="myLogin" >
+  <div style="background: url('images/index-top-bg.jpg');">
+     <div ><img style="margin-left: 10%;height: 70px" src="/images/index-logo.png" alt="" />
+       <div style="float: right;padding-right: 10%;padding-top: 10px"><span >Welcome:</span>
+     <a style="margin-right: 30px;" ng-bind="user.username"></a>
+      <img style="cursor:pointer;right: 15%" src="/images/loginOut.png" alt=""  ng-click="deletecookie()"/>
+       </div>
+     </div>
   </div>
-<div class="container" id="main" role="main">
+    <div style="clear:both;"></div>
+<div class="container1" id="main" role="main">
     <ul class="menu">
 
 
@@ -91,8 +94,9 @@
     </ul>
 
 </div>
+    <div ng-view style="width: 80%;margin: 0 auto;background-color: #FFFFFF"></div>
 </div>
-<div ng-view></div>
+
 </body>
 <!--==========我是JS的分隔线~=====================================================================-->
 

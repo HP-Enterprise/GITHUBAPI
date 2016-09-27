@@ -1,5 +1,5 @@
 define(['../scripts/git','jquery'],function(module,$){
-    module.controller("repositoryListCtrl",function($scope,$http){
+    module.controller("repositoryListCtrl",function($scope,$http,$location){
         $scope.myVar1 = false;
         $scope.myVar2 = true;
         $scope.workPageObject = {
@@ -153,6 +153,10 @@ define(['../scripts/git','jquery'],function(module,$){
             $scope.myVar1 = !$scope.myVar1;
             $scope.myVar2 = !$scope.myVar2;
         };
+
+        $scope.addProject=function(){
+            $location.path("/gitHubApi/addRepository");
+        }
         //var url="/api/projectList"
         //$http.get(url).success(function (data) {
         //    $scope.repository = data.message;

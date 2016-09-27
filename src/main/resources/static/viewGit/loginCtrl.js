@@ -14,6 +14,7 @@ app.controller("loginCtrl",function($scope,$http,$location){
     var loginCookie = getCookie('token');
     if (loginCookie=='') {
         $scope.loginMgr = function (userAccount) {
+            console.log(userAccount)
             $http.post('/api/loginGit', userAccount).success(function (data, status, headers, config) {
                 if(data.status=="true"){
                     window.location.href="/gitHubApi/repositoryList";

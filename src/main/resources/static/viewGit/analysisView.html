@@ -1,10 +1,10 @@
-<div ng-controller="analysisViewCtrl " class="width1140px">
+<div ng-controller="analysisViewCtrl " >
 
-    <div>
+    <div class="nv-bars">
         当前位置: > 项目 > <a href="/gitHubApi/repositoryList">所有项目</a> >{{repository}}
     </div>
-    <div>
-        <ul style="background-color: #d9edf7" class="nav nav-tabs">
+    <div class="search-page">
+        <ul class="nav nav-tabs">
             <li > <a href="/gitHubApi/repositoryDetail/{{repository}}">项目简要统计</a></li>
             <li > <a href="/gitHubApi/taskStat/{{repository}}">任务统计</a></li>
             <li class="active"> <a href="/gitHubApi/analysisView/{{repository}}">分析视图</a></li>

@@ -1,8 +1,9 @@
-<div ng-controller="milestoneListCtrl" class="width1140px">
-    <div>
+<div ng-controller="milestoneListCtrl" >
+    <div class="nv-bars">
         当前位置: > 项目 > <a href="/gitHubApi/repositoryList">所有项目</a> >{{repository}}
     </div>
-    <ul style="background-color: #d9edf7" class="nav nav-tabs">
+    <div class="search-page">
+    <ul  class="nav nav-tabs">
         <li > <a href="/gitHubApi/repositoryDetail/{{repository}}">项目简要统计</a></li>
         <li > <a href="/gitHubApi/taskStat/{{repository}}">任务统计</a></li>
         <li> <a href="/gitHubApi/analysisView/{{repository}}">分析视图</a></li>
@@ -11,10 +12,15 @@
         <li><a href="/gitHubApi/labelList/{{repository}}">标签</a></li>
         <li class="active"> <a href="/gitHubApi/milestoneList/{{repository}}">里程碑</a></li>
     </ul>
+    </div>
     <div ng-include="milestoneTemplate"></div>
     <!---------------------------- 里程碑列表层------------------------------->
     <script type="text/ng-template" id="milestoneList">
-<a style="cursor: pointer" class="h-float" ng-click="addMilestone()">新建里程碑</a>
+        <div>
+            <img class="n-float" src="/images/icon-1.png" ng-click="addMilestone()">
+        </div>
+        <div class="clear"></div>
+<!--<a style="cursor: pointer" class="h-float" ng-click="addMilestone()">新建里程碑</a>-->
 <table class="table " >
     <thead>
     <tr>
@@ -37,6 +43,7 @@
     </tr>
     </tbody>
 </table>
+        <div class="clear"></div>
     </script>
     <!---------------------------- 里程碑修改层------------------------------->
 
@@ -78,7 +85,10 @@
     <!---------------------------- 里程碑新建层------------------------------->
 
     <script type="text/ng-template" id="milestoneAdd">
-        <a class="h-float" ng-click="addUsualMilestone()">新建常用里程碑</a>
+        <div>
+        <a class="n-float" ng-click="addUsualMilestone()">新建常用里程碑</a>
+        </div>
+        <div class="clear"></div>
         <form class="form-horizontal" role="form">
             <div class="form-group">
                 <label for="title" class="col-sm-2 control-label">里程碑标题</label>

@@ -1,8 +1,9 @@
 <div ng-controller="issueCtrl " class="width1140px">
-    <div>
+    <div class="nv-bars">
         当前位置: > 项目 > <a href="/gitHubApi/repositoryList">所有项目</a> >{{repository}}
     </div>
-    <ul style="background-color: #d9edf7" class="nav nav-tabs">
+    <div class="search-page">
+    <ul  class="nav nav-tabs">
         <li > <a href="/gitHubApi/repositoryDetail/{{repository}}">项目简要统计</a></li>
         <li > <a href="/gitHubApi/taskStat/{{repository}}">任务统计</a></li>
         <li> <a href="/gitHubApi/analysisView/{{repository}}">分析视图</a></li>
@@ -11,10 +12,11 @@
         <li ><a href="/gitHubApi/labelList/{{repository}}">标签</a></li>
         <li > <a href="/gitHubApi/milestoneList/{{repository}}">里程碑</a></li>
     </ul>
+    </div>
  <div ng-include="issueTemplate"></div>
     <!--------------------------- issue列表层------------------------------->
  <script type="text/ng-template" id="issueList">
-  <div>
+  <div class="search">
   <span>状态：</span>
       <select ng-model="worKeSelect.state">
           <option selected =""></option>
@@ -23,7 +25,8 @@
       </select>
   <!--<input type="text" ng-model="worKeSelect.state"/>-->
   <a href="" class="btn btn-default" ng-click="getAllGitHubWork('flag')">查询</a>
-  <a style="cursor: pointer" class="h-float" ng-click="newIssue()"> 新建Issue</a>
+      <img class="t-float" src="/images/icon-1.png" ng-click="newIssue()">
+  <!--<a style="cursor: pointer" class="h-float" ng-click="newIssue()"> 新建Issue</a>-->
   </div>
   <table class="table table-hover">
    <thead>
@@ -51,7 +54,7 @@
    </tr>
    </tbody>
   </table>
- <div class="cleatfix"></div>
+
  <div class="x-pagination fr h-float">
   <a href="" class="x-page mrright10" ng-click="changePage('prev')" ng-disabled="workPageObject.currentPage==1">上一页</a>
   <a href="" class="x-page mrright10" ng-bind="'第'+workPageObject.currentPage+'页'"
@@ -69,6 +72,7 @@
   <a href="" class="x-page" ng-click="changePage('next')"
      ng-disabled="workPageObject.currentPage==workPageObject.totalPage">下一页</a>
  </div>
+  <div class="clear"></div>
 </script>
                       <!--------------------------- issue添加层------------------------------->
     <script type="text/ng-template" id="issueAdd">

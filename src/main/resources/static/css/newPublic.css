@@ -1,0 +1,35 @@
+/*导航指示*/
+.nv-bars{
+    margin: 0 15px;
+    padding-top: 10px
+}
+/*pad-10*/
+.pad-10{
+    padding: 10px 10px;
+}
+/*search*/
+.search{
+    background-color: #F3F7FA;
+    margin:10px 15px ;
+    height: auto;
+}
+/*条件查询宽度*/
+.with-search{
+    width: 120px;
+}
+/*图标右浮动*/
+.t-float{
+    float: right;
+    cursor: pointer
+}
+/*page页*/
+.search-page{
+    background-color: #d8ecf6;
+    margin:10px 15px
+}
+/*新建图标*/
+.n-float{
+    float: right;
+    cursor: pointer;
+padding-right: 15px;
+}
