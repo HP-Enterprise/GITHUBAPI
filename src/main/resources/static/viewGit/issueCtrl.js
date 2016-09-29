@@ -1,4 +1,4 @@
-define(['../scripts/git','jquery','../scripts/service/baService'],function(module,$){
+define(['../scripts/git','jquery','angularMulti','../scripts/service/baService'],function(module,$){
     module.controller("issueCtrl",function($scope,$http,$routeParams,baService){
         $scope.repository = $routeParams.repository;
         $scope.issueTemplate="issueList";
@@ -13,6 +13,13 @@ define(['../scripts/git','jquery','../scripts/service/baService'],function(modul
         //    }
         //    return "";
         //};
+        $scope.modernBrowsers = [
+            { icon:1 ,               name: "Opera",              maker: "(Opera Software)",        ticked: true  },
+            { icon: 2,   name: "Internet Explorer",  maker: "(Microsoft)",             ticked: false },
+            { icon: 3 ,        name: "Firefox",            maker: "(Mozilla Foundation)",    ticked: true  },
+            { icon:  4,      name: "Safari",             maker: "(Apple)",                 ticked: false },
+            { icon:  5,              name: "Chrome",             maker: "(Google)",                ticked: true  }
+        ];
         var loginCookie = baService.getCookie('token');
         //·ÖÒ³Ìõ¼þ
         $scope.workPageObject = {
@@ -116,6 +123,7 @@ define(['../scripts/git','jquery','../scripts/service/baService'],function(modul
         }
 
         $scope.addIssue=function(issue){
+            console.log(issue)
             var url="api/addIssue/"+"/"+ $scope.repository+"/"+loginCookie;
             $http.post(url,issue).success(function () {
                 alert("success");

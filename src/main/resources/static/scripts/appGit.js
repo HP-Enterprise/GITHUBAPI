@@ -7,6 +7,7 @@ requirejs.config({
         bootstrap:"/lib/bootstrap/dist/js/bootstrap.min",
         highcharts:"/lib/Highcharts/js/highcharts",
         highchartsMore:"/lib/Highcharts/js/highcharts-more",
+        angularMulti:"/lib/angular-multi-select-master/isteven-multi-select",
     },
     shim:{
         jquery: { exports: '$' },
@@ -15,7 +16,8 @@ requirejs.config({
         angularResource: ['angular'],
         angularRoute:['angular'],
         highcharts: ['jquery'],
-        highchartsMore: ['jquery']
+        highchartsMore: ['jquery'],
+        angularMulti: ['jquery']
     }
 });
 

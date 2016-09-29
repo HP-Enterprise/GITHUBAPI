@@ -1,6 +1,6 @@
-define(['angular','routesGit','../scripts/service/dependencyResolverFor','angularResource','angularRoute','bootstrap',], function(angular,config, dependencyResolverFor)
+define(['angular','routesGit','../scripts/service/dependencyResolverFor','angularResource','angularRoute','bootstrap','angularMulti'], function(angular,config, dependencyResolverFor)
 {
-    var app = angular.module('git', [ 'ngResource', 'ngRoute']);
+    var app = angular.module('git', [ 'ngResource', 'ngRoute','isteven-multi-select']);
     app.config(
         [
             '$routeProvider',

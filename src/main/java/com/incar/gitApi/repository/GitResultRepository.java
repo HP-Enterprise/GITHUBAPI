@@ -33,7 +33,7 @@ public interface GitResultRepository extends JpaRepository<GitResult,Integer>{
     List<GitResult> findOpenGitRet(String assignee, String state, Date weekEnd);
     @Query( "select g from GitResult g where g.assignee = ?1")
     List<GitResult> findAllGitRet(String assignee);
-    @Query("select g from GitResult g where g.project=?1 and (?2 is null or g.state=?2)")
+    @Query("select g from GitResult g where g.project=?1 and (?2 is null or g.state=?2)order by g.createdAt DESC")
     Page<GitResult> findPage(String project ,String state,Pageable pageable);
 
     @Query( "select g from GitResult g where g.project=?1 and g.assignee = ?2 and g.state = ?3 and  g.createdAt< ?4 ")
