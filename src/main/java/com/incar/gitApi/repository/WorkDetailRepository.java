@@ -3,10 +3,12 @@ package com.incar.gitApi.repository;
 import com.incar.gitApi.entity.WorkDetail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -41,4 +43,9 @@ public interface WorkDetailRepository extends CrudRepository<WorkDetail,Integer>
 
     @Query("select w from WorkDetail w where w.userName=?1")
     List<WorkDetail> findAll(String userName);
+
+    @Modifying
+    @Transactional
+    @Query("delete from WorkDetail w where w.week=?1 and w.year=?2")
+    int deleteByWeekAndYear(int week,int year);
 }

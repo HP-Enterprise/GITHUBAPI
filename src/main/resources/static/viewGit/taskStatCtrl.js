@@ -101,6 +101,7 @@ define(['../scripts/git','jquery'],function(module,$){
             $scope.projectTemplate="taskList";
         }
         $scope.projectDetail=function(a){
+            console.log(a);
             $scope.projectTemplate="projectDetailList";
             $scope.ProjectSearch = {
                 params: {
@@ -108,19 +109,20 @@ define(['../scripts/git','jquery'],function(module,$){
                     userName: a.username,
                     week: a.weekInYear,
                     year:a.year,
-                    currentPage: $scope.workPageObject.currentPage,
-                    pageSize: $scope.workPageObject.pageSize,
+                    currentPage: 1,
+                    pageSize: 15,
                 }
             };
 
 
             $http.get("/api/projectWorkDetail", $scope.ProjectSearch).success(function (data, status, headers) {
                 $scope.projectWorkDetail = data.message;
+                console.log( $scope.projectWorkDetail)
                 $scope.Project=data.message[0];
                 $scope.$watch('Project',function(newValue,oldValue, scope){
                     $scope.oneProject=newValue;
                 });
-             
+
             }).error(function (err) {
                 console.log(err);
             })

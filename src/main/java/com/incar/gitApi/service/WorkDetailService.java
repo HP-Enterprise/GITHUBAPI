@@ -38,6 +38,10 @@ public class WorkDetailService {
         workDetailRepository.deleteAll();
     }
 
+    public void deleteWorkDetailInfoByWeek(){
+        workDetailRepository.deleteByWeekAndYear(DateUtil.getWeekInYear(),DateUtil.getYear());
+    }
+
     /**
      * 保存所有的WorkDetail信息
      */
@@ -49,6 +53,47 @@ public class WorkDetailService {
         }
     }
 
+    /**
+     * 保存本年本周的workdetail
+     */
+    public void saveWeekWorkDetailInfo(){
+        try{ List<WorkDetail> workDetails= getWeekWorkDetailInfo();
+            workDetailRepository.save(workDetails);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 获取本年本周的workdetail信息
+     */
+    public List<WorkDetail> getWeekWorkDetailInfo() {
+        Properties properties1 = workService.getRealnameProperties();
+        List<GitResult> gitResults3 = gitResultRepository.findAll();
+        List<GitResult> gitResults2 = workService.getGitRetHasLabelHOrD(gitResults3);
+        List<WorkDetail> workDetails1 = new ArrayList<>();
+        for (GitResult gitResult : gitResults2) {
+            if (this.oneIssueWeek(gitResult)==DateUtil.getWeekInYear() &&this.oneIssueYear(gitResult)==DateUtil.getYear()) {
+                if (gitResult.getAssignee() != null) {//防止插入真实姓名出现空指针异常
+                    WorkDetail workDetail = new WorkDetail();
+                    workDetail.setState(gitResult.getState());
+                    workDetail.setUserName(gitResult.getAssignee());
+                    workDetail.setRealName((String) properties1.get(gitResult.getAssignee()));
+                    workDetail.setState(gitResult.getState());
+                    workDetail.setTitle(gitResult.getTitle());
+                    workDetail.setProject(gitResult.getProject());
+                    workDetail.setActualTime(this.oneIssueActuWork(gitResult));
+                    workDetail.setExpectedTime(workService.oneIssueWork(gitResult));
+                    workDetail.setEfficiency(this.oneIssueEffic(gitResult));
+                    workDetail.setWeek(this.oneIssueWeek(gitResult));
+                    workDetail.setMonth(this.oneIssueMonth(gitResult));
+                    workDetail.setQuarter(this.oneIssueQuarter(gitResult));
+                    workDetail.setYear(this.oneIssueYear(gitResult));
+                    workDetails1.add(workDetail);
+                }
+            }
+        }
+        return workDetails1;
+    }
     /**
      * 获取所有WorkDetail信息
      * @return
@@ -128,7 +173,7 @@ public class WorkDetailService {
     public int oneIssueWeek(GitResult gitResult){
         time= gitResult.getClosedAt();
         if(time==null) {
-                time = gitResult.getCreatedAt();
+                time = new Date();
         }
       int week=  DateUtil.getIssueWeek(time);
         return week;
@@ -143,7 +188,7 @@ public class WorkDetailService {
         time= gitResult.getDueOn();
         if(time==null) {
             if(gitResult.getState().equals("open")) {
-                time = gitResult.getCreatedAt();
+                time = new Date();
             }else{
                 time = gitResult.getClosedAt();
             }
@@ -161,7 +206,7 @@ public class WorkDetailService {
         time= gitResult.getDueOn();
         if(time==null) {
             if(gitResult.getState().equals("open")) {
-                time = gitResult.getCreatedAt();
+                time = new Date();
             }else{
                 time = gitResult.getClosedAt();
             }
@@ -179,7 +224,7 @@ public class WorkDetailService {
         time= gitResult.getDueOn();
         if(time==null) {
             if(gitResult.getState().equals("open")) {
-                time = gitResult.getCreatedAt();
+                time = new Date();
             }else{
                 time = gitResult.getClosedAt();
             }

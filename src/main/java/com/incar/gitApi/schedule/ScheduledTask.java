@@ -70,10 +70,14 @@ public class ScheduledTask {
     }
     @Scheduled(cron = "${git.gitDetail.cron}")
     public void gitRetDetail(){
+//        logger.info(">>>>>>>>>>> deleting workDetailInfo >>>>>>>>>>>>");
+//        workDetailService.deleteWorkDetailInfo();
+//        logger.info(">>>>>>>>>>> saving workDetailInfo >>>>>>>>>>>>");
+//        workDetailService.saveWorkDetailInfo();
         logger.info(">>>>>>>>>>> deleting workDetailInfo >>>>>>>>>>>>");
-        workDetailService.deleteWorkDetailInfo();
+        workDetailService.deleteWorkDetailInfoByWeek();
         logger.info(">>>>>>>>>>> saving workDetailInfo >>>>>>>>>>>>");
-        workDetailService.saveWorkDetailInfo();
+        workDetailService.saveWeekWorkDetailInfo();
     }
      @Scheduled(cron = "${git.gitWeek.cron}")
     public void gitWeek(){
