@@ -116,9 +116,11 @@ define(['../scripts/git','jquery'],function(module,$){
 
             $http.get("/api/projectWorkDetail", $scope.ProjectSearch).success(function (data, status, headers) {
                 $scope.projectWorkDetail = data.message;
-                $scope.oneProject=data.message[0];
-                console.log($scope.oneProject);
-                console.log($scope.projectWorkDetail )
+                $scope.Project=data.message[0];
+                $scope.$watch('Project',function(newValue,oldValue, scope){
+                    $scope.oneProject=newValue;
+                });
+             
             }).error(function (err) {
                 console.log(err);
             })
