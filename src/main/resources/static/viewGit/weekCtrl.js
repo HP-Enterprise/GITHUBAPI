@@ -1,6 +1,15 @@
 define(['../scripts/git', 'jquery'], function (module, $) {
     module.controller("weekCtrl", function ($scope, $http) {
 
+
+        $scope.work={
+            username:'张三',age:20,city:'武汉',
+            username:'lsi',age:21,city:'武汉'
+        }
+
+
+
+
         //分页条件
         $scope.workPageObject = {
             currentPage: 1,

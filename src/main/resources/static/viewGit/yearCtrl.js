@@ -41,6 +41,7 @@ define(['../scripts/git', 'jquery'], function (module, $) {
             $http.get("/api/workOfYear", $scope.workSearch).success(function (data, status, headers) {
                 $scope.workPageObject.totalPage = headers('Page-Count'); //×ÜÒ³Êý
                 $scope.allWork = data.message;
+                //console.log($scope.allWork);
                 $scope.workPageObject.pages = [];
                 for (var i = 1; i <= $scope.workPageObject.totalPage; i++) {
                     $scope.workPageObject.pages.push(i);

@@ -101,7 +101,6 @@ define(['../scripts/git','jquery'],function(module,$){
             $scope.projectTemplate="taskList";
         }
         $scope.projectDetail=function(a){
-            console.log(a);
             $scope.projectTemplate="projectDetailList";
             $scope.ProjectSearch = {
                 params: {
@@ -117,7 +116,6 @@ define(['../scripts/git','jquery'],function(module,$){
 
             $http.get("/api/projectWorkDetail", $scope.ProjectSearch).success(function (data, status, headers) {
                 $scope.projectWorkDetail = data.message;
-                console.log( $scope.projectWorkDetail)
                 $scope.Project=data.message[0];
                 $scope.$watch('Project',function(newValue,oldValue, scope){
                     $scope.oneProject=newValue;

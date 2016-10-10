@@ -26,64 +26,68 @@
                 }
 
         </script>
+      <style>
+              input{
+                      font-family: Microsoft YaHei;
+                      border-radius:0px;!important;
+              }
+              label{
+                      font-family: Microsoft YaHei;
+              }
+              .login_btn{
+                      background: #84BA43!important;
+                      border-radius: 0px;
+                      border:none;
+              }
+              .login_btn:hover{
+                      background-color: #87BC47!important;
+              }
+      </style>
 </head>
-<body ng-app="LoginApp" style="background: url('images/login-bg.jpg') no-repeat;background-size: 100%" onkeydown="keyLogin();">
-<div ng-controller="loginCtrl" class="container"  >
+<body ng-app="LoginApp" onkeydown="keyLogin();" style="background: url('images/login-bg.jpg')no-repeat ;background-size: 100% ;" >
+<div ng-controller="loginCtrl"  >
              <!--<div  style="position:absolute;top:120px;left:35%;height: 35px;width: 360px;">-->
              <!--<img style="width: 50%" src="/images/login-logo.png"/>-->
                      <!--<img style="width: 50%" src="/images/login-pmc.png"/>-->
              <!--</div>-->
-        <div style="width:360px;position:fixed;left:35%;top:30%;">
-                <div  style="height: 35px;z-index: 2">
-                        <div class="logoLeft" style="float: left;position:relative;">
-                                <img style="width: 180px;position:absolute;left:0;top:-15px;" src="/images/login-logo.png"/>
-                        </div>
-                        <div class="logoRight" style="float: right;; position:relative;">
-                                <img style="width: 150px;position:absolute;right:0;top:10px;" src="/images/login-pmc.png"/>
-                        </div>
+       <div  >
+                <div style="margin:0 auto ;width: 430px;padding-top:15%">
+                        <div  style="height: 35px;z-index: 2">
+                                <div class="logoLeft" style="float: left;position:relative;">
+                                        <img style="width: 180px;position:absolute;left:0;top:-20px;" src="/images/login-logo.png"/>
+                                </div>
+                                <div class="logoRight" style="float: right;; position:relative;">
+                                        <img style="width: 150px;position:absolute;right:0;top:10px;" src="/images/login-pmc.png"/>
+                                </div>
 
+                        </div>
+                        <div class="clear" style="clear:both;"></div>
+
+                        <form class="form-horizontal" role="form" style="background:rgba(255,255,255 ,0.5);" style="">
+                                <div class="form-group" style="padding-top: 60px">
+                                        <label for="inputEmail3" class="col-md-3 control-label">用户名</label>
+                                        <div class="col-md-7">
+                                                <input type="text" class="form-control" id="inputEmail3" placeholder="name" ng-model="userAccount.username">
+                                        </div>
+                                </div>
+                                <div class="form-group" style="margin-top: 60px">
+                                        <label for="inputPassword3" class="col-md-3 control-label">密码</label>
+                                        <div class="col-md-7">
+                                                <input type="password" class="form-control" id="inputPassword3" placeholder="Password" ng-model="userAccount.password">
+                                        </div>
+                                </div>
+                                <div class="form-group" style="margin-top: 60px">
+                                        <div class="col-md-12">
+                                                <button id="input_login" type="button" class="login_btn btn btn-primary btn-lg btn-block "  ng-click="loginMgr(userAccount)">登录</button>
+                                        </div>
+                                </div>
+                        </form>
+                        <div class="clear" style="clear:both;"></div>
                 </div>
-                <div class="clear" style="clear:both;"></div>
-                <!--<form  style="background-color: #d9edf7">-->
-                        <!--<div style="margin-top:40px"class="form-item" >-->
-                                <!--<label style="width:20%;float:left;;margin-left:10%; display:block;">用户名:</label>-->
-                                <!--<input style="width:60%;float:right;margin-right:10%; display: block;"class="form-text required"  type="text"  placeholder="请输入用户名" ng-model="userAccount.username"/>-->
-                        <!--</div>-->
-                        <!--<div style="margin-top:40px" class="form-item">-->
-                                <!--<label style="width:20%;float:left;margin-left:10%;display:block;">密码:</label>-->
-                                <!--<input style="width:60%;float:right;margin-top: 40px;margin-right: 10%; display: block;"class="form-text required"  type="password"  placeholder="请输入密码" ng-model="userAccount.password"/>-->
-                        <!--</div>-->
-                        <!--<div style="margin-top:40px"class="form-item" >-->
-                                <!--&lt;!&ndash;<label type="checkbox" /><input>记住密码</label>&ndash;&gt;-->
-                                <!--<input  style="width:150px;float:right;margin-top: 40px;display: block;"class="form-text required" type="submit" value="登录" ng-click="loginMgr(userAccount)"/>-->
-                                <!--<div class="clear"></div>-->
-                        <!--</div>-->
-                <!--</form>-->
-                <form class="form-horizontal" role="form" style="background:#DBF19F;" style="margin-top: 40px">
-                        <div class="form-group" style="padding-top: 40px">
-                                <label for="inputEmail3" class="col-md-3 control-label">用户名</label>
-                                <div class="col-md-7">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="name" ng-model="userAccount.username">
-                                </div>
-                        </div>
-                        <div class="form-group" style="margin-top: 40px">
-                                <label for="inputPassword3" class="col-md-3 control-label">密码</label>
-                                <div class="col-md-7">
-                                        <input type="password" class="form-control" id="inputPassword3" placeholder="Password" ng-model="userAccount.password">
-                                </div>
-                        </div>
-                        <div class="form-group" style="margin-top: 40px">
-                                <div class="col-md-12">
-                                        <button id="input_login" type="button" class="btn btn-primary btn-lg btn-block " style="background-color:#7dbe00" ng-click="loginMgr(userAccount)">登录</button>
-                                </div>
-                        </div>
-                </form>
-        </div>
-
-        <div class="clear"></div>
-
-
+       </div>
 </div>
+<div class="clear" style="clear:both;"></div>
+<!--<div style="padding-bottom: 85px"></div>-->
 </body>
 
 </html>

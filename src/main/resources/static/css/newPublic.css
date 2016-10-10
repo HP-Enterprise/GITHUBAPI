@@ -1,21 +1,42 @@
 /*导航指示*/
 .nv-bars{
     margin: 0 15px;
-    padding-top: 10px
+    padding-top: 25px;
+    padding-bottom: 10px;
 }
 /*pad-10*/
 .pad-10{
-    padding: 10px 10px;
+    padding: 17px 15px;
 }
 /*search*/
 .search{
     background-color: #F3F7FA;
-    margin:10px 15px ;
-    height: auto;
+    margin:20px 15px ;
+    height: 66px;
+}
+/*pad-10*/
+.pad-15{
+    padding: 9px 15px;
+}
+.padt30{
+    padding-top: 30px
+}
+.pad30{
+    padding: 30px 0px;
+}
+.pad-20{
+    padding: 10px 22px!important;
+}
+/*search*/
+.search-1{
+    background-color: #F3F7FA;
+    margin:20px 15px ;
+    height: 50px;
 }
 /*条件查询宽度*/
 .with-search{
     width: 120px;
+    margin-right:20px ;
 }
 /*图标右浮动*/
 .t-float{
@@ -24,12 +45,57 @@
 }
 /*page页*/
 .search-page{
-    background-color: #d8ecf6;
+    background-color: #F4F5F9;
     margin:10px 15px
+}
+.marl40{
+    margin-left: 40px!important;
+}
+.t-center{
+    text-align:center;
 }
 /*新建图标*/
 .n-float{
     float: right;
     cursor: pointer;
 padding-right: 15px;
+}
+/*新建页面*/
+.new-form{
+    margin: 30px 15px;background-color: #F2F6F7
+}
+/*new图标*/
+.new-1{
+    width: 66px;float: right;background-color: #DBE2E8;z-index: 3;margin-top: -64px;padding: 13px ;height: 66px;
+}
+.new-2{
+    width:40px;height:40px;border:1px solid #84BA43 ;background-color: #fff;cursor: pointer
+}
+.new-3{
+    width: 50px;float: right;background-color: #DBE2E8;z-index: 3;margin-top: -53px;padding: 5px ;height: 50px;
+}
+.new-4{
+    width:40px;height:40px;border:1px solid #84BA43 ;background-color: #fff;cursor: pointer
+}
+.btn-ser{
+    padding: 0px auto;margin-left:40px;height: 30px;
+}
+.marg5{
+    margin: 5px;
+}
+/*表格*/
+.t-table{
+    margin: 0 15px;height: 500px
+}
+/*奇数行*/
+table tbody tr:nth-child(odd) td { background-color: #FDFDFE;font-family: Microsoft YaHei;border-top: 1px; padding: 13px 8px}
+/*偶数行*/
+table tbody tr:nth-child(even) td { background-color: #F7F8FA;font-family: Microsoft YaHei;border-top: 1px;padding: 13px 8px }
+.table>thead>tr>th{
+    vertical-align: bottom;
+    border-bottom: 2px solid #A6CC76 !important;
+}
+/*颜色*/
+.g-color{
+    color: #9DC97B!important;
 }

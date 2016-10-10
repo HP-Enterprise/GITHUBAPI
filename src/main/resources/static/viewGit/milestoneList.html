@@ -1,16 +1,16 @@
 <div ng-controller="milestoneListCtrl" >
     <div class="nv-bars">
-        当前位置: > 项目 > <a href="/gitHubApi/repositoryList">所有项目</a> >{{repository}}
+        当前位置:&nbsp;&nbsp;>&nbsp;&nbsp;项目&nbsp;&nbsp;>&nbsp;&nbsp;<a href="/gitHubApi/repositoryList">所有项目</a>&nbsp;&nbsp;>&nbsp;&nbsp;{{repository}}
     </div>
     <div class="search-page">
     <ul  class="nav nav-tabs">
-        <li > <a href="/gitHubApi/repositoryDetail/{{repository}}">项目简要统计</a></li>
-        <li > <a href="/gitHubApi/taskStat/{{repository}}">任务统计</a></li>
-        <li> <a href="/gitHubApi/analysisView/{{repository}}">分析视图</a></li>
-        <li><a href="/gitHubApi/projectStaff/{{repository}}">项目人员</a></li>
-        <li>  <a href="/gitHubApi/issue/{{repository}}">issue</a></li>
-        <li><a href="/gitHubApi/labelList/{{repository}}">标签</a></li>
-        <li class="active"> <a href="/gitHubApi/milestoneList/{{repository}}">里程碑</a></li>
+        <li > <a class="pad-20" href="/gitHubApi/repositoryDetail/{{repository}}">项目简要统计</a></li>
+        <li > <a class="pad-20" href="/gitHubApi/taskStat/{{repository}}">任务统计</a></li>
+        <li> <a  class="pad-20"href="/gitHubApi/analysisView/{{repository}}">分析视图</a></li>
+        <li><a class="pad-20" href="/gitHubApi/projectStaff/{{repository}}">项目人员</a></li>
+        <li>  <a  class="pad-20"href="/gitHubApi/issue/{{repository}}">issue</a></li>
+        <li><a  class="pad-20"href="/gitHubApi/labelList/{{repository}}">标签</a></li>
+        <li class="active "> <a class="g-color pad-20" href="/gitHubApi/milestoneList/{{repository}}">里程碑</a></li>
     </ul>
     </div>
     <div ng-include="milestoneTemplate"></div>
@@ -21,6 +21,7 @@
         </div>
         <div class="clear"></div>
 <!--<a style="cursor: pointer" class="h-float" ng-click="addMilestone()">新建里程碑</a>-->
+        <div style=" margin: 0 15px;">
 <table class="table " >
     <thead>
     <tr>
@@ -43,70 +44,115 @@
     </tr>
     </tbody>
 </table>
+        </div>
         <div class="clear"></div>
     </script>
     <!---------------------------- 里程碑修改层------------------------------->
 
     <script type="text/ng-template" id="milestoneModify">
-    <form role="form">
-        <table class="table table-hover">
-            <tr>
-                <td>里程碑标题：</td>
-                <td><input  type="text" ng-model="updateMil.title">
-                </td>
-            </tr>
-            <tr>
-                <td>里程碑状态：</td>
-                <td><input type="radio" name="state" value="open" ng-model="updateMil.state"/>开启
-                    <input type="radio" name="state" value="close" ng-model="updateMil.state"/>关闭
-                </td>
-            </tr>
-            <tr>
-                <td>里程碑描述：</td>
-                <td><input  type="text" ng-model="updateMil.description">
-                </td>
-            </tr>
-            <tr>
-                <td>截止时间：</td>
-                <td>
-                    <input class="form-control" type="text " ng-model="updateMil.dueOn ">
-                </td>
-            </tr>
+        <div style="height: 550px">
+        <div class="new-form">
+            <form class="form-horizontal" role="form">
+                <div class="form-group padt30">
+                    <label for="title1" class="col-sm-2 control-label">里程碑标题:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="title1" ng-model="updateMil.title">
+                    </div>
+                </div>
+                <div class="form-group padt30">
+                    <label for="description1" class="col-sm-2 control-label">里程碑描述:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="description1" ng-model="updateMil.description">
+                    </div>
+                </div>
+                <div class="form-group padt30">
+                    <label  class="col-md-2 control-label">状态:</label>
+                    <div class="col-md-8">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="state"  value="open" ng-model="updateMil.state"> 开启
+                            </label>
+                            <label>
+                                <input type="radio" name="state"  value="close" ng-model="updateMil.state"> 关闭
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group padt30">
+                    <label for="dueOn1" class="col-sm-2 control-label">截止时间:</label>
+                    <div class=" col-sm-8">
+                        <input id="dueOn1" class="form-control" type="text" ng-model="updateMil.dueOn">
+                    </div>
+                </div>
+                <div class="form-group pad30">
+                    <div class="col-sm-offset-10 col-sm-2">
+                        <button class="btn btn-default" value="submit2"  ng-click="cancel()">取消</button>
+                        <button type="submit" class="btn btn-default marl40" value="submit1"  ng-click="modifyMilestone(updateMil)">修改</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        </div>
+    <!--<form role="form">-->
+        <!--<table class="table table-hover">-->
+            <!--<tr>-->
+                <!--<td>里程碑标题：</td>-->
+                <!--<td><input  type="text" ng-model="updateMil.title">-->
+                <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>里程碑状态：</td>-->
+                <!--<td><input type="radio" name="state" value="open" ng-model="updateMil.state"/>开启-->
+                    <!--<input type="radio" name="state" value="close" ng-model="updateMil.state"/>关闭-->
+                <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>里程碑描述：</td>-->
+                <!--<td><input  type="text" ng-model="updateMil.description">-->
+                <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>截止时间：</td>-->
+                <!--<td>-->
+                    <!--<input class="form-control" type="text " ng-model="updateMil.dueOn ">-->
+                <!--</td>-->
+            <!--</tr>-->
 
-            <td></td>
-            <td>
-                <button class="btn btn-default" value="submit2"  ng-click="cancel()">取消</button>
-                <button class="btn btn-default" value="submit1"  ng-click="modifyMilestone(updateMil)">修改</button>
-            </td>
-            </tr>
-        </table>
-    </form>
+            <!--<td></td>-->
+            <!--<td>-->
+                <!--<button class="btn btn-default" value="submit2"  ng-click="cancel()">取消</button>-->
+                <!--<button class="btn btn-default" value="submit1"  ng-click="modifyMilestone(updateMil)">修改</button>-->
+            <!--</td>-->
+            <!--</tr>-->
+        <!--</table>-->
+    <!--</form>-->
     </script>
     <!---------------------------- 里程碑新建层------------------------------->
 
     <script type="text/ng-template" id="milestoneAdd">
+        <div style="height: 550px">
         <div>
         <a class="n-float" ng-click="addUsualMilestone()">新建常用里程碑</a>
         </div>
-        <div class="clear"></div>
+        <div class="new-form">
         <form class="form-horizontal" role="form">
-            <div class="form-group">
-                <label for="title" class="col-sm-2 control-label">里程碑标题</label>
-                <div class="col-sm-10">
+            <div class="form-group padt30">
+                <label for="title" class="col-sm-2 control-label">里程碑标题:</label>
+                <div class="col-sm-8">
                     <input type="text" class="form-control" id="title" ng-model="milestone.title"
                            placeholder="请输入里程碑标题">
                 </div>
             </div>
-            <div class="form-group">
-                <label for="description" class="col-sm-2 control-label">里程碑描述</label>
-                <div class="col-sm-10">
+            <div class="form-group padt30">
+                <label for="description" class="col-sm-2 control-label">里程碑描述:</label>
+                <div class="col-sm-8">
                     <input type="text" class="form-control" id="description" ng-model="milestone.description"
                            placeholder="请输入里程碑描述">
                 </div>
             </div>
-            <div class="form-group">
-                <label  class="col-md-2 control-label">状态</label>
-                <div class="col-md-10">
+            <div class="form-group padt30">
+                <label  class="col-md-2 control-label">状态:</label>
+                <div class="col-md-8">
                     <div class="radio">
                         <label>
                             <input type="radio" name="state"  value="open" ng-model="milestone.state"> 开启
@@ -117,18 +163,20 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="dueOn" class="col-sm-2 control-label">截止时间</label>
+            <div class="form-group padt30">
+                <label for="dueOn" class="col-sm-2 control-label">截止时间:</label>
                 <div class="col-sm-2 col-sm-8">
                     <input id="dueOn" class="form-control" type="date" ng-model="milestone.dueOn">
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-4 col-sm-8">
+            <div class="form-group pad30">
+                <div class="col-sm-offset-10 col-sm-2">
                     <button class="btn btn-default" value="submit2"  ng-click="cancel()">取消</button>
-                    <button type="submit" class="btn btn-default" value="submit1"  ng-click="submit1(milestone)">添加</button>
+                    <button type="submit" class="btn btn-default marl40" value="submit1"  ng-click="submit1(milestone)">添加</button>
                 </div>
             </div>
         </form>
+        </div>
+        </div>
     </script>
 </div>

@@ -1,8 +1,8 @@
 @charset "utf-8";
 /* CSS Document */
 /* pub + 初始化*/
-body{ font-family:"Microsoft YaHei" ;width:100%;overflow-x:hidden;font-size:12px;}
-input{ font-family:"Microsoft YaHei"}
+body{ font-family:"Microsoft YaHei" ;width:100%;overflow-x:hidden;font-size:12px ;}
+input,a{ font-family:"Microsoft YaHei";color: #343434!important;}
 html{overflow-y:scroll;}
 .fl{float:left;}
 .fr{float:right;}
@@ -37,13 +37,13 @@ html{overflow-y:scroll;}
 
 /*}*/
 
-.x-pagination{width:270px;height:22px;z-index:0;}
-.x-pagination a.x-page{float:right;width:80px;display:block;background:#ece9e9;color:#939393;line-height:22px;height:22px;text-align:center;font-size:12px;border-radius:11px;-moz-border-radius:11px;-webkit-border-radius:11px;}
+.x-pagination{width:270px;height:22px;z-index:0;margin:40px 0;}
+.x-pagination a.x-page{float:left;width:80px;display:block;color:#343434;line-height:22px;height:22px;text-align:center;font-size:16px;font-family: Microsoft YaHei}
 .x-pagination a.x-page:hover{color:#0097e0;}
 .x-pagination a.enable{color:#ccc;}
 .x-pagination a.enable:hover{cursor:not-allowed;color:#ccc;}
 .x-pagination a.x-page b.x-pagetips{margin-top:8px;margin-right:10px;position:relative;}
-.x-pagination .x-page-select{width:80px;height:auto;display:block;position: absolute;margin-top:22px;margin-left:101px;background:#ece9e9;margin-bottom:100px;overflow:hidden;overflow-y:auto;max-height:110px;}
+.x-pagination .x-page-select{width:80px;height:auto;display:block;position: absolute;margin-top:22px;margin-left:100px;background:#ece9e9;margin-bottom:100px;overflow:hidden;overflow-y:auto;max-height:110px;}
 .x-pagination .x-page-select a{width:auto;display:block;height:22px;line-height:22px;color:#939393;font-size:12px;text-align:center;padding-right:4px;}
 .x-pagination .x-page-select a.cur{background:#0097e0;color:#fff;}
 .x-pagination .x-page-select a.cur:hover{background:#0097e0;color:#fff;}
