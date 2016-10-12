@@ -46,6 +46,10 @@ public class GitResultService {
         List<GitResult> gitResults = getGitResult(issues);
         gitResultRepository.save(gitResults);
     }
+    @Transactional
+    public void deleteGitResult(){
+        gitResultRepository.deleteAll();
+    }
 
     public List<GitResult> findAll(){
         return gitResultRepository.findAll();

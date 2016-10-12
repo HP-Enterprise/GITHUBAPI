@@ -15,12 +15,11 @@ define(['../scripts/git','jquery'],function(module,$){
         $scope.submit = function (repository) {
            var url="/api/addOrgRepository/"+loginCookie;
             $http.post(url,repository).success(function () {
-                alert("GitHub add success");
-
                 $http.post("/api/addProject",repository).success(function () {
-                    alert("location add success");
+                    alert(" add project success");
+                    $location.path("/gitHubApi/repositoryList");
                 }).error(function () {
-                    alert("location add error");
+                    alert("GitHub add success ,but location add error");
                 });
             }).error(function () {
                 alert("GitHub add error");

@@ -18,13 +18,13 @@
     <script type="text/ng-template" id="taskList">
     <div class="search-1">
         <div class="pad-15">
-            <span>用户名：</span>
+            <span>用户名:</span>
             <input class="with-search"type="text" ng-model="worKeSelect.realname"/>
-            <span>姓名：</span>
+            <span>姓名:</span>
             <input  class="with-search" type="text" ng-model="worKeSelect.username"/>
-            <span>时间(周数)：</span>
+            <span>时间(周数):</span>
             <input class="with-search"  type="text" ng-model="worKeSelect.weekInYear"/>
-            <span>时间(年)：</span>
+            <span>时间(年):</span>
             <input class="with-search"  type="text" ng-model="worKeSelect.year"/>
             <a href="" class="btn btn-default" ng-click="getAllGitHubWork('flag')">查询</a>
         </div>
@@ -81,20 +81,20 @@
     <script type="text/ng-template" id="projectDetailList">
         <div class="search">
             <div class="pad-10">
-            <span><b>用户名：</b></span>
+            <span><b>用户名:</b></span>
             <span >{{oneProject.userName}}</span>
 
-            <span style="margin-left: 50px"><b>姓名：</b></span>
+            <span style="margin-left: 50px"><b>姓名:</b></span>
             <span >{{oneProject.realName}}</span>
 
-            <span style="margin-left: 50px"><b>issue个数：</b></span>
+            <span style="margin-left: 50px"><b>issue个数:</b></span>
             <span >{{projectWorkDetail.length}}</span>
 
-            <span style="margin-left: 50px"><b>时间（周）：</b></span>
+            <span style="margin-left: 50px"><b>时间(周):</b></span>
             <span >{{oneProject.week}}</span>
-            <span style="margin-left: 50px"><b>时间（年）：</b></span>
+            <span style="margin-left: 50px"><b>时间(年):</b></span>
             <span >{{oneProject.year}}</span>
-            <a href=""  ng-click="cancel()">返回</a>
+            <a href="" style="margin-left: 80px" ng-click="cancel()">返回</a>
             </div>
         </div>
         <div class="t-table">

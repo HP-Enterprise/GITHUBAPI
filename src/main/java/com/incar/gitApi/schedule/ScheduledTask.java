@@ -48,6 +48,8 @@ public class ScheduledTask {
     @Scheduled(cron = "${git.gitResult.cron}")
    // @Scheduled(cron = "0 40 18 * * ?")
     public void scheduledQuery(){
+//        logger.info(">>>>>>>>>>> delete gitResult >>>>>>>>>>>>");
+//        gitResultService.deleteGitResult();
         logger.info(">>>>>>>>>>> saving gitResult >>>>>>>>>>>>");
         gitResultService.saveGitResult();
     }
@@ -85,68 +87,68 @@ public class ScheduledTask {
 //        for(int i=1;i<= DateUtil.getWeekInYear();i++) {
 //            workRepository.deleteByWeek(i);
 //        }
-        logger.info(">>>>>>>>>>> saving workInfo >>>>>>>>>>>>");
-        for(int i=1;i<= DateUtil.getWeekInYear()-4;i++){
-            workService.saveWorkInfo(i);
-        }
-//         logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");
-//         workService.deleteWorkInfo();
-//         logger.info(">>>>>>>>>>> saving workInfo >>>>>>>>>>>>");
-//         workService.saveWorkInfo(DateUtil.getWeekInYear());
+//        logger.info(">>>>>>>>>>> saving workInfo >>>>>>>>>>>>");
+//        for(int i=1;i<= DateUtil.getWeekInYear()-4;i++){
+//            workService.saveWorkInfo(i);
+//        }
+         logger.info(">>>>>>>>>>> deleting workInfo >>>>>>>>>>>>");
+         workService.deleteWorkInfo();
+         logger.info(">>>>>>>>>>> saving workInfo >>>>>>>>>>>>");
+         workService.saveWorkInfo(DateUtil.getWeekInYear());
     }
     @Scheduled(cron ="${git.gitMonth.cron}")
     public void gitMonth(){
 
-        for(int i=1;i<= 9;i++){
-            workStatService.saveStat(DateUtil.getYear(),i);
-        }
-//        if(DateUtil.getMonth()==12){
-//            logger.info(">>>>>>>>>>> saving workOfMonth >>>>>>>>>>>>");
-//            workStatService.saveStat(DateUtil.getYear()-1, DateUtil.getMonth());
-//        }else{
-//            logger.info(">>>>>>>>>>> saving workOfMonth >>>>>>>>>>>>");
-//            workStatService.saveStat(DateUtil.getYear(), DateUtil.getMonth());
+//        for(int i=1;i<= 9;i++){
+//            workStatService.saveStat(DateUtil.getYear(),i);
 //        }
+        if(DateUtil.getMonth()==12){
+            logger.info(">>>>>>>>>>> saving workOfMonth >>>>>>>>>>>>");
+            workStatService.saveStat(DateUtil.getYear()-1, DateUtil.getMonth());
+        }else{
+            logger.info(">>>>>>>>>>> saving workOfMonth >>>>>>>>>>>>");
+            workStatService.saveStat(DateUtil.getYear(), DateUtil.getMonth());
+        }
 
     }
 
     @Scheduled(cron ="${git.gitQuarter.cron}")
     public void gitQuarter(){
 
-        for(int i=1;i<= 3;i++){
-            workStatService.saveQuarterStat(DateUtil.getYear(), i);
-        }
-//        if(DateUtil.getMonth()==12) {
-//            logger.info(">>>>>>>>>>> delete  workOfQuarter >>>>>>>>>>>>");
-//            workRepository.deleteByQuarter(DateUtil.getQuarter(), DateUtil.getYear()-1);
-//
-//            logger.info(">>>>>>>>>>> saving workOfQuarter >>>>>>>>>>>>");
-//            workStatService.saveQuarterStat(DateUtil.getYear()-1, DateUtil.getQuarter());
-//        }else{
-//            logger.info(">>>>>>>>>>> delete  workOfQuarter >>>>>>>>>>>>");
-//            workRepository.deleteByQuarter(DateUtil.getQuarter(), DateUtil.getYear());
-//
-//            logger.info(">>>>>>>>>>> saving workOfQuarter >>>>>>>>>>>>");
-//            workStatService.saveQuarterStat(DateUtil.getYear(), DateUtil.getQuarter());
+//        for(int i=1;i<= 3;i++){
+//            workStatService.saveQuarterStat(DateUtil.getYear(), i);
 //        }
+        if(DateUtil.getMonth()==12) {
+            logger.info(">>>>>>>>>>> delete  workOfQuarter >>>>>>>>>>>>");
+            workRepository.deleteByQuarter(DateUtil.getQuarter(), DateUtil.getYear()-1);
+
+            logger.info(">>>>>>>>>>> saving workOfQuarter >>>>>>>>>>>>");
+            workStatService.saveQuarterStat(DateUtil.getYear()-1, DateUtil.getQuarter());
+        }else{
+            logger.info(">>>>>>>>>>> delete  workOfQuarter >>>>>>>>>>>>");
+            workRepository.deleteByQuarter(DateUtil.getQuarter(), DateUtil.getYear());
+
+            logger.info(">>>>>>>>>>> saving workOfQuarter >>>>>>>>>>>>");
+            workStatService.saveQuarterStat(DateUtil.getYear(), DateUtil.getQuarter());
+        }
     }
     @Scheduled(cron ="${git.gitYear.cron}")
     public void gitYear(){
 
-        workStatService.saveYearStat(DateUtil.getYear(), DateUtil.getWeekInYear());
+//        workStatService.saveYearStat(DateUtil.getYear(), DateUtil.getWeekInYear());
 
-//        if(DateUtil.getMonth()==12) {
-//            logger.info(">>>>>>>>>>> delete  workOfYear >>>>>>>>>>>>");
-//            workRepository.deleteByYear(DateUtil.getYear()-1);
-//
-//            logger.info(">>>>>>>>>>> saving workOfYear >>>>>>>>>>>>");
-//            workStatService.saveYearStat(DateUtil.getYear()-1, 52);
-//        }else{
-//            logger.info(">>>>>>>>>>> delete  workOfYear >>>>>>>>>>>>");
-//            workRepository.deleteByYear(DateUtil.getYear());
-//
-//            logger.info(">>>>>>>>>>> saving workOfYear >>>>>>>>>>>>");
-//            workStatService.saveYearStat(DateUtil.getYear(), DateUtil.getWeekInYear());
-//        }
+        if(DateUtil.getMonth()==12) {
+            logger.info(">>>>>>>>>>> delete  workOfYear >>>>>>>>>>>>");
+            workRepository.deleteByYear(DateUtil.getYear()-1);
+
+            logger.info(">>>>>>>>>>> saving workOfYear >>>>>>>>>>>>");
+            workStatService.saveYearStat(DateUtil.getYear()-1, 52);
+        }else{
+            logger.info(">>>>>>>>>>> delete  workOfYear >>>>>>>>>>>>");
+            workRepository.deleteByYear(DateUtil.getYear());
+
+            logger.info(">>>>>>>>>>> saving workOfYear >>>>>>>>>>>>");
+            workStatService.saveYearStat(DateUtil.getYear(), DateUtil.getWeekInYear());
+        }
     }
 }
