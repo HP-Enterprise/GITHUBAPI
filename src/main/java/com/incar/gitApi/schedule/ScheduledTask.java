@@ -48,8 +48,8 @@ public class ScheduledTask {
     @Scheduled(cron = "${git.gitResult.cron}")
    // @Scheduled(cron = "0 40 18 * * ?")
     public void scheduledQuery(){
-//        logger.info(">>>>>>>>>>> delete gitResult >>>>>>>>>>>>");
-//        gitResultService.deleteGitResult();
+        logger.info(">>>>>>>>>>> delete gitResult >>>>>>>>>>>>");
+        gitResultService.deleteGitResult();
         logger.info(">>>>>>>>>>> saving gitResult >>>>>>>>>>>>");
         gitResultService.saveGitResult();
     }
