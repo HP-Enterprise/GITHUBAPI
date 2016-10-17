@@ -24,6 +24,10 @@ github:
         - InCar/cnpmjs.org
         - InCar/Track
         - HP-Enterprise/RentalBA
+        - HP-Enterprise/g7-hyr
+        - HP-Enterprise/g7-hyr-android
+        - HP-Enterprise/g7-hyr-ios
+        - HP-Enterprise/GITHUBAPI
 # Tomcat
 server.port: 7777
 # Logging level (TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF)
