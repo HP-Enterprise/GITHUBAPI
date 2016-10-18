@@ -172,26 +172,31 @@
                     </div>
                 </div>
             </div>
+
+            <!--
             <div class="form-group padt30">
-                <label class="col-sm-2 control-label">标签:</label>
-                <div class="col-sm-8"
-                     isteven-multi-select
-                     input-model="labels1"
-                     output-model="modifyIssue.labels"
-                     button-label="name"
-                     item-label=" name "
-                     tick-property=""
-                        >
-                </div>
+            <label class="col-sm-2 control-label">标签:</label>
+            <div class="col-sm-8"
+                 isteven-multi-select
+                 input-model="labels1"
+                 output-model="modifyIssue.labels"
+                 button-label="name"
+                 item-label=" name "
+                 tick-property=" ''"
+                    >
+                <select multiple  ng-model="modifyIssue.labels" ng-options="i.name as i.name for i in labels1" >
+                </select>
             </div>
+        </div>
+          -->
             <div class="form-group padt30">
                 <label class="col-sm-2 control-label">里程碑:</label>
                 <div class="col-sm-8">
                     <select ng-model="modifyIssue.milestone" ng-options="i.number as i.title for i in milestone" >
-
                     </select>
                 </div>
             </div>
+
             <div class="form-group padt30">
                 <label class="col-sm-2 control-label">执行人:</label>
                 <div class="col-sm-8">

@@ -5,6 +5,7 @@ import com.incar.gitApi.repository.GitResultRepository;
 import com.incar.gitApi.util.GitRetUtil;
 import com.incar.gitApi.GithubClientConfig;
 import org.eclipse.egit.github.core.Issue;
+import org.eclipse.egit.github.core.Label;
 import org.eclipse.egit.github.core.service.IssueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,45 @@ public class GitResultService {
         List<Issue> issues = getAllIssues();
         List<GitResult> gitResults = getGitResult(issues);
         gitResultRepository.save(gitResults);
+    }
+    @Transactional
+    public void saveNewGitResult(Issue issue,String repository){
+        GitResult gitResult=new GitResult();
+        gitResult.setTitle(issue.getTitle());
+        gitResult.setState("open");
+
+            StringBuffer buffer = new StringBuffer("0123456789");
+            StringBuffer saltStr = new StringBuffer();
+            Random random = new Random();
+            int range = buffer.length();
+            for(int i = 0;i < 6;i++){
+                saltStr.append(buffer.charAt(random.nextInt(range)));
+            }
+        gitResult.setIssueId(Integer.parseInt(saltStr.toString()));
+        gitResult.setCreatedAt(new Date());
+        gitResult.setProject(repository);
+        if(issue.getAssignee()!=null){
+            gitResult.setAssignee(issue.getAssignee().getLogin());
+        }
+       if (issue.getMilestone()!=null){gitResult.setMilestone(issue.getMilestone().getNumber());}
+        List<Label> labels = issue.getLabels();
+        if(!labels.isEmpty()){
+            String labelRet = "";
+            for(int i = 0 ; i<labels.size(); i++) {
+                if (i == labels.size()-1) {
+                    labelRet += labels.get(i).getName();
+                }else {
+                    labelRet += labels.get(i).getName() + ",";
+                }
+            }
+            gitResult.setLabels(labelRet);
+        }
+    gitResultRepository.save(gitResult);
+    }
+
+    public int editeGitResult(GitResult gitResult){
+      return   gitResultRepository.modifyRitResult(gitResult.getState(),gitResult.getTitle(),gitResult.getLabels(),gitResult.getMilestone(),gitResult.getAssignee(),gitResult.getIssueId());
+
     }
     @Transactional
     public void deleteGitResult(){

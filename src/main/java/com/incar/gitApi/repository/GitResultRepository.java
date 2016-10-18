@@ -4,8 +4,11 @@ import com.incar.gitApi.entity.GitResult;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Date;
 import java.util.List;
 
@@ -44,4 +47,9 @@ public interface GitResultRepository extends JpaRepository<GitResult,Integer>{
 
     @Query( "select g from GitResult g where g.project=?1 and  g.assignee = ?2")
     List<GitResult> findAllTaskGit(String project,String assignee);
+
+    @Modifying
+    @Transactional
+    @Query("update  GitResult  g  set g.state = ?1,g.title=?2,g.labels=?3,g.milestone=?4,g.assignee=?5 WHERE g.issueId = ?6 ")
+    int modifyRitResult(String  state, String  title,String labels,Integer milestone,String assignee,Integer issueId);
 }

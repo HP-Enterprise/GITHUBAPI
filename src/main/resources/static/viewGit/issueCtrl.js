@@ -13,13 +13,7 @@ define(['../scripts/git','jquery','angularMulti','../scripts/service/baService']
         //    }
         //    return "";
         //};
-        $scope.modernBrowsers = [
-            { icon:1 ,               name: "Opera",              maker: "(Opera Software)",        ticked: true  },
-            { icon: 2,   name: "Internet Explorer",  maker: "(Microsoft)",             ticked: false },
-            { icon: 3 ,        name: "Firefox",            maker: "(Mozilla Foundation)",    ticked: true  },
-            { icon:  4,      name: "Safari",             maker: "(Apple)",                 ticked: false },
-            { icon:  5,              name: "Chrome",             maker: "(Google)",                ticked: true  }
-        ];
+
         var loginCookie = baService.getCookie('token');
         //·ÖÒ³Ìõ¼þ
         $scope.workPageObject = {
@@ -124,12 +118,22 @@ define(['../scripts/git','jquery','angularMulti','../scripts/service/baService']
 
         $scope.addIssue=function(issue){
             console.log(issue)
-            var url="api/addIssue/"+"/"+ $scope.repository+"/"+loginCookie;
+            var url="api/addIssue/"+ $scope.repository+"/"+loginCookie;
             $http.post(url,issue).success(function () {
-                alert("success");
-                $scope.issueTemplate="issueList";
+                var ur2="api/addLocationIssue/"+ $scope.repository;
+                $http.post(ur2,issue).success(function () {
+                    alert("success");
+                    $scope.issueTemplate="issueList";
+                    $http.get("/api/LIssueList", $scope.workSearch).success(function (data, status, headers) {
+                        $scope.issueList = data.message;
+                    }).error(function (err) {
+                        console.log(err);
+                    })
+                }).error(function () {
+                    alert("github success,but location error");
+                })
             }).error(function () {
-                alert("error");
+                alert("github error");
             })
 
         };
@@ -137,10 +141,14 @@ define(['../scripts/git','jquery','angularMulti','../scripts/service/baService']
         $scope.modifyissue=function(issue){
             var url="api/updateIssue/"+loginCookie;
             $http.post(url,issue).success(function () {
-                alert("success");
-                $scope.issueTemplate="issueList";
+                $http.post("api/updateGitResult",issue).success(function () {
+                    alert("success");
+                    $scope.issueTemplate="issueList";
+                }).error(function () {
+                    alert("github success,but location error");
+                })
             }).error(function () {
-                alert("error");
+                alert("You have not updated before you addd new issue");
             })
 
         };

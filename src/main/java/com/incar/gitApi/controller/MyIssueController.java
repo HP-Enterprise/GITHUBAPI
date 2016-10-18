@@ -82,10 +82,26 @@ public class MyIssueController {
            issue.setAssignee(user);
        }
 
-        Issue issue1 = myIssueService.editIssue(gitResult.getUser(), gitResult.getProject(),issue,token);
+        Issue issue1 = myIssueService.editIssue(gitResult.getUser(), gitResult.getProject(), issue, token);
         return new ObjectResult("true", issue1);
     }
 
+    /**
+     * 更新本地issue
+     * @param gitResult
+     * @return
+     */
+    @RequestMapping(value = "/updateGitResult", method = RequestMethod.POST)
+    public ObjectResult updateGitResult(@RequestBody GitResult  gitResult){
+        int a=gitResultService.editeGitResult(gitResult);
+        return new ObjectResult("true",a);
+    }
+
+    @RequestMapping(value = "/addLocationIssue/{repository}",method = RequestMethod.POST)
+     public ObjectResult addLocationIssue(@PathVariable("repository")String repository,@RequestBody Issue issue){
+         gitResultService.saveNewGitResult(issue,repository);
+         return new ObjectResult("true","添加成功");
+     }
     @RequestMapping(value = "/LIssueList")
     public ObjectResult page(
             @RequestParam(value = "repository", required = true) String repository,
