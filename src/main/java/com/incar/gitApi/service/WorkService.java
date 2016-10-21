@@ -304,14 +304,15 @@ public class WorkService {
      */
     public int oneIssueWork(GitResult gitResult) {
         String labels = gitResult.getLabels();
-        Pattern pattern = Pattern.compile("([DH]\\d)");
-        int n = 0, sum = 0;
+        Pattern pattern = Pattern.compile("([DH]\\d*)");
+        int n = 0;
+        int sum=0;
         if (labels != null) {
             Matcher matcher = pattern.matcher(labels);
-            if (matcher.find()) {
-                String workAmount = matcher.group(1);
+            while (matcher.find()) {
+                String workAmount = matcher.group();
                 n = Integer.parseInt(String.valueOf(workAmount.charAt(1)));
-                sum = workAmount.charAt(0) == 'H' ? n : 8 * n;
+                sum =sum+ (workAmount.charAt(0) == 'H' ? n : 8 * n);
             }
         }
         return sum;
