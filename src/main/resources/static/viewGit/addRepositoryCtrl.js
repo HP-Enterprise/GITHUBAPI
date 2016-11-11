@@ -12,10 +12,11 @@ define(['../scripts/git','jquery'],function(module,$){
         };
         var loginCookie = getCookie('token');
         $scope.repository = {};
-        $scope.submit = function (repository) {
-           var url="/api/addOrgRepository/"+loginCookie;
+        $scope.submit = function (repository,org) {
+           var url="/api/addOrgRepository/"+org+"/"+loginCookie;
             $http.post(url,repository).success(function () {
-                $http.post("/api/addProject",repository).success(function () {
+                var ur2="/api/addProject/"+org;
+                $http.post(ur2,repository).success(function () {
                     alert(" add project success");
                     $location.path("/gitHubApi/repositoryList");
                 }).error(function () {

@@ -11,6 +11,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +28,8 @@ public class ProjectService {
     public void saveProject() throws IOException {
         RepositoryService repositoryService = new RepositoryService(githubClientConfig.getGitHubClient());
         List<Repository> repositoryList = repositoryService.getOrgRepositories("HP-Enterprise");
+        List<Repository> incarList = repositoryService.getOrgRepositories("InCar");
+        repositoryList.addAll(incarList);
         for (Repository repository : repositoryList) {
             Project project = new Project();
             project.setName(repository.getName());
@@ -45,10 +48,11 @@ public class ProjectService {
 
     }
 
-    public Project addProject(Repository repository) {
+    public Project addProject(Repository repository,String org) {
         Project p=new Project();
         p.setCreatedAt(new Date());
         p.setOpenIssue(0);
+        p.setOrganization(org);
         p.setName(repository.getName());
         p.setDescription(repository.getDescription());
         p.setIsPrivate(repository.isPrivate());
@@ -59,8 +63,8 @@ public class ProjectService {
     public int editProject(Repository repository, Integer id) {
         return projectRepository.modifyProject(repository.getName(), repository.getDescription(), repository.isPrivate(), id);
     }
-     public int deleteProject(String name){
-      return  projectRepository.deletePtoject(name);
+     public int deleteProject(Integer id){
+      return  projectRepository.deletePtoject(id);
      }
     public Page<Project> findPageOfWorkDetail(String name, Integer currentPage, Integer pageSize) {
         currentPage = (currentPage == null || currentPage <= 0) ? 1 : currentPage;

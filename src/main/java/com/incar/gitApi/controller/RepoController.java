@@ -37,9 +37,9 @@ public class RepoController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/addOrgRepository/{token}", method = RequestMethod.POST)
-    public ObjectResult addOrgRepository(@RequestBody Repository repository,@PathVariable("token")String token) throws IOException {
-        Repository repos = repoService.addOrgRepository("HP-Enterprise", repository, token);
+    @RequestMapping(value = "/addOrgRepository/{org}/{token}", method = RequestMethod.POST)
+    public ObjectResult addOrgRepository(@RequestBody Repository repository,@PathVariable("token")String token,@PathVariable("org")String org) throws IOException {
+        Repository repos = repoService.addOrgRepository(org, repository, token);
         return new ObjectResult("true", repos);
     }
 
@@ -61,11 +61,12 @@ public class RepoController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/updateOrgRepository/{name}/{token}",method = RequestMethod.POST)
+    @RequestMapping(value = "/updateOrgRepository/{name}/{org}/{token}",method = RequestMethod.POST)
     public  ObjectResult updateOrgRepository(@PathVariable("name")String name,
+                                             @PathVariable("org")String org,
                                              @PathVariable("token")String token,
                                              @RequestBody Repository repository)throws IOException{
-          Repository repository1= repoService.editRepository("HP-Enterprise", name, repository, token);
+          Repository repository1= repoService.editRepository(org, name, repository, token);
         return new ObjectResult("true",repository1);
     }
 
@@ -76,10 +77,10 @@ public class RepoController {
      * @throws IOException
      */
     @RequestMapping(value = "/deleteOrgRepository/{token}")
-    public  ObjectResult deleteOrgRepository(//@RequestParam(value = "organization", required = true) String organization,
+    public  ObjectResult deleteOrgRepository(@RequestParam(value = "organization", required = true) String organization,
                                               @PathVariable("token")String token,
                                              @RequestParam(value = "repository", required = true) String repository)throws IOException{
-         repoService.deleteRepository("HP-Enterprise",repository,token);
+         repoService.deleteRepository(organization,repository,token);
         return new ObjectResult("true","删除成功！");
     }
 
@@ -90,10 +91,11 @@ public class RepoController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/contributorList/{repository}/{token}", method = RequestMethod.GET)
+    @RequestMapping(value = "/contributorList/{repository}/{organization}/{token}", method = RequestMethod.GET)
     public ObjectResult getRepositoryStaff(@PathVariable("repository")String repository,
+                                           @PathVariable("organization")String organization,
                                            @PathVariable("token")String token) throws IOException {
-        List<Contributor> contributorList = repoService.getcontributor("HP-Enterprise",repository ,token);
+        List<Contributor> contributorList = repoService.getcontributor(organization,repository ,token);
         return new ObjectResult("true", contributorList);
     }
 
@@ -104,16 +106,18 @@ public class RepoController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/repositoryBranch/{repository}/{token}", method = RequestMethod.GET)
+    @RequestMapping(value = "/repositoryBranch/{repository}/{organization}/{token}", method = RequestMethod.GET)
     public ObjectResult getBranches(@PathVariable("repository")String repository,
-                                           @PathVariable("token")String token) throws IOException {
-        List<RepositoryBranch> branchList = repoService.getRepositoryBranch("HP-Enterprise", repository, token);
+                                    @PathVariable("organization")String organization,
+                                    @PathVariable("token")String token) throws IOException {
+        List<RepositoryBranch> branchList = repoService.getRepositoryBranch(organization, repository, token);
         return new ObjectResult("true", branchList);
     }
-    @RequestMapping(value = "/repositoryCommit/{repository}/{token}", method = RequestMethod.GET)
+    @RequestMapping(value = "/repositoryCommit/{repository}/{organization}/{token}", method = RequestMethod.GET)
     public ObjectResult getCommit(@PathVariable("repository")String repository,
-                                    @PathVariable("token")String token) throws IOException {
-        List<RepositoryCommit> commitList = repoService.getCommits("HP-Enterprise", repository, token);
+                                  @PathVariable("organization")String organization,
+                                  @PathVariable("token")String token) throws IOException {
+        List<RepositoryCommit> commitList = repoService.getCommits(organization, repository, token);
         return new ObjectResult("true", commitList);
     }
 }

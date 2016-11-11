@@ -1,16 +1,16 @@
 <div ng-controller="RepositoryDetailCtrl " class="width1140px">
     <div class="nv-bars">
-        当前位置:&nbsp;&nbsp;>&nbsp;&nbsp;项目&nbsp;&nbsp;>&nbsp;&nbsp;<a href="/gitHubApi/repositoryList">所有项目</a>&nbsp;&nbsp;>&nbsp;&nbsp;{{repository}}
+        当前位置:&nbsp;&nbsp;>&nbsp;&nbsp;项目&nbsp;&nbsp;>&nbsp;&nbsp;<a href="/gitHubApi/repositoryList">所有项目</a>&nbsp;&nbsp;>&nbsp;&nbsp;{{organization}}&nbsp;&nbsp;>&nbsp;&nbsp;{{repository}}
     </div >
  <div class="search-page" >
      <ul class="nav nav-tabs ">
-         <li class="active "> <a href="/gitHubApi/repositoryDetail/{{repository}}" class="g-color pad-20">项目简要统计</a></li>
-         <li> <a class="pad-20" href="/gitHubApi/taskStat/{{repository}}">任务统计</a></li>
-         <li> <a  class="pad-20" href="/gitHubApi/analysisView/{{repository}}">分析视图</a></li>
-         <li><a class="pad-20" href="/gitHubApi/projectStaff/{{repository}}">项目人员</a></li>
-         <li>  <a class="pad-20" href="/gitHubApi/issue/{{repository}}">issue</a></li>
-         <li><a class="pad-20"  href="/gitHubApi/labelList/{{repository}}">标签</a></li>
-         <li> <a class="pad-20" href="/gitHubApi/milestoneList/{{repository}}">里程碑</a></li>
+         <li class="active "> <a href="/gitHubApi/repositoryDetail/{{repository}}/{{organization}}" class="g-color pad-20">项目简要统计</a></li>
+         <li> <a class="pad-20" href="/gitHubApi/taskStat/{{repository}}/{{organization}}">任务统计</a></li>
+         <li> <a  class="pad-20" href="/gitHubApi/analysisView/{{repository}}/{{organization}}">分析视图</a></li>
+         <li><a class="pad-20" href="/gitHubApi/projectStaff/{{repository}}/{{organization}}">项目人员</a></li>
+         <li>  <a class="pad-20" href="/gitHubApi/issue/{{repository}}/{{organization}}">issue</a></li>
+         <li><a class="pad-20"  href="/gitHubApi/labelList/{{repository}}/{{organization}}">标签</a></li>
+         <li> <a class="pad-20" href="/gitHubApi/milestoneList/{{repository}}/{{organization}}">里程碑</a></li>
      </ul>
  </div>
 <div class="clear"></div>

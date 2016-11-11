@@ -65,6 +65,7 @@ public class RepoService {
      */
     public Repository addOrgRepository(String organization, Repository repository, String token) throws IOException {
         RepositoryService repositoryService = new RepositoryService(githubClientConfig.getClient(token));
+        repository.setHasIssues(true);
         Repository repository2 = repositoryService.createRepository(organization, repository);
         return repository2;
     }

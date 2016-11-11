@@ -1,7 +1,7 @@
 define(['../scripts/git','jquery','highcharts','highchartsMore'],function(module,$){
     module.controller("analysisViewCtrl",function($scope,$http,$routeParams,$timeout){
         $scope.repository = $routeParams.repository;
-
+        $scope.organization = $routeParams.organization;
         $(document).ready(function() {
             var chart = {
                 inverted :true,

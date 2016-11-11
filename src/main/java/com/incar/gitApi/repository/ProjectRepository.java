@@ -25,6 +25,6 @@ public interface ProjectRepository extends CrudRepository<Project,Integer> {
 
     @Modifying
     @Transactional
-    @Query("delete from  Project  p  WHERE p.name = ?1 ")
-    int deletePtoject(String name);
+    @Query("delete from  Project  p  WHERE p.id = ?1 ")
+    int deletePtoject(Integer id);
 }

@@ -1,6 +1,6 @@
 define(['../scripts/git','jquery'],function(module,$){
     module.controller("labelListCtrl",function($scope,$http,$routeParams){
-
+        $scope.organization = $routeParams.organization;
         var getCookie = function(name){
             var arr = document.cookie.split("; ");
             for(var i=0,len=arr.length;i<len;i++){
@@ -17,7 +17,8 @@ define(['../scripts/git','jquery'],function(module,$){
             $scope.repository = $routeParams.repository;
             $scope.ade = {
                 params: {
-                    repository:  $scope.repository
+                    repository:  $scope.repository,
+                    organization:$scope.organization
                 }
             };
             var url1="/api/labelList/"+loginCookie;
@@ -35,7 +36,7 @@ define(['../scripts/git','jquery'],function(module,$){
 
 
         $scope.deleteLabel=function(name){
-            var url="/api/deleteLabel/"+$scope.repository+"/"+name+"/"+loginCookie;
+            var url="/api/deleteLabel/"+$scope.repository+"/"+$scope.organization+"/"+name+"/"+loginCookie;
             $http.delete(url).success(function () {
                 alert("success");
                 //删除数据后，从新调用列表（相当于刷新页面）
@@ -56,7 +57,7 @@ define(['../scripts/git','jquery'],function(module,$){
             $scope.labelTemplate="labelModify";
         };
         $scope.modifyLabel = function (label) {
-            var url="/api/editLabel/"+$scope.repository+"/"+$scope.labels.name+"/"+loginCookie;
+            var url="/api/editLabel/"+$scope.repository+"/"+$scope.organization+"/"+$scope.labels.name+"/"+loginCookie;
             $http.post(url, label).success(function () {
                 alert("success");
                 $scope.labelTemplate="labelList";
@@ -67,7 +68,8 @@ define(['../scripts/git','jquery'],function(module,$){
             });
         };
         $scope.submit1 = function (label) {
-            var url="/api/addLabel/"+ $scope.repository+"/"+loginCookie;
+            console.log(label)
+            var url="/api/addLabel/"+ $scope.repository+"/"+$scope.organization+"/"+loginCookie;
             $http.post(url, label).success(function () {
                 alert("success");
                 $scope.labelTemplate="labelList";

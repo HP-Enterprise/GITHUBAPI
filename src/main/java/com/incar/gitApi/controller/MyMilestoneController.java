@@ -28,11 +28,11 @@ public class MyMilestoneController {
      * @throws IOException
      */
     @RequestMapping(value = "/milestoneList", method = RequestMethod.GET)
-    public ObjectResult getAllMilestone(@RequestParam(value = "repository", required = true) String repository
-                                       // @RequestParam(value = "user", required = true) String user,
+    public ObjectResult getAllMilestone(@RequestParam(value = "repository", required = true) String repository,
+                                        @RequestParam(value = "organization", required = true) String organization
                                       //  @RequestParam(name = "state", required = false) String state
     )throws IOException {
-        List<Milestone> milestoneList = myMilestoneService.getAllMiles("HP-Enterprise", repository, "open");
+        List<Milestone> milestoneList = myMilestoneService.getAllMiles(organization, repository, "open");
         return new ObjectResult("true", milestoneList);
     }
 
@@ -44,11 +44,12 @@ public class MyMilestoneController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/addMilestone/{repository}/{token}", method = RequestMethod.POST)
+    @RequestMapping(value = "/addMilestone/{repository}/{organization}/{token}", method = RequestMethod.POST)
     public ObjectResult addMilestone(@PathVariable("repository") String repository,
                                     @PathVariable("token")String token,
+                                     @PathVariable("organization")String organization,
                                      @RequestBody Milestone milestone) throws IOException {
-        Milestone milestone1 = myMilestoneService.addMilestone("HP-Enterprise", repository, milestone,token);
+        Milestone milestone1 = myMilestoneService.addMilestone(organization, repository, milestone,token);
         return new ObjectResult("true", milestone1);
     }
 
@@ -60,10 +61,11 @@ public class MyMilestoneController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/addAllMilestones/{token}", method = RequestMethod.POST)
+    @RequestMapping(value = "/addAllMilestones/{organization}/{token}", method = RequestMethod.POST)
     public ObjectResult addAllMilestones(@RequestBody Repository repository,
-                                         @PathVariable("token")String token) throws IOException {
-        List<Milestone> list = myMilestoneService.addAllMilestone("HP-Enterprise", repository.getName().toString(),token);
+                                         @PathVariable("token")String token,
+                                         @PathVariable("organization")String organization) throws IOException {
+        List<Milestone> list = myMilestoneService.addAllMilestone(organization, repository.getName().toString(),token);
         return new ObjectResult("true", list);
     }
 
@@ -74,11 +76,12 @@ public class MyMilestoneController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/deleteMiles/{repository}/{number}/{token}")
+    @RequestMapping(value = "/deleteMiles/{repository}/{organization}/{number}/{token}")
     public ObjectResult deleteMiles(@PathVariable("repository")String repository,
+                                    @PathVariable("organization")String organization,
                                     @PathVariable("number")int number,
                                     @PathVariable("token")String token)throws IOException{
-        myMilestoneService.deleteMiles("HP-Enterprise",repository,number,token);
+        myMilestoneService.deleteMiles(organization,repository,number,token);
         return new ObjectResult("true","删除成功！");
     }
 
@@ -89,11 +92,12 @@ public class MyMilestoneController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/editMilestone/{repository}/{token}",method = RequestMethod.POST)
+    @RequestMapping(value = "/editMilestone/{repository}/{organization}/{token}",method = RequestMethod.POST)
     public ObjectResult editMilestone(@PathVariable("repository")String repository,
+                                      @PathVariable("organization")String organization,
                                       @RequestBody Milestone milestone,
                                       @PathVariable("token")String token)throws IOException{
-      Milestone milestone1=  myMilestoneService.editMilestone("HP-Enterprise", repository, milestone,token);
+      Milestone milestone1=  myMilestoneService.editMilestone(organization, repository, milestone,token);
         return new ObjectResult("true",milestone1);
     }
 

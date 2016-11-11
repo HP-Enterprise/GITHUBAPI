@@ -40,10 +40,12 @@ public class MyIssueController {
      * @throws IOException
      */
 
-    @RequestMapping(value = "/addIssue/{repository}/{token}", method = RequestMethod.POST)
-    public ObjectResult addIssue(@RequestBody Issue issue,@PathVariable("repository")String repository,@PathVariable("token")String token) throws IOException {
+    @RequestMapping(value = "/addIssue/{repository}/{organization}/{token}", method = RequestMethod.POST)
+    public ObjectResult addIssue(@RequestBody Issue issue,@PathVariable("repository")String repository,
+                                 @PathVariable("organization")String organization,
+                                 @PathVariable("token")String token) throws IOException {
 
-        Issue issue1 = myIssueService.addIssue("HP-Enterprise", repository, issue,token);
+        Issue issue1 = myIssueService.addIssue(organization, repository, issue,token);
         return new ObjectResult("true", issue1);
     }
 
@@ -97,19 +99,22 @@ public class MyIssueController {
         return new ObjectResult("true",a);
     }
 
-    @RequestMapping(value = "/addLocationIssue/{repository}",method = RequestMethod.POST)
-     public ObjectResult addLocationIssue(@PathVariable("repository")String repository,@RequestBody Issue issue){
-         gitResultService.saveNewGitResult(issue,repository);
+    @RequestMapping(value = "/addLocationIssue/{repository}/{organization}",method = RequestMethod.POST)
+     public ObjectResult addLocationIssue(@PathVariable("repository")String repository,
+                                          @PathVariable("organization")String organization,
+                                          @RequestBody Issue issue){
+         gitResultService.saveNewGitResult(issue,repository,organization);
          return new ObjectResult("true","添加成功");
      }
     @RequestMapping(value = "/LIssueList")
     public ObjectResult page(
             @RequestParam(value = "repository", required = true) String repository,
+            @RequestParam(value = "organization", required = true) String organization,
             @RequestParam(value = "state", required = false) String state,
             @RequestParam(value = "currentPage", required = false) Integer currentPage,
             @RequestParam(value = "pageSize", required = false) Integer pageSize,
             HttpServletResponse response) {
-        Page<GitResult> page = gitResultService.findPageOfGiTesult(repository, state, currentPage, pageSize);
+        Page<GitResult> page = gitResultService.findPageOfGiTesult(repository, organization,state, currentPage, pageSize);
         List<GitResult> gitResultList = page.getContent();
         response.addHeader("Page", String.valueOf(page.getNumber()) + 1);
         response.addHeader("Page-Count", String.valueOf(page.getTotalPages()));

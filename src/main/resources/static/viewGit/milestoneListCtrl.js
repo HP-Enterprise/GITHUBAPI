@@ -2,7 +2,7 @@ define(['../scripts/git','jquery'],function(module,$){
     module.controller("milestoneListCtrl",function($scope,$http,$routeParams,$filter){
         $scope.milestoneTemplate="milestoneList";
         $scope.repository = $routeParams.repository;
-
+        $scope.organization = $routeParams.organization;
         var getCookie = function(name){
             var arr = document.cookie.split("; ");
             for(var i=0,len=arr.length;i<len;i++){
@@ -14,10 +14,10 @@ define(['../scripts/git','jquery'],function(module,$){
             return "";
         };
         var loginCookie = getCookie('token');
-        console.log($scope.repository)
         $scope.ade = {
             params: {
-                repository:  $scope.repository
+                repository:  $scope.repository,
+                organization:$scope.organization
             }
         };
         $http.get("/api/milestoneList", $scope.ade).success(function (data) {
@@ -35,7 +35,7 @@ define(['../scripts/git','jquery'],function(module,$){
             $scope.milestoneTemplate="milestoneList";
         }
         $scope.deleteMiles=function(number){
-            var url="/api/deleteMiles/"+ $scope.repository+"/"+number+"/"+loginCookie;
+            var url="/api/deleteMiles/"+ $scope.repository+"/"+$scope.organization+"/"+number+"/"+loginCookie;
             $http.delete(url).success(function (data) {
                 alert("success");
             }).error(function (err) {
@@ -50,7 +50,7 @@ define(['../scripts/git','jquery'],function(module,$){
             $scope.milestoneTemplate="milestoneModify";
         };
         $scope.modifyMilestone = function (milestone) {
-            var url="/api/editMilestone/"+$scope.repository+"/"+loginCookie;
+            var url="/api/editMilestone/"+$scope.repository+"/"+$scope.organization+"/"+loginCookie;
             $http.post(url, milestone).success(function () {
                 alert("success");
                 $scope.milestoneTemplate="milestoneList";
@@ -60,7 +60,7 @@ define(['../scripts/git','jquery'],function(module,$){
         };
 
         $scope.submit1 = function (milestone) {
-            var url="/api/addMilestone/"+$scope.repository+"/"+loginCookie;
+            var url="/api/addMilestone/"+$scope.repository+"/"+$scope.organization+"/"+loginCookie;
             $http.post(url, milestone).success(function () {
                 alert("success");
                 $scope.milestoneTemplate="milestoneList";
@@ -69,7 +69,7 @@ define(['../scripts/git','jquery'],function(module,$){
             })
         };
         $scope.addUsualMilestone=function(){
-            var url="/api/addAllMilestones/"+loginCookie;
+            var url="/api/addAllMilestones/"+$scope.organization+"/"+loginCookie;
             $http.post(url,$scope.repository ).success(function () {
                 alert("success");
                 $scope.milestoneTemplate="milestoneList";

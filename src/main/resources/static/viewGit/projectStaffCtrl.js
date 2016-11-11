@@ -1,6 +1,7 @@
 define(['../scripts/git','jquery'],function(module,$){
     module.controller("projectStaffCtrl",function($scope,$http,$routeParams){
         $scope.repository = $routeParams.repository;
+        $scope.organization = $routeParams.organization;
         var getCookie = function(name){
             var arr = document.cookie.split("; ");
             for(var i=0,len=arr.length;i<len;i++){
@@ -13,7 +14,7 @@ define(['../scripts/git','jquery'],function(module,$){
         };
         var loginCookie = getCookie('token');
 
-        var url1="/api/contributorList/"+$scope.repository+"/"+loginCookie;
+        var url1="/api/contributorList/"+$scope.repository+"/"+$scope.organization+"/"+loginCookie;
         $http.get(url1).success(function (data) {
             $scope.contributorList =data.message;
         }).error(function (err) {

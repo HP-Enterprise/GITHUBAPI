@@ -48,11 +48,11 @@ public class GitResultService {
         gitResultRepository.save(gitResults);
     }
     @Transactional
-    public void saveNewGitResult(Issue issue,String repository){
+    public void saveNewGitResult(Issue issue,String repository,String organization){
         GitResult gitResult=new GitResult();
         gitResult.setTitle(issue.getTitle());
         gitResult.setState("open");
-
+        gitResult.setUser(organization);
             StringBuffer buffer = new StringBuffer("0123456789");
             StringBuffer saltStr = new StringBuffer();
             Random random = new Random();
@@ -124,11 +124,11 @@ public class GitResultService {
         return GitRetUtil.issuesToGitresults(issues);
     }
 
-    public Page<GitResult> findPageOfGiTesult(String project,String state,Integer currentPage,Integer pageSize){
+    public Page<GitResult> findPageOfGiTesult(String project,String organization,String state,Integer currentPage,Integer pageSize){
         currentPage=(currentPage==null||currentPage<=0)?1:currentPage;
         pageSize=(pageSize==null||pageSize<=0)?10:pageSize;
         Pageable pageable = new PageRequest(currentPage-1,pageSize,new Sort(Sort.Direction.DESC,"state"));
-        Page<GitResult> workDetailPage= gitResultRepository.findPage(project, state, pageable);
+        Page<GitResult> workDetailPage= gitResultRepository.findPage(project,organization, state, pageable);
         return new PageImpl<GitResult>(workDetailPage.getContent(),pageable,workDetailPage.getTotalElements());
     }
 

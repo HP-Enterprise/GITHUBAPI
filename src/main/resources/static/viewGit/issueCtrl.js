@@ -1,6 +1,7 @@
 define(['../scripts/git','jquery','angularMulti','../scripts/service/baService'],function(module,$){
     module.controller("issueCtrl",function($scope,$http,$routeParams,baService){
         $scope.repository = $routeParams.repository;
+        $scope.organization = $routeParams.organization;
         $scope.issueTemplate="issueList";
 
         //var getCookie = function(name){
@@ -35,6 +36,7 @@ define(['../scripts/git','jquery','angularMulti','../scripts/service/baService']
             $scope.workSearch = {
                 params: {
                  repository:$scope.repository,
+                    organization:$scope.organization,
                     state:$scope.worKeSelect.state,
                     currentPage: $scope.workPageObject.currentPage,
                     pageSize: $scope.workPageObject.pageSize,
@@ -117,10 +119,9 @@ define(['../scripts/git','jquery','angularMulti','../scripts/service/baService']
         }
 
         $scope.addIssue=function(issue){
-            console.log(issue)
-            var url="api/addIssue/"+ $scope.repository+"/"+loginCookie;
+            var url="api/addIssue/"+ $scope.repository+"/"+$scope.organization+"/"+loginCookie;
             $http.post(url,issue).success(function () {
-                var ur2="api/addLocationIssue/"+ $scope.repository;
+                var ur2="api/addLocationIssue/"+ $scope.repository+"/"+$scope.organization;
                 $http.post(ur2,issue).success(function () {
                     alert("success");
                     $scope.issueTemplate="issueList";
@@ -154,7 +155,8 @@ define(['../scripts/git','jquery','angularMulti','../scripts/service/baService']
         };
         $scope.ade = {
             params: {
-                repository: $scope.repository
+                repository: $scope.repository,
+               organization: $scope.organization
             }
         };
 

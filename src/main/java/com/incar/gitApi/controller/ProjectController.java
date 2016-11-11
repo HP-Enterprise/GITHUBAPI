@@ -40,21 +40,21 @@ public class ProjectController {
      * @param repository
      * @return
      */
-    @RequestMapping(value = "/addProject",method = RequestMethod.POST)
-    public ObjectResult addProject(@RequestBody Repository repository){
-    Project project=   projectService.addProject(repository);
+    @RequestMapping(value = "/addProject/{org}",method = RequestMethod.POST)
+    public ObjectResult addProject(@RequestBody Repository repository,@PathVariable("org")String org){
+    Project project=   projectService.addProject(repository,org);
         return new ObjectResult("true",project);
 
     }
 
     /**
-     * 根据项目名删除项目
-     * @param name
+     * 根据项目id删除项目
+     * @param id
      * @return
      */
-    @RequestMapping(value = "/deleteProject/{name}")
-    public ObjectResult deleteProject(@PathVariable("name")String name){
-      int a=  projectService.deleteProject(name);
+    @RequestMapping(value = "/deleteProject/{id}")
+    public ObjectResult deleteProject(@PathVariable("id")Integer id){
+      int a=  projectService.deleteProject(id);
         return new ObjectResult("true",a);
     }
 

@@ -2,6 +2,7 @@ define(['../scripts/git','jquery'],function(module,$){
     module.controller("taskStatCtrl",function($scope,$http,$routeParams){
      $scope.projectTemplate="taskList";
         $scope.repository = $routeParams.repository;
+        $scope.organization = $routeParams.organization;
         //·ÖÒ³Ìõ¼þ
         $scope.workPageObject = {
             currentPage: 1,

@@ -34,7 +34,7 @@ define([], function () {
                 templateUrl: '/viewGit/addLabel.html',
                 dependencies: ['../viewGit/addLabelCtrl']
             },
-            '/gitHubApi/labelList/:repository': {
+            '/gitHubApi/labelList/:repository/:organization': {
                 templateUrl: '/viewGit/labelList.html',
                 dependencies: ['../viewGit/labelListCtrl']
             },
@@ -46,19 +46,19 @@ define([], function () {
                 templateUrl: '/viewGit/repositoryList.html',
                 dependencies: ['../viewGit/repositoryListCtrl']
             },
-            '/gitHubApi/repositoryDetail/:repository': {
+            '/gitHubApi/repositoryDetail/:repository/:organization': {
                 templateUrl: '/viewGit/RepositoryDetail.html',
                 dependencies: ['../viewGit/RepositoryDetailCtrl']
             },
-            '/gitHubApi/taskStat/:repository': {
+            '/gitHubApi/taskStat/:repository/:organization': {
                 templateUrl: '/viewGit/taskStat.html',
                 dependencies: ['../viewGit/taskStatCtrl']
             },
-            '/gitHubApi/analysisView/:repository': {
+            '/gitHubApi/analysisView/:repository/:organization': {
                 templateUrl: '/viewGit/analysisView.html',
                 dependencies: ['../viewGit/analysisViewCtrl']
             },
-            '/gitHubApi/projectStaff/:repository': {
+            '/gitHubApi/projectStaff/:repository/:organization': {
                 templateUrl: '/viewGit/projectStaff.html',
                 dependencies: ['../viewGit/projectStaffCtrl']
             },
@@ -66,11 +66,11 @@ define([], function () {
                 templateUrl: '/viewGit/addMilestone.html',
                 dependencies: ['../viewGit/addMilestoneCtrl']
             },
-            '/gitHubApi/milestoneList/:repository': {
+            '/gitHubApi/milestoneList/:repository/:organization': {
                 templateUrl: '/viewGit/milestoneList.html',
                 dependencies: ['../viewGit/milestoneListCtrl']
             },
-            '/gitHubApi/issue/:repository': {
+            '/gitHubApi/issue/:repository/:organization': {
                 templateUrl: '/viewGit/issue.html',
                 dependencies: ['../viewGit/issueCtrl']
             },

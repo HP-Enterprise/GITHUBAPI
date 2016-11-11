@@ -101,17 +101,16 @@ define(['../scripts/git','jquery'],function(module,$){
         var loginCookie = getCookie('token');
 
         $scope.deleteRepository = function (aw) {
-            console.log(aw)
-
             $scope.ade = {
                 params: {
-                    repository: aw
+                    repository: aw.name,
+                    organization:aw.organization
                 }
             };
             var url1="/api/deleteOrgRepository/" +loginCookie;
             $http.delete(url1,$scope.ade).success(function () {
                 alert("GitHub delete success");
-                var urlDelete="/api/deleteProject/"+aw;
+                var urlDelete="/api/deleteProject/"+aw.id;
                 $http.delete(urlDelete).success(function () {
                     alert("location delete success");
                 }).error(function (err) {
@@ -138,12 +137,11 @@ define(['../scripts/git','jquery'],function(module,$){
         };
         $scope.modifyRepository = function (a) {
             console.log(a);
-            var url="/api/updateOrgRepository/"+$scope.updateRep.name+"/"+loginCookie;
+            var url="/api/updateOrgRepository/"+$scope.updateRep.name+"/"+$scope.updateRep.organization+"/"+loginCookie;
             $http.post(url, a).success(function () {
-                alert("GitHub modify success");
                 var ur3="/api/updateProject/"+$scope.updateRep.id;
                 $http.post(ur3, a).success(function () {
-                    alert("location modify success");
+                    alert(" modify success");
                 }).error(function () {
                     alert("location modify error");
                 })
