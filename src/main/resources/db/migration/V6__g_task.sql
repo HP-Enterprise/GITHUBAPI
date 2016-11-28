@@ -6,7 +6,6 @@ create table g_task(
   unfinished_work int(6) COMMENT '未完成工作量',
   work_hours int(5) COMMENT '工作时长',
   project  VARCHAR (50) COMMENT '项目名',
-  org  VARCHAR (50) COMMENT '组织',
   week_in_year int(2) COMMENT '本周的序号',
   year int(2) COMMENT '本年的序号',
   PRIMARY KEY (id)
