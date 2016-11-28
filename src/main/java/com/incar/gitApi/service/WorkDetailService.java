@@ -81,6 +81,7 @@ public class WorkDetailService {
                     workDetail.setState(gitResult.getState());
                     workDetail.setTitle(gitResult.getTitle());
                     workDetail.setProject(gitResult.getProject());
+                    workDetail.setOrg(gitResult.getUser());
                     workDetail.setActualTime(this.oneIssueActuWork(gitResult));
                     workDetail.setExpectedTime(workService.oneIssueWork(gitResult));
                     workDetail.setEfficiency(this.oneIssueEffic(gitResult));
@@ -113,6 +114,7 @@ public class WorkDetailService {
                   workDetail.setState(gitResult.getState());
                   workDetail.setTitle(gitResult.getTitle());
                   workDetail.setProject(gitResult.getProject());
+                  workDetail.setOrg(gitResult.getUser());
                   workDetail.setActualTime(this.oneIssueActuWork(gitResult));
                   workDetail.setExpectedTime(workService.oneIssueWork(gitResult));
                   workDetail.setEfficiency(this.oneIssueEffic(gitResult));
@@ -133,6 +135,7 @@ public class WorkDetailService {
                       workDetail.setState(gitResult.getState());
                       workDetail.setTitle(gitResult.getTitle());
                       workDetail.setProject(gitResult.getProject());
+                      workDetail.setOrg(gitResult.getUser());
                       workDetail.setActualTime(this.oneIssueActuWork(gitResult));
                       workDetail.setExpectedTime(workService.oneIssueWork(gitResult));
                       workDetail.setEfficiency(this.oneIssueEffic(gitResult));
@@ -286,11 +289,11 @@ public class WorkDetailService {
      * @param pageSize
      * @return
      */
-    public Page<WorkDetail> findWorkDetailOfProject(String project,String userName,Integer week,Integer year,Integer currentPage,Integer pageSize){
+    public Page<WorkDetail> findWorkDetailOfProject(String project,String org,String userName,Integer week,Integer year,Integer currentPage,Integer pageSize){
         currentPage=(currentPage==null||currentPage<=0)?1:currentPage;
         pageSize=(pageSize==null||pageSize<=0)?10:pageSize;
         Pageable pageable = new PageRequest(currentPage-1,pageSize);
-        Page<WorkDetail>  workDetailPage =  workDetailRepository.findProjectPage(project, userName, week, year, pageable);
+        Page<WorkDetail>  workDetailPage =  workDetailRepository.findProjectPage(project,org, userName, week, year, pageable);
         return new PageImpl<WorkDetail>(workDetailPage.getContent(),pageable,workDetailPage.getTotalElements());
     }
 

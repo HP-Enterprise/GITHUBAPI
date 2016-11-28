@@ -25,6 +25,7 @@ public class TaskStatusController {
     @RequestMapping(value="/taskList",method = RequestMethod.GET)
     public ObjectResult page(
             @RequestParam(value = "project",required = true)String project,
+            @RequestParam(value = "org",required = true)String org,
             @RequestParam(value = "username",required = false)String username,
             @RequestParam(value = "realname",required = false)String realname,
             @RequestParam(value = "weekInYear" ,required = false )Integer weekInYear,
@@ -32,7 +33,7 @@ public class TaskStatusController {
             @RequestParam(value = "currentPage",required = false)Integer currentPage,
             @RequestParam(value = "pageSize",required = false)Integer pageSize,
             HttpServletResponse response){
-        Page<Task> page = taskStatService.findPageOfTask(project ,username,realname, weekInYear,year, currentPage, pageSize);
+        Page<Task> page = taskStatService.findPageOfTask(project ,org,username,realname, weekInYear,year, currentPage, pageSize);
         List<Task> taskList = page.getContent();
         response.addHeader("Page",String.valueOf(page.getNumber())+1);
         response.addHeader("Page-Count",String.valueOf(page.getTotalPages()));

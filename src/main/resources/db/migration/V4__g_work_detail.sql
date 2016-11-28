@@ -6,6 +6,7 @@ create table g_work_detail(
   actual_time int(6) COMMENT '实际工作时间',
   title  VARCHAR (500) COMMENT 'issue描述',
   project VARCHAR (50) COMMENT '所属项目',
+  org VARCHAR (50) COMMENT '所属项目',
   state VARCHAR (50) COMMENT 'issue状态',
   efficiency int(2) COMMENT '工作效率',
   week int(8) COMMENT '本周序号',

@@ -62,7 +62,7 @@ public class GitApiLibTest {
         RepositoryService repositoryService = new RepositoryService(gitHubClient);
         List<Repository> repositories = repositoryService.getRepositories();
         for (Repository repository : repositories)
-            System.out.println("giturl :"+repository.getGitUrl());
+            System.out.println("giturl :" + repository.getGitUrl());
     }
 
     @Test

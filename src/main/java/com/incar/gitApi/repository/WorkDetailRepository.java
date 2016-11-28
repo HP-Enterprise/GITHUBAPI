@@ -20,8 +20,8 @@ public interface WorkDetailRepository extends CrudRepository<WorkDetail,Integer>
     @Query("select w from WorkDetail w where  w.userName like ?1 and w.week= ?2 and w.year=?3")
     Page<WorkDetail> findPage(String userName,Integer week,Integer year,Pageable pageable);
 
-    @Query("select w from WorkDetail w where w.project=?1 and  w.userName = ?2 and w.week= ?3 and w.year=?4")
-    Page<WorkDetail> findProjectPage(String project,String userName,Integer week,Integer year,Pageable pageable);
+    @Query("select w from WorkDetail w where w.project=?1 and w.org=?2 and w.userName = ?3 and w.week= ?4 and w.year=?5")
+    Page<WorkDetail> findProjectPage(String project,String org,String userName,Integer week,Integer year,Pageable pageable);
 
    @Query("select w from WorkDetail w where (?1 is null or w.userName like ?1)and" +
            "(?2 is null or w.project like ?2)and " +

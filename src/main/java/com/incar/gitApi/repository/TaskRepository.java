@@ -16,11 +16,11 @@ import javax.transaction.Transactional;
  */
 @Repository
 public interface TaskRepository extends CrudRepository<Task,Integer> {
-    @Query("select distinct  t from Task t where t.project=?1 and (?2 is null or t.realname like ?2) and " +
-            "(?3 is null or t.username like ?3) and " +
-            "(?4 is null or t.weekInYear=?4) and " +
-            "(?5 is null or t.year=?5)")
-    Page<Task> findTaskPage(String project,String username,String realname,Integer weekInYear,Integer year,Pageable pageable);
+    @Query("select distinct  t from Task t where t.project=?1 and t.org=?2 and (?3 is null or t.realname like ?3) and " +
+            "(?4 is null or t.username like ?4) and " +
+            "(?5 is null or t.weekInYear=?5) and " +
+            "(?6 is null or t.year=?6)")
+    Page<Task> findTaskPage(String project,String org,String username,String realname,Integer weekInYear,Integer year,Pageable pageable);
 
     @Modifying
     @Transactional

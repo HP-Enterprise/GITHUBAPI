@@ -27,6 +27,8 @@ public class WorkDetail {
     @Column
    private String  state;
     @Column
+    private String org;
+    @Column
     private String project;
     @Column
     private Integer week;
@@ -38,6 +40,14 @@ public class WorkDetail {
     private Integer quarter;
     @Column
     private Integer year;
+
+    public String getOrg() {
+        return org;
+    }
+
+    public void setOrg(String org) {
+        this.org = org;
+    }
 
     public Integer getYear() {
         return year;

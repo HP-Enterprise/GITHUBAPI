@@ -30,6 +30,7 @@ define(['../scripts/git','jquery'],function(module,$){
             $scope.workSearch = {
                 params: {
                     project:$scope.repository,
+                    org: $scope.organization,
                     username: $scope.worKeSelect.username,
                     realname: $scope.worKeSelect.realname,
                     weekInYear: $scope.worKeSelect.weekInYear,
@@ -106,6 +107,7 @@ define(['../scripts/git','jquery'],function(module,$){
             $scope.ProjectSearch = {
                 params: {
                     project:$scope.repository,
+                    org:$scope.organization,
                     userName: a.username,
                     week: a.weekInYear,
                     year:a.year,

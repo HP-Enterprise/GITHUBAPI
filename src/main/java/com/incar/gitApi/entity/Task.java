@@ -33,8 +33,18 @@ public class Task {
     private Integer year;
     @Column
     private String realname;
+    @Column
+    private String org;
 
     public Task() {
+    }
+
+    public String getOrg() {
+        return org;
+    }
+
+    public void setOrg(String org) {
+        this.org = org;
     }
 
     public Integer getId() {

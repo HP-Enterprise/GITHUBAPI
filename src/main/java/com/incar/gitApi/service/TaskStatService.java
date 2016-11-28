@@ -40,15 +40,17 @@ public class TaskStatService {
     public void saveTaskInfo() {
         List<Task> tasks = new ArrayList<>();
         Properties properties = workService.getRealnameProperties();
-        for (String project : gitResultRepository.findAllProject()) {
-            for (String assignee : gitResultRepository.findAllAssignee()) {
-                if (assignee != null&&project!=null) {
-                    Task task = getTaskWorkInfo(project,assignee);
-                    Object obj = properties.get(assignee);
-                    if (obj != null) {
-                        task.setRealname((String) obj);
+        for (String org : gitResultRepository.findAllOrg()) {
+            for (String project : gitResultRepository.findAllProject()) {
+                for (String assignee : gitResultRepository.findAllAssignee()) {
+                    if (assignee != null && project != null) {
+                        Task task = getTaskWorkInfo(project,org, assignee);
+                        Object obj = properties.get(assignee);
+                        if (obj != null) {
+                            task.setRealname((String) obj);
+                        }
+                        tasks.add(task);
                     }
-                    tasks.add(task);
                 }
             }
         }
@@ -63,15 +65,17 @@ public class TaskStatService {
     public void saveTaskInfo(int weekYear, int weekOfYear) {
         List<Task> tasks = new ArrayList<>();
         Properties properties = workService.getRealnameProperties();
-        for (String project : gitResultRepository.findAllProject()) {
-            for (String assignee : gitResultRepository.findAllAssignee()) {
-                if (assignee != null&&project!=null) {
-                    Task task = getTaskWorkInfo(project,assignee, weekYear, weekOfYear);
-                    Object obj = properties.get(assignee);
-                    if (obj != null) {
-                        task.setRealname((String) obj);
+        for (String org : gitResultRepository.findAllOrg()) {
+            for (String project : gitResultRepository.findAllProject()) {
+                for (String assignee : gitResultRepository.findAllAssignee()) {
+                    if (assignee != null && project != null) {
+                        Task task = getTaskWorkInfo(project,org, assignee, weekYear, weekOfYear);
+                        Object obj = properties.get(assignee);
+                        if (obj != null) {
+                            task.setRealname((String) obj);
+                        }
+                        tasks.add(task);
                     }
-                    tasks.add(task);
                 }
             }
         }
@@ -87,8 +91,8 @@ public class TaskStatService {
      * @param assignee
      * @return
      */
-    public Task getTaskWorkInfo(String project,String assignee) {
-        return this.getTaskWorkInfo(project, assignee, DateUtil.getYear(), DateUtil.getWeekInYear());
+    public Task getTaskWorkInfo(String project,String org,String assignee) {
+        return this.getTaskWorkInfo(project,org, assignee, DateUtil.getYear(), DateUtil.getWeekInYear());
     }
 
     /**
@@ -99,13 +103,13 @@ public class TaskStatService {
      * @param weekOfYear
      * @return
      */
-    public Task getTaskWorkInfo(String project,String username, int weekYear, int weekOfYear) {
+    public Task getTaskWorkInfo(String project,String org,String username, int weekYear, int weekOfYear) {
         initPeriods(this.getPeriods(weekYear, weekOfYear));//
         Date start = DateUtil.getWeekStart(weekYear, weekOfYear);
         Date end = DateUtil.getWeekEnd(weekYear, weekOfYear);
-        List<GitResult> openGitRets = gitResultRepository.findOpenTaskGit(project, username, "open", end);
-        List<GitResult> closedGitRets = gitResultRepository.findClosedTaskGitt(project,username,"closed",start,end);
-        List<GitResult> gitResultList=gitResultRepository.findAllTaskGit(project,username);
+        List<GitResult> openGitRets = gitResultRepository.findOpenTaskGit(project,org, username, "open", end);
+        List<GitResult> closedGitRets = gitResultRepository.findClosedTaskGit(project,org,username,"closed",start,end);
+        List<GitResult> gitResultList=gitResultRepository.findAllTaskGit(project,org,username);
         Date time = null;
         if (weekOfYear != DateUtil.getWeekInYear()) {
             time = DateUtil.getWeekEnd(weekYear, weekOfYear);
@@ -120,6 +124,7 @@ public class TaskStatService {
         task.setWeekInYear(weekOfYear);
         task.setUsername(username);
         task.setProject(project);
+        task.setOrg(org);
         task.setYear(weekYear);
         periods1.clear();
         openGitRets.clear();
@@ -137,13 +142,13 @@ public class TaskStatService {
             period.setIsInWork(false);
         }
     }
-    public Page<Task> findPageOfTask(String project,String username,String realname,Integer weekInYear,Integer year,Integer currentPage,Integer pageSize){
+    public Page<Task> findPageOfTask(String project ,String org,String username,String realname,Integer weekInYear,Integer year,Integer currentPage,Integer pageSize){
         currentPage=(currentPage==null||currentPage<=0)?1:currentPage;
         pageSize=(pageSize==null||pageSize<=0)?10:pageSize;
         if(username!=null){username="%"+username+"%";}//设置模糊查询
         if(realname!=null){realname="%"+realname+"%";}
         Pageable pageable = new PageRequest(currentPage-1,pageSize,new Sort(Sort.Direction.DESC,"weekInYear"));
-        Page<Task> taskPage= taskRepository.findTaskPage(project, username,realname,  weekInYear, year, pageable);
+        Page<Task> taskPage= taskRepository.findTaskPage(project,org, username,realname,  weekInYear, year, pageable);
         return new PageImpl<Task>(taskPage.getContent(),pageable,taskPage.getTotalElements());
     }
 }

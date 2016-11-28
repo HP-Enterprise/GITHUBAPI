@@ -3,8 +3,8 @@ github:
      username:
      password:
      repos:
-#        - HP-Enterprise/Rental653
-#        - HP-Enterprise/BriAir
+        - HP-Enterprise/Rental653
+        - HP-Enterprise/BriAir
 #        - HP-Enterprise/Triclops
 #        - HP-Enterprise/SMS
 #        - HP-Enterprise/Training
@@ -23,11 +23,14 @@ github:
 #        - InCar/ali-mns
 #        - InCar/cnpmjs.org
 #        - InCar/Track
-#        - HP-Enterprise/RentalBA
-        - HP-Enterprise/g7-hyr
-        - HP-Enterprise/g7-hyr-android
-        - HP-Enterprise/g7-hyr-ios
-        - HP-Enterprise/GITHUBAPI
+        - HP-Enterprise/RentalBA
+         - HP-Enterprise/GITHUBAPI
+         - InCar/CMAL-BoYu
+         - InCar/zeyi-hyr
+         - InCar/zeyi-hyr-IOS
+         - InCar/zeyi-hyr-IOS-driver
+         - InCar/zeyi-hyr-Android
+         - InCar/zeyi-hyr-Android-driver
 # Tomcat
 server.port: 7777
 # Logging level (TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF)
